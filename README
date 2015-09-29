@@ -1,0 +1,17 @@
+## Proxy setup
+These instructions redirect everything on port 389 through socks-gw. Firstly, install iptables-persistent and redsocks:
+
+    sudo apt-get install iptables-persistent redsocks
+
+Add the following to /etc/iptables/rules.v4 then reboot.
+
+    *nat
+    :PREROUTING ACCEPT [0:0]
+    :INPUT ACCEPT [0:0]
+    :OUTPUT ACCEPT [0:0]
+    :POSTROUTING ACCEPT [0:0]
+    -A OUTPUT -d 127.0.0.0/8 -j RETURN
+    -A OUTPUT -d 172.28.0.0/15 -j RETURN
+    -A OUTPUT -d 132.185.128.0/22 -j RETURN
+    -A OUTPUT -o eth0 -p tcp -m tcp --dport 389 -j DNAT --to-destination 127.0.0.1:5123
+    COMMIT
