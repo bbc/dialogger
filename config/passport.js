@@ -11,13 +11,11 @@ module.exports = function(passport)
   });
 
   passport.serializeUser(function(user, done) {
-    done(null, user._id);
+    done(null, user);
   });
 
   passport.deserializeUser(function(id, done) {
-    User.findById(id, function(err, user) {
-      done(err, user);
-    });
+    done(null, id);
   });
 
   // configure passport strategy
@@ -32,7 +30,7 @@ module.exports = function(passport)
         }
       }
       if (valid) {
-        return done(null, user); // user._id, user.role
+        return done(null, username);
       } else {
         return done(null, false, { message: consts.auth.msgFail });
       }
