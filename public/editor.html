@@ -10,13 +10,11 @@
   <title>Fixed Menu Example - Semantic</title>
 
   <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
-  <script src="bower_components/jquery/dist/jquery.min.js"></script>
-  <script src="semantic/dist/semantic.min.js"></script>
 </head>
 <body>
 
 <div class="ui left vertical inline sidebar">
-  <div class="ui celled list">
+  <div class="ui celled list" id="assetsList">
     <div class="item">
       <div data-percent="41" class="ui top attached progress">
         <div style="transition-duration: 300ms; width: 41%;"
@@ -178,9 +176,63 @@
   </div>
 </div>
 
+<script src="bower_components/jquery/dist/jquery.min.js"></script>
+<script src="bower_components/underscore/underscore-min.js"></script>
+<script src="bower_components/backbone/backbone-min.js"></script>
+<script src="semantic/dist/semantic.min.js"></script>
+
+<script type="text/template" id="asset-item-tmpl">
+<% _.each(collection, function(model) { %>
+    <div class="item">
+      <div data-percent="41" class="ui top attached progress">
+        <div style="transition-duration: 300ms; width: 41%;"
+             class="bar"></div>
+      </div>
+      <i class="file audio outline icon blue"></i>
+      <div class="content">
+        <div class="header"><%= model.name %></div>
+        <div class="description"><%= model.status %></div>
+      </div>
+    </div>
+<% }); %>
+</script>
+
 <script>
 $(document).ready(function()
 {
+  var assetModel = Backbone.Model.extend({
+    url: '/api/assets/1',
+    defaults: {
+      name:   null,
+      status: null
+    }
+  });
+
+  var assetCollection = Backbone.Collection.extend({
+    url: '/api/assets',
+    model: assetModel
+  });
+
+  var assetsListView = Backbone.View.extend({
+    el: '#assetsList',
+    template: _.template($('#asset-item-tmpl').html()),
+    initialize: function() {
+      this.listenTo(this.collection, 'sync', this.render);
+      this.collection.fetch();
+      this.render();
+    },
+    render: function() {
+      this.$el.html(this.template({collection: this.collection.toJSON()}));
+    }
+  });
+
+  var assets = new assetCollection();
+  var assetsList = new assetsListView({collection: assets});
+
+  setInterval(function() {
+    assets.fetch();
+  }, 3000);
+
   $('.left.sidebar')
   .sidebar({
       context: $('.bottom.segment'),
