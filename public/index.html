@@ -36,7 +36,7 @@
   <div class="ui text container" style="margin-top: 7em">
     <i class="comments outline icon inverted massive"></i>
     <h1>Discourse</h1>
-    <p>A transcript-based speech editor</p>
+    <p>A transcript-based media editor</p>
     <div class="ui large labeled icon teal button" id="biglogin">Login
       <i class="sign in icon"></i>
     </div>
@@ -81,7 +81,7 @@ $(document).ready(function()
   $('#loginsubmit').click(function() {
     $('.submit').click();
   });
-/*
+
   // test for success variable in JSON response
   $.fn.api.settings.successTest = function(response) {
     if(response && response.success) {
@@ -89,7 +89,7 @@ $(document).ready(function()
     }
     return false;
   };
-*/
+
   // configure API endpoint
   $.fn.api.settings.api = {
     'login': '/api/login'
