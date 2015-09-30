@@ -15,19 +15,17 @@
 </head>
 <body>
 
-<div class="ui left vertical inline sidebar ">
-  <div class="ui middle aligned celled list">
+<div class="ui left vertical inline sidebar">
+  <div class="ui celled list">
     <div class="item">
       <div data-percent="41" class="ui top attached progress">
         <div style="transition-duration: 300ms; width: 41%;"
              class="bar"></div>
       </div>
-      <div class="left floated content">
-        <div class="ui icon basic button"><i class="film icon"></i></div>
-      </div>
+      <i class="file audio outline icon blue"></i>
       <div class="content">
         <div class="header">test file 1.wav</div>
-        Loading...
+        <div class="description">Uploading...</div>
       </div>
     </div>
     <div class="item">
@@ -35,39 +33,62 @@
         <div style="transition-duration: 300ms; width: 80%;"
              class="bar"></div>
       </div>
-      <div class="left floated content">
-        <div class="ui icon basic button"><i class="film icon"></i></div>
-      </div>
+      <i class="file audio outline icon blue"></i>
       <div class="content">
-        <div class="header">test file 1.wav</div>
-        Loading...
+        <div class="header">test file 2.wav</div>
+        <div class="description">Uploading...</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="right floated content">
+        <a class="ui basic tiny label"><i class="edit icon"></i>Edit</a>
+      </div>
+      <i class="file audio outline icon green"></i>
+      <div class="content">
+        <a class="header">test file 3 blashde blah de blah.wav</a>
+        <div class="description">Ready</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="right floated content">
+        <a class="ui basic tiny label"><i class="remove icon"></i>Delete</a>
+      </div>
+      <i class="file audio outline icon red"></i>
+      <div class="content">
+        <div class="header">test file 4.wav</div>
+        <div class="description">Failed</div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="ui right vertical inline sidebar menu">
-<a class="active teal item">
-  Inbox
-  <div class="ui teal pointing left label">1</div>
-</a>
-<a class="item">
-  Spam
-  <div class="ui label">51</div>
-</a>
-<a class="item">
-  Updates
-  <div class="ui label">1</div>
-</a>
-<div class="item">
-  <div class="ui transparent icon input">
-    <input placeholder="Search mail..." type="text">
-    <i class="search icon"></i>
+<div class="ui right vertical inline sidebar">
+  <div class="ui celled list">
+    <div class="item">
+      <div class="right floated content">
+        <a class="ui tiny basic label"><i class="cut icon"></i>Export</a>
+      </div>
+      <i class="edit icon"></i>
+      <div class="content">
+        <div class="header">test file 1.wav</div>
+        <div class="description">Rough edit 1</div>
+      </div>
+    </div>
+    <div class="item">
+      <div class="right floated content">
+        <a class="ui tiny basic label"><i class="cut icon"></i>Export</a>
+      </div>
+      <i class="edit icon"></i>
+      <div class="content">
+        <div class="header">test file 2.wav</div>
+        <div class="description">First half of interview which comes with a
+          longer description to test how well that works in the UI</div>
+      </div>
+    </div>
   </div>
 </div>
-</div>
 
-<div class="ui inverted menu">
+<div class="ui inverted menu attached">
   <div class="ui container">
     <div href="#" class="header item">
       <img src="assets/bbc.png" class="ui tiny image"
@@ -83,17 +104,38 @@
   </div>
 </div>
 
-<div class="ui top attached menu">
+<div class="ui top attached sticky menu">
   <a class="item" id="leftButton">
     <i class="sidebar icon"></i> Input
   </a>
+  <a class="item">
+    <i class="cloud upload icon"></i>Upload
+  </a>
+  <a class="item">
+    <i class="play icon"></i>
+  </a>
+  <a class="item">
+    <i class="forward icon"></i>
+  </a>
+  <a class="item">
+    <i class="stop icon"></i>
+  </a>
   <div class="right menu">
+    <a class="item">
+      <i class="print icon"></i>Print
+    </a>
+    <div class="ui search item">
+      <div class="ui transparent icon input">
+        <input class="prompt" type="text" placeholder="Search...">
+        <i class="search icon"></i>
+      </div>
+    </div>
     <a class="item" id="rightButton">
       <i class="sidebar icon"></i> Output
     </a>
   </div>
 </div>
-<div class="ui bottom attached segment pushable">
+<div class="ui bottom attached segment pushable" style="height: 80%">
   <div class="pusher">
     <div class="ui text container">
       <p>&nbsp;</p>
@@ -147,6 +189,7 @@ $(document).ready(function()
       dimPage: false
   })
   .sidebar('attach events', '#leftButton');
+
   $('.right.sidebar')
   .sidebar({
       context: $('.bottom.segment'),

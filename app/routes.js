@@ -18,6 +18,14 @@ module.exports = function(app, passport) {
       message: consts.auth.msgFail});
   });
 
+  app.get('/api/assets', function(req, res) {
+    res.json([
+        { name: 'test file uno.wav',
+          status: 'transcribing' },
+        { name: 'test file does.wav',
+          status: 'processing' }
+    ]);
+
 };
 
 function isLoggedIn(req, res, next) {

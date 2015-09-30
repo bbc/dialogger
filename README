@@ -1,3 +1,17 @@
+## Installation
+
+You will need NodeJS version 0.12 or above. To install this in Ubuntu, please
+see [this blog
+post](https://nodesource.com/blog/nodejs-v012-iojs-and-the-nodesource-linux-repositories).
+During installation, set the semantic UI path to public/semantic.
+
+    sudo npm install -g gulp bower
+    npm install
+    cd public/semantic
+    gulp build
+    cd public
+    bower install
+
 ## Proxy setup
 These instructions redirect everything on port 389 through socks-gw. Firstly, install iptables-persistent and redsocks:
 
