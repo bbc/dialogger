@@ -103,11 +103,11 @@ $(document).ready(function()
       password: 'empty'
     }
   })
-
   // configure form submission
   .api({
     action: 'login',
     method: 'POST',
+    serializeForm: true,
     onSuccess: function(response) {
       window.location.href = '/editor.html';
     },
