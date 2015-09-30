@@ -25,6 +25,7 @@ module.exports = function(app, passport) {
         { name: 'test file does.wav',
           status: 'processing' }
     ]);
+  });
 
 };
 
