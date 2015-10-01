@@ -5,8 +5,11 @@ var bodyParser    = require('body-parser');
 var session       = require('express-session');
 var passport      = require('passport');
 
+// set up database
+var db = require('./config/db')
+
 // set up passport
-require('./config/passport')(passport);
+require('./config/passport')(passport, db);
 
 // configure express
 var app = express();
@@ -24,7 +27,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // set up routes
-require('./app/routes')(app, passport);
+require('./routes')(app, passport, db);
 
 // start service
 app.listen(consts.app.port);

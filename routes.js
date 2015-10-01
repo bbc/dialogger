@@ -1,6 +1,7 @@
-var consts = require('../config/consts');
+var consts = require('./config/consts');
+var assetstest = require('./controllers/assetstest.js');
 
-module.exports = function(app, passport) {
+module.exports = function(app, passport, db) {
 
   app.post('/api/login', passport.authenticate('local',
     {successRedirect: '/api/loginSuccess',
@@ -18,14 +19,7 @@ module.exports = function(app, passport) {
       message: consts.auth.msgFail});
   });
 
-  app.get('/api/assets', function(req, res) {
-    res.json([
-        { name: 'test file uno.wav',
-          status: 'transcribing' },
-        { name: 'test file does.wav',
-          status: 'processing' }
-    ]);
-  });
+  app.get('/api/assets', assetstest.assets);
 
 };
 

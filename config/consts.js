@@ -1,5 +1,9 @@
 var consts = {};
 
+// DATABASE
+consts.db = {};
+consts.db.url = 'localhost/discourse';
+
 // AUTHENTICATION
 consts.auth = {};
 consts.auth.url = 'ldap://national.core.bbc.co.uk';

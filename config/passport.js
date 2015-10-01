@@ -2,7 +2,7 @@ var LocalStrategy = require('passport-local').Strategy;
 var ActiveDirectory = require('activedirectory');
 var consts = require('./consts');
 
-module.exports = function(passport)
+module.exports = function(passport, db)
 {
   // set up active directory module
   var ad = new ActiveDirectory({
@@ -10,12 +10,33 @@ module.exports = function(passport)
       baseDN: consts.auth.baseDn
   });
 
-  passport.serializeUser(function(user, done) {
-    done(null, user);
+  // get user's database id
+  passport.serializeUser(function(username, done)
+  {
+    db.users.findOne({username: username}, function(err, user) {
+      if (err) {
+        db.users.insert({username: username}, function(err, user) {
+          if (err) {
+            done(err);
+          } else {
+            done(null, user._id);
+          }
+        });
+      } else {
+        done(null, user._id);
+      }
+    });
   });
 
+  // retrieve user details from database
   passport.deserializeUser(function(id, done) {
-    done(null, id);
+    db.users.findById(id, function(err, user) {
+      if (err) {
+        done(err);
+      } else {
+        done(null, user);
+      }
+    });
   });
 
   // configure passport strategy
