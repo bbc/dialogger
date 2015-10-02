@@ -1,50 +1,38 @@
-var consts = require('./config/consts');
+var consts = require('../config/consts');
 var fs = require('fs');
 var request = require('request');
 var schedule = require('node-schedule');
 
-exports.transcribe = function(audioFile, resultFile, callback)
+exports.transcribe = function(audioFile, cb)
 {
-  request.post({url: consts.stt.upload, json: true, body: {path: audioFile}},
+  request.post({url: consts.stt.upload, json: {path: audioFile}},
       function (err, res, body)
   {
     if (err) {
-      callback('Speech-to-text failed at upload stage.');
+      cb('Speech-to-text failed at upload stage.', undefined, undefined);
       return;
     } else {
-      try {
-        var job = JSON.parse(body).jobid;
-        check(job, resultFile, callback);
-      } catch(e) {
-        callback('Invalid response from speech-to-text service');
-      }
+      check(body.jobid, cb);
     }
   });
 };
 
-function check(job, resultFile, callback)
+function check(job, cb)
 {
-  request(consts.stt.status+job, function(err, res, body)
+  request({url: consts.stt.status+job, json: true}, function(err, res, status)
   {
     if (err) {
-      callback('Could not find status of speech-to-text job');
-      return;
-    }
-
-    try {
-      var status = JSON.parse(body);
-    } catch(e) {
-      callback('Invalid response from speech-to-text service');
+      cb('Could not find status of speech-to-text job', undefined, undefined);
       return;
     }
 
     if (status.ready)
     {
-      download(job, resultFile, callback);
+      download(job, cb);
     }
     else if (status.error)
     {
-      callback('Error occured in speech-to-text processing');
+      cb('Error occured in speech-to-text processing', undefined, undefined);
       return;
     }
     else
@@ -52,20 +40,28 @@ function check(job, resultFile, callback)
       var nextCheck = new Date();
       nextCheck.setSeconds(nextCheck.getSeconds() + consts.stt.checkInterval);
       var checker = schedule.scheduleJob(nextCheck,
-          function() { check(job, resultFile, callback); });
+          function() { check(job, cb); });
     }
   });
 };
 
-function download(job, resultFile, callback)
+function download(job, cb)
 {
-  request(consts.stt.transcript+job, function(err, res, body)
+  request({url: consts.stt.transcript+job, json: true},
+      function(err, res, transcript)
   {
     if (err) {
-      callback('Could not download speech-to-text results');
+      cb('Could not download transcript results', undefined, undefined);
       return;
     }
-    fs.writeFile(resultFile, body);
-    callback(null);
+    request({url: consts.stt.segments+job, json: true},
+        function(err, res, segments)
+    {
+      if (err) {
+        cb('Could not download segment results', undefined, undefined);
+        return;
+      }
+      cb(null, transcript, segments);
+    });
   });
 };

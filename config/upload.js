@@ -4,7 +4,7 @@ var multer = require('multer');
 
 var storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    var folder = consts.files.uploads+req.user.username+'/';
+    var folder = consts.files.assets+req.user.username+'/';
     mkdirp(folder, function(err) {
       cb(err, folder);
     });

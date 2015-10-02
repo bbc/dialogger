@@ -1,27 +1,27 @@
+var consts = require('../config/consts');
 var mimovie = require('mimovie');
 var fs = require('fs');
-var uuid = require('../helpers/uuid');
 var stt = require('../helpers/stt-kaldi');
 var db = module.parent.exports.db;
 
-function transcribe(doc) {
-  uuid(function(err, filename) {
+function transcribe(doc)
+{
+  // transcribe asset using STT service
+  stt.transcribe(doc.path,
+      function(err, transcript, segments) {
     if (err) {
       console.log(err);
     } else {
-      stt.transcribe(doc.path, consts.files.transcripts+doc.owner+'/'+filename,
-          function(err) {
-        if (err) {
-          console.log(err);
-        } else {
-          db.assets.updateById(doc._id, {
-            $set: {
-              status: 'Ready',
-              transcript: filename
-            }
-          }, function(err, result) {
-            if (err) console.log(err);
-          });
+
+      // update database
+      db.assets.updateById(doc._id, {
+        $set: {
+          status: 'Ready',
+          transcript: transcript,
+          segments: segments
+        }
+      }, function(err, result) {
+        if (err) console.log(err);
       });
     }
   });
