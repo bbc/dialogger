@@ -47,6 +47,7 @@
     "mkdirp": "^0.5.1",
     "monk": "^1.0.1",
     "multer": "^1.0.5",
+    "node-schedule": "^0.2.9",
     "passport": "^0.3.0",
     "passport-local": "^1.0.0",
     "require-dot-file": "^0.4.0",

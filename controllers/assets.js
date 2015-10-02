@@ -1,6 +1,31 @@
 var mimovie = require('mimovie');
 var fs = require('fs');
+var uuid = require('../helpers/uuid');
+var stt = require('../helpers/stt-kaldi');
 var db = module.parent.exports.db;
+
+function transcribe(doc) {
+  uuid(function(err, filename) {
+    if (err) {
+      console.log(err);
+    } else {
+      stt.transcribe(doc.path, consts.files.transcripts+doc.owner+'/'+filename,
+          function(err) {
+        if (err) {
+          console.log(err);
+        } else {
+          db.assets.updateById(doc._id, {
+            $set: {
+              status: 'Ready',
+              transcript: filename
+            }
+          }, function(err, result) {
+            if (err) console.log(err);
+          });
+      });
+    }
+  });
+};
 
 exports.upload = function(req, res)
 {
@@ -22,6 +47,9 @@ exports.upload = function(req, res)
         if (err) {
           res.status(500).send('Could not add to database');
         } else {
+
+          // transcribe recording
+          transcribe(doc);
           res.json(doc);
         }
       });
