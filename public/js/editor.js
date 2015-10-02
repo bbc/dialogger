@@ -1,5 +1,9 @@
 $(document).ready(function()
 {
+  var userModel = Backbone.Model.extend({
+    url: '/api/user'
+  });
+
   var assetModel = Backbone.Model.extend({
     url: '/api/assets/1',
     defaults: {
@@ -13,8 +17,18 @@ $(document).ready(function()
     model: assetModel
   });
 
+  var userView = Backbone.View.extend({
+    el: '#userView',
+    initialize: function() {
+      this.model.fetch();
+    },
+    render: function(user) {
+      this.$el.html('<i class="user icon"></i>'+user.username);
+    }
+  });
+
   var assetsListView = Backbone.View.extend({
-    el: '#assetsList',
+    el: '#assetsListView',
     template: _.template($('#asset-item-tmpl').html()),
     initialize: function() {
       this.listenTo(this.collection, 'sync', this.render);
@@ -28,6 +42,9 @@ $(document).ready(function()
 
   var assets = new assetCollection();
   var assetsList = new assetsListView({collection: assets});
+
+  var user = new userModel();
+  var userDisplay = new userView({model: user});
 
   setInterval(function() {
     assets.fetch();
