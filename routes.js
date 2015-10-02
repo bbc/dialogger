@@ -32,8 +32,8 @@ app.get('/api/user', isLoggedIn, function(req, res) {
 app.post('/api/assets', isLoggedIn, upload.single('file'),
     assetsController.upload);
 app.get('/api/assets', isLoggedIn, assetsController.assets);
-app.put('/api/asset/:id', isLoggedIn, assetsController.save);
-app.delete('/api/asset/:id', isLoggedIn, assetsController.destroy);
+app.put('/api/assets/:id', isLoggedIn, assetsController.save);
+app.delete('/api/assets/:id', isLoggedIn, assetsController.destroy);
 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated())

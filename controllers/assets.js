@@ -1,4 +1,5 @@
 var mimovie = require('mimovie');
+var fs = require('fs');
 var db = module.parent.exports.db;
 
 exports.upload = function(req, res)
@@ -41,16 +42,17 @@ exports.save = function(req, res)
   db.assets.findById(req.params.id, function(err, doc)
   {
     // check owner
-    if (err || doc.owner != req.user._id) {
+    if (err || !doc.owner.equals(req.user._id)) {
       res.status(500).send('Could not find asset');
 
     // save update
     } else {
-      db.assets.updateById(req.params.id, req.body, function(err, doc) {
+      db.assets.updateById(req.params.id,
+        { $set: {name: req.body.name} }, function(err, result) {
         if (err) {
           res.status(500).send('Could not update');
         } else {
-          res.json(doc);
+          res.json(result);
         }
       });
     }
@@ -62,7 +64,7 @@ exports.destroy = function(req, res)
   db.assets.findById(req.params.id, function(err, doc)
   {
     // check owner
-    if (err || doc.owner != req.user._id) {
+    if (err || !doc.owner.equals(req.user._id)) {
       res.status(500).send('Could not find asset');
 
     // delete file and document
