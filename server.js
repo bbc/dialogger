@@ -26,8 +26,13 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+// export variables
+module.exports.app = app;
+module.exports.passport = passport;
+module.exports.db = db;
+
 // set up routes
-require('./routes')(app, passport, db);
+require('./routes');
 
 // start service
 app.listen(consts.app.port);
