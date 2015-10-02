@@ -13,6 +13,11 @@ consts.auth.msgFail = 'Incorrect username or password.';
 consts.auth.msgError = 'An error was encountered during authentication.';
 consts.auth.secret = 'bbcresearchanddevelopment';
 
+// FILE STRUCTURE
+consts.files = {};
+consts.files.root = '/data/discourse/';
+consts.files.uploads = consts.files.root+'uploads/';
+
 consts.app = {};
 consts.app.port = 8080;
 
