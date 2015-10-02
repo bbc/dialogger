@@ -14,8 +14,9 @@ module.exports = function(passport, db)
   passport.serializeUser(function(username, done)
   {
     db.users.findOne({username: username}, function(err, user) {
-      if (err) {
-        db.users.insert({username: username}, function(err, user) {
+      if (err || !user) {
+        db.users.insert({username: username,
+                         dateCreated: new Date()}, function(err, user) {
           if (err) {
             done(err);
           } else {
