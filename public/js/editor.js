@@ -6,11 +6,7 @@ $(document).ready(function()
   });
 
   var assetModel = Backbone.Model.extend({
-    url: '/api/assets/1',
-    defaults: {
-      name:   null,
-      status: null
-    }
+    url: '/api/assets/1'
   });
 
   var assetCollection = Backbone.Collection.extend({

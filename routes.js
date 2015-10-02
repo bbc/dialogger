@@ -6,7 +6,6 @@ var db = module.parent.exports.db;
 
 // load controllers
 module.exports.db = db;
-var assetstest = require('./controllers/assetstest.js');
 var assetsController = require('./controllers/assets.js');
 
 app.post('/api/login', passport.authenticate('local',
@@ -29,10 +28,12 @@ app.get('/api/user', isLoggedIn, function(req, res) {
   res.json(req.user);
 });
 
+// ASSETS
 app.post('/api/assets', isLoggedIn, upload.single('file'),
     assetsController.upload);
-
 app.get('/api/assets', isLoggedIn, assetsController.assets);
+app.put('/api/asset/:id', isLoggedIn, assetsController.save);
+app.delete('/api/asset/:id', isLoggedIn, assetsController.destroy);
 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated())

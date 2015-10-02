@@ -15,7 +15,8 @@ exports.upload = function(req, res)
         name: req.file.originalname,
         path: req.file.path,
         size: req.file.size,
-        info: info
+        info: info,
+        status: 'Transcribing'
       }, function(err, doc) {
         if (err) {
           res.status(500).send('Could not add to database');
@@ -29,7 +30,51 @@ exports.upload = function(req, res)
 
 exports.assets = function(req, res)
 {
+  // list user's assets
   db.assets.find({owner: req.user._id}, function(err, docs) {
     res.json(docs);
+  });
+};
+
+exports.save = function(req, res)
+{
+  db.assets.findById(req.params.id, function(err, doc)
+  {
+    // check owner
+    if (err || doc.owner != req.user._id) {
+      res.status(500).send('Could not find asset');
+
+    // save update
+    } else {
+      db.assets.updateById(req.params.id, req.body, function(err, doc) {
+        if (err) {
+          res.status(500).send('Could not update');
+        } else {
+          res.json(doc);
+        }
+      });
+    }
+  });
+};
+
+exports.destroy = function(req, res)
+{
+  db.assets.findById(req.params.id, function(err, doc)
+  {
+    // check owner
+    if (err || doc.owner != req.user._id) {
+      res.status(500).send('Could not find asset');
+
+    // delete file and document
+    } else {
+      fs.unlink(doc.path);
+      db.assets.remove({_id: req.params.id}, function(err) {
+        if (err) {
+          res.status(500).send('Could not delete document');
+        } else {
+          res.json({success: true});
+        }
+      });
+    }
   });
 };
