@@ -21,6 +21,10 @@ module.exports = function(app, passport, db) {
 
   app.get('/api/assets', assetstest.assets);
 
+  app.get('/api/user', isLoggedIn, function(req, res) {
+    res.json(req.user);
+  });
+
 };
 
 function isLoggedIn(req, res, next) {
