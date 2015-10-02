@@ -1,5 +1,6 @@
 $(document).ready(function()
 {
+  // define models and collections
   var userModel = Backbone.Model.extend({
     url: '/api/user'
   });
@@ -17,13 +18,16 @@ $(document).ready(function()
     model: assetModel
   });
 
+  // define views
   var userView = Backbone.View.extend({
     el: '#userView',
     initialize: function() {
+      this.listenTo(this.model, 'sync', this.render);
       this.model.fetch();
+      this.render();
     },
-    render: function(user) {
-      this.$el.html('<i class="user icon"></i>'+user.username);
+    render: function() {
+      this.$el.html('<i class="user icon"></i>'+this.model.get('username'));
     }
   });
 
@@ -40,12 +44,14 @@ $(document).ready(function()
     }
   });
 
+  // initialize models, collections and views
   var assets = new assetCollection();
-  var assetsList = new assetsListView({collection: assets});
+  var assetsListViewInstance = new assetsListView({collection: assets});
 
   var user = new userModel();
-  var userDisplay = new userView({model: user});
+  var userViewInstance = new userView({model: user});
 
+  // update assets list regularly
   setInterval(function() {
     assets.fetch();
   }, 3000);
