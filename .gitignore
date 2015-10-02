@@ -1,0 +1,4 @@
+*.un~
+node_modules/
+public/bower_components/
+public/semantic/
