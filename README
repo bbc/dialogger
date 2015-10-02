@@ -9,6 +9,7 @@ see [this blog
 post](https://nodesource.com/blog/nodejs-v012-iojs-and-the-nodesource-linux-repositories).
 During installation, set the Semantic UI path to `public/semantic/`.
 
+    sudo apt-get install mediainfo mongodb
     sudo npm install -g gulp bower
     npm install
     cd public/semantic
