@@ -16,7 +16,7 @@ function transcribe(doc)
       // update database
       db.assets.updateById(doc._id, {
         $set: {
-          status: 'Ready',
+          status: consts.stt.postStatus,
           transcript: transcript,
           segments: segments
         }
@@ -42,7 +42,7 @@ exports.upload = function(req, res)
         path: req.file.path,
         size: req.file.size,
         info: info,
-        status: 'Transcribing'
+        status: consts.stt.preStatus
       }, function(err, doc) {
         if (err) {
           res.status(500).send('Could not add to database');

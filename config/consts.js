@@ -17,7 +17,6 @@ consts.auth.secret = 'bbcresearchanddevelopment';
 consts.files = {};
 consts.files.root = '/data/discourse/';
 consts.files.assets = consts.files.root+'assets/';
-consts.files.transcripts = consts.files.root+'transcripts/';
 
 // SPEECH TO TEXT
 consts.stt = {};
@@ -27,6 +26,8 @@ consts.stt.status = consts.stt.root+'/status/';
 consts.stt.transcript = consts.stt.root+'/transcript/';
 consts.stt.segments = consts.stt.root+'/segments/';
 consts.stt.checkInterval = 10;
+consts.stt.preStatus = 'Transcribing';
+consts.stt.postStatus = 'Ready';
 
 consts.app = {};
 consts.app.port = 8080;
