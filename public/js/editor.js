@@ -58,7 +58,7 @@ var leftSidebar = $('.left.sidebar')
     dimPage: false
 })
 .sidebar('attach events', '#leftButton')
-.sidebar('attach events', '#uploadButton');
+.sidebar('attach events', '#uploadButton', 'show');
 
 var rightSidebar = $('.right.sidebar')
 .sidebar({

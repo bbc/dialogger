@@ -12,7 +12,8 @@ function transcribe(doc)
     if (err) {
       db.assets.updateById(doc._id, {
         $set: {
-          status: consts.stt.errStatus
+          status: consts.stt.errStatus,
+          error: true
         }
       }, function(err, result) {
         if (err) console.log(err);
@@ -46,6 +47,7 @@ exports.upload = function(req, res)
         path: req.file.path,
         size: req.file.size,
         info: info,
+        error: false,
         created: new Date(),
         status: consts.stt.preStatus
       }, function(err, doc) {

@@ -155,9 +155,17 @@
 <script type="text/template" id="asset-item-tmpl">
 <% _.each(collection, function(model) { %>
     <div class="item asset">
+<% if (model.error) { %>
+      <i class="file audio outline icon red"></i>
+<% } else { %>
       <i class="file audio outline icon blue"></i>
+<% } %>
       <div class="content">
+<% if (model.transcript) { %>
+        <div class="header"><a href="#"><%= model.name %></a></div>
+<% } else { %>
         <div class="header"><%= model.name %></div>
+<% } %>
         <div class="description"><%= model.status %></div>
       </div>
     </div>
