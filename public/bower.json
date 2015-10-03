@@ -14,6 +14,7 @@
   ],
   "dependencies": {
     "jquery": "~2.1.4",
-    "backbone": "~1.2.3"
+    "backbone": "~1.2.3",
+    "dropzone": "~4.0.1"
   }
 }

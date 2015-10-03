@@ -14,50 +14,7 @@
 <body>
 
 <div class="ui left vertical inline sidebar">
-  <div class="ui celled list" id="assetsListView">
-    <div class="item">
-      <div data-percent="41" class="ui top attached progress">
-        <div style="transition-duration: 300ms; width: 41%;"
-             class="bar"></div>
-      </div>
-      <i class="file audio outline icon blue"></i>
-      <div class="content">
-        <div class="header">test file 1.wav</div>
-        <div class="description">Uploading...</div>
-      </div>
-    </div>
-    <div class="item">
-      <div data-percent="80" class="ui top attached progress">
-        <div style="transition-duration: 300ms; width: 80%;"
-             class="bar"></div>
-      </div>
-      <i class="file audio outline icon blue"></i>
-      <div class="content">
-        <div class="header">test file 2.wav</div>
-        <div class="description">Uploading...</div>
-      </div>
-    </div>
-    <div class="item">
-      <div class="right floated content">
-        <a class="ui basic tiny label"><i class="edit icon"></i>Edit</a>
-      </div>
-      <i class="file audio outline icon green"></i>
-      <div class="content">
-        <a class="header">test file 3 blashde blah de blah.wav</a>
-        <div class="description">Ready</div>
-      </div>
-    </div>
-    <div class="item">
-      <div class="right floated content">
-        <a class="ui basic tiny label"><i class="remove icon"></i>Delete</a>
-      </div>
-      <i class="file audio outline icon red"></i>
-      <div class="content">
-        <div class="header">test file 4.wav</div>
-        <div class="description">Failed</div>
-      </div>
-    </div>
-  </div>
+  <div class="ui celled list" id="assetsList"></div>
 </div>
 
 <div class="ui right vertical inline sidebar">
@@ -106,7 +63,7 @@
   <a class="item" id="leftButton">
     <i class="sidebar icon"></i> Input
   </a>
-  <a class="item">
+  <a class="item" id="uploadButton">
     <i class="cloud upload icon"></i>Upload
   </a>
   <a class="item">
@@ -176,13 +133,28 @@
   </div>
 </div>
 
-<script type="text/template" id="asset-item-tmpl">
-<% _.each(collection, function(model) { %>
+<form action="/api/assets" method="post" class="dropzone" id="uploadForm"
+  style="display: none"></form>
+
+<!-- UPLOAD ITEM TEMPLATE -->
+<div id="uploadItem" style="display: none">
     <div class="item">
-      <div data-percent="41" class="ui top attached progress">
-        <div style="transition-duration: 300ms; width: 41%;"
+      <div data-percent="0" class="ui top attached progress">
+        <div style="transition-duration: 300ms; width: 0%;"
              class="bar"></div>
       </div>
+      <i class="file audio outline icon blue"></i>
+      <div class="content">
+        <div class="header"></div>
+        <div class="description">Uploading...</div>
+      </div>
+    </div>
+</div>
+
+<!-- ASSET ITEM TEMPLATE -->
+<script type="text/template" id="asset-item-tmpl">
+<% _.each(collection, function(model) { %>
+    <div class="item asset">
       <i class="file audio outline icon blue"></i>
       <div class="content">
         <div class="header"><%= model.name %></div>
@@ -195,8 +167,10 @@
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
 <script src="bower_components/underscore/underscore-min.js"></script>
 <script src="bower_components/backbone/backbone-min.js"></script>
+<script src="bower_components/dropzone/dist/min/dropzone.min.js"></script>
 <script src="semantic/dist/semantic.min.js"></script>
 <script src="js/editor.js"></script>
+<script src="js/upload.js"></script>
 
 </body>
 
