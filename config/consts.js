@@ -28,6 +28,7 @@ consts.stt.segments = consts.stt.root+'/segments/';
 consts.stt.checkInterval = 10;
 consts.stt.preStatus = 'Transcribing';
 consts.stt.postStatus = 'Ready';
+consts.stt.errStatus = 'Transcription failed';
 
 consts.app = {};
 consts.app.port = 8080;

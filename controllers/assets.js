@@ -10,10 +10,14 @@ function transcribe(doc)
   stt.transcribe(doc.path,
       function(err, transcript, segments) {
     if (err) {
-      console.log(err);
+      db.assets.updateById(doc._id, {
+        $set: {
+          status: consts.stt.errStatus
+        }
+      }, function(err, result) {
+        if (err) console.log(err);
+      });
     } else {
-
-      // update database
       db.assets.updateById(doc._id, {
         $set: {
           status: consts.stt.postStatus,
@@ -42,6 +46,7 @@ exports.upload = function(req, res)
         path: req.file.path,
         size: req.file.size,
         info: info,
+        created: new Date(),
         status: consts.stt.preStatus
       }, function(err, doc) {
         if (err) {
@@ -60,7 +65,7 @@ exports.upload = function(req, res)
 exports.assets = function(req, res)
 {
   // list user's assets
-  db.assets.find({owner: req.user._id}, function(err, docs) {
+  db.assets.find({owner: req.user._id}, {sort: {created: 1}}, function(err, docs) {
     res.json(docs);
   });
 };
