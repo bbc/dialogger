@@ -4,6 +4,11 @@ var cookieParser  = require('cookie-parser');
 var bodyParser    = require('body-parser');
 var session       = require('express-session');
 var passport      = require('passport');
+var bunyan        = require('bunyan');
+
+// set up logger
+var log = require('./config/log');
+module.exports.log = log;
 
 // set up database
 var db = require('./config/db')

@@ -13,6 +13,7 @@
     "activedirectory": "^0.7.0",
     "better-console": "^0.2.4",
     "body-parser": "^1.14.1",
+    "bunyan": "^1.5.1",
     "cookie-parser": "^1.4.0",
     "del": "^2.0.2",
     "express": "^4.13.3",

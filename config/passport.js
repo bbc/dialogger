@@ -1,6 +1,7 @@
 var LocalStrategy = require('passport-local').Strategy;
 var ActiveDirectory = require('activedirectory');
 var consts = require('./consts');
+var log = module.parent.exports.log;
 
 module.exports = function(passport, db)
 {
@@ -14,12 +15,19 @@ module.exports = function(passport, db)
   passport.serializeUser(function(username, done)
   {
     db.users.findOne({username: username}, function(err, user) {
-      if (err || !user) {
+      if (err) {
+        log.error(err);
+        done(err);
+
+      // if user not found, create an account
+      } else if (!user) {
         db.users.insert({username: username,
                          dateCreated: new Date()}, function(err, user) {
           if (err) {
+            log.error(err);
             done(err);
           } else {
+            log.info({user: user}, 'Created user');
             done(null, user._id);
           }
         });
@@ -33,6 +41,7 @@ module.exports = function(passport, db)
   passport.deserializeUser(function(id, done) {
     db.users.findById(id, function(err, user) {
       if (err) {
+        log.error(err);
         done(err);
       } else {
         done(null, user);
@@ -48,6 +57,7 @@ module.exports = function(passport, db)
         if (error.name === 'InvalidCredentialsError') {
           return done(null, false, { message: consts.auth.msgFail });
         } else {
+          log.error(error);
           return done(consts.auth.msgError);
         }
       }

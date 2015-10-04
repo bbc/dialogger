@@ -1,5 +1,7 @@
 var consts = {};
 
+consts.name = 'discourse';
+
 // DATABASE
 consts.db = {};
 consts.db.url = 'localhost/discourse';

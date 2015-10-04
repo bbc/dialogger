@@ -3,9 +3,11 @@ var upload = require('./config/upload');
 var app = module.parent.exports.app;
 var passport = module.parent.exports.passport;
 var db = module.parent.exports.db;
+var log = module.parent.exports.log;
 
 // load controllers
 module.exports.db = db;
+module.exports.log = log;
 var assetsController = require('./controllers/assets.js');
 
 app.post('/api/login', passport.authenticate('local',
