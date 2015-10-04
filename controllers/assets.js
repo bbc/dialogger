@@ -52,7 +52,7 @@ exports.upload = function(req, res)
         size: req.file.size,
         info: info,
         error: false,
-        created: new Date(),
+        dateCreated: new Date(),
         status: consts.stt.preStatus
       }, function(err, doc) {
         if (err) {
@@ -73,7 +73,7 @@ exports.upload = function(req, res)
 exports.assets = function(req, res)
 {
   // list user's assets
-  db.assets.find({owner: req.user._id}, {sort: {created: 1}}, function(err, docs) {
+  db.assets.find({owner: req.user._id}, {sort: {dateCreated: 1}}, function(err, docs) {
     if (err) log.error(err);
     else res.json(docs);
   });
