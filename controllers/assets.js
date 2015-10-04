@@ -11,7 +11,7 @@ function transcribe(doc)
   stt.transcribe(doc.path,
       function(err, transcript, segments) {
     if (err) {
-      log.error(err, 'Transcription failed');
+      log.error(err);
       db.assets.updateById(doc._id, {
         $set: {
           status: consts.stt.errStatus,
@@ -62,6 +62,7 @@ exports.upload = function(req, res)
 
           // transcribe recording
           transcribe(doc);
+          log.info({asset: doc}, 'Asset uploaded');
           res.json(doc);
         }
       });

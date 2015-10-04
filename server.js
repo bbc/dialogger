@@ -7,7 +7,7 @@ var passport      = require('passport');
 var bunyan        = require('bunyan');
 
 // set up logger
-var log = require('./config/log');
+var log = require('./config/log')(bunyan);
 module.exports.log = log;
 
 // set up database
@@ -41,4 +41,4 @@ require('./routes');
 
 // start service
 app.listen(consts.app.port);
-console.log('Listening on port '+consts.app.port);
+log.info('Listening on port %d', consts.app.port);
