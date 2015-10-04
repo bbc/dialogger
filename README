@@ -12,10 +12,9 @@ During installation, set the Semantic UI path to `public/semantic/`.
     sudo apt-get install mediainfo mongodb
     sudo npm install -g gulp bower
     npm install
+    bower install
     cd public/semantic
     gulp build
-    cd ..
-    bower install
 
 ## Proxy setup
 
