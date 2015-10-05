@@ -26,7 +26,7 @@ function check(job, cb)
       return;
     }
 
-    if (status.ready)
+    if (status.ready && !status.error)
     {
       download(job, cb);
     }
