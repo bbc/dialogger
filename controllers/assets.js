@@ -73,7 +73,21 @@ exports.upload = function(req, res)
 exports.assets = function(req, res)
 {
   // list user's assets
-  db.assets.find({owner: req.user._id}, {sort: {dateCreated: 1}}, function(err, docs) {
+  db.assets.find(
+      {owner: req.user._id},
+      {sort: {dateCreated: 1},
+       transcript: 0,
+       segments: 0}, function(err, docs) {
+    if (err) log.error(err);
+    else res.json(docs);
+  });
+};
+
+exports.asset = function(req, res)
+{
+  // list a certain asset
+  db.assets.find({_id: req.params.id, owner: res.user._id},
+      function(err, docs) {
     if (err) log.error(err);
     else res.json(docs);
   });

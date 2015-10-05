@@ -35,6 +35,7 @@ app.get('/api/user', isLoggedIn, function(req, res) {
 app.post('/api/assets', isLoggedIn, upload.single('file'),
     assetsController.upload);
 app.get('/api/assets', isLoggedIn, assetsController.assets);
+app.get('/api/assets/:id', isLoggedIn, assetsController.asset);
 app.put('/api/assets/:id', isLoggedIn, assetsController.save);
 app.delete('/api/assets/:id', isLoggedIn, assetsController.destroy);
 
