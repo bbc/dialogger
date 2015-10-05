@@ -1,3 +1,5 @@
+var editor = null;
+
 // define models and collections
 var userModel = Backbone.Model.extend({
   url: '/api/user'
@@ -71,6 +73,21 @@ var rightSidebar = $('.right.sidebar')
 
 function openTranscript(id) {
   $.getJSON('/api/assets/'+id, function(data) {
-    $('#transcript').html('<p>&nbsp;</p><p>'+data[0].transcript.text+'</p>');
+    window.editor.setData(data[0].transcript.text);
   });
 };
+
+CKEDITOR.replace('transcript', {
+//  plugins: 'wysiwygarea',
+  keystrokes: [
+    [8, 'strike'], //backspace
+    [46, 'strike'] //delete
+  ],
+  extraAllowedContent: 'a [*]{*}',
+  on: {
+    instanceReady: function(evt) {
+      editor = evt.editor;
+    }
+  }
+});
+
