@@ -76,8 +76,7 @@ exports.assets = function(req, res)
   db.assets.find(
       {owner: req.user._id},
       {sort: {dateCreated: 1},
-       transcript: 0,
-       segments: 0}, function(err, docs) {
+       fields: {transcript: 0, segments: 0}}, function(err, docs) {
     if (err) log.error(err);
     else res.json(docs);
   });
@@ -86,7 +85,7 @@ exports.assets = function(req, res)
 exports.asset = function(req, res)
 {
   // list a certain asset
-  db.assets.find({_id: req.params.id, owner: res.user._id},
+  db.assets.find({_id: req.params.id, owner: req.user._id},
       function(err, docs) {
     if (err) log.error(err);
     else res.json(docs);
@@ -95,15 +94,10 @@ exports.asset = function(req, res)
 
 exports.save = function(req, res)
 {
-  db.assets.findById(req.params.id, function(err, doc)
+  db.assets.find({_id: req.params.id, owner: req.user._id}, function(err, doc)
   {
     if (err) {
       log.error(err);
-      res.status(500);
-
-    // check owner
-    } else if (!doc.owner.equals(req.user._id)) {
-      log.error({asset: doc}, 'Asset requested without permission');
       res.status(500);
 
     // save update
@@ -124,15 +118,10 @@ exports.save = function(req, res)
 
 exports.destroy = function(req, res)
 {
-  db.assets.findById(req.params.id, function(err, doc)
+  db.assets.find({_id: req.params.id, owner: req.user._id}, function(err, doc)
   {
     if (err) {
       log.error(err);
-      res.status(500);
-
-    // check owner
-    } else if (!doc.owner.equals(req.user._id)) {
-      log.error({asset: doc}, 'Asset requested without permission');
       res.status(500);
 
     // delete file and document
