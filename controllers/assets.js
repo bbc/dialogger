@@ -25,6 +25,7 @@ function transcribe(doc)
       db.assets.updateById(doc._id, {
         $set: {
           status: consts.stt.postStatus,
+          ready: true,
           transcript: transcript,
           segments: segments
         }
@@ -51,6 +52,7 @@ exports.upload = function(req, res)
         path: req.file.path,
         size: req.file.size,
         info: info,
+        ready: false,
         error: false,
         dateCreated: new Date(),
         status: consts.stt.preStatus
