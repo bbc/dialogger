@@ -68,3 +68,9 @@ var rightSidebar = $('.right.sidebar')
     dimPage: false
 })
 .sidebar('attach events', '#rightButton');
+
+function openTranscript(id) {
+  $.getJSON('/api/assets/'+id, function(data) {
+    $('#transcript').html('<p>&nbsp;</p><p>'+data[0].transcript.text+'</p>');
+  });
+};
