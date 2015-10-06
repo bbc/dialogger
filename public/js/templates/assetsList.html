@@ -1,0 +1,17 @@
+<% _.each(collection, function(model) { %>
+    <div class="item asset">
+<% if (model.error) { %>
+      <i class="file audio outline icon red"></i>
+<% } else { %>
+      <i class="file audio outline icon blue"></i>
+<% } %>
+      <div class="content">
+<% if (model.ready) { %>
+        <div class="header"><a href="javascript:void(0);" onclick="openTranscript('<%= model._id %>')"><%= model.name %></a></div>
+<% } else { %>
+        <div class="header"><%= model.name %></div>
+<% } %>
+        <div class="description"><%= model.status %></div>
+      </div>
+    </div>
+<% }); %>

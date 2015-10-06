@@ -10,6 +10,7 @@
   <title>Fixed Menu Example - Semantic</title>
 
   <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
+  <script data-main="js/main" src="bower_components/requirejs/require.js"></script>
 </head>
 <body>
 
@@ -151,36 +152,6 @@
       </div>
     </div>
 </div>
-
-<!-- ASSET ITEM TEMPLATE -->
-<script type="text/template" id="asset-item-tmpl">
-<% _.each(collection, function(model) { %>
-    <div class="item asset">
-<% if (model.error) { %>
-      <i class="file audio outline icon red"></i>
-<% } else { %>
-      <i class="file audio outline icon blue"></i>
-<% } %>
-      <div class="content">
-<% if (model.ready) { %>
-        <div class="header"><a href="javascript:void(0);" onclick="openTranscript('<%= model._id %>')"><%= model.name %></a></div>
-<% } else { %>
-        <div class="header"><%= model.name %></div>
-<% } %>
-        <div class="description"><%= model.status %></div>
-      </div>
-    </div>
-<% }); %>
-</script>
-
-<script src="bower_components/ckeditor/ckeditor.js"></script>
-<script src="bower_components/jquery/dist/jquery.min.js"></script>
-<script src="bower_components/underscore/underscore-min.js"></script>
-<script src="bower_components/backbone/backbone-min.js"></script>
-<script src="bower_components/dropzone/dist/min/dropzone.min.js"></script>
-<script src="semantic/dist/semantic.min.js"></script>
-<script src="js/editor.js"></script>
-<script src="js/upload.js"></script>
 
 </body>
 
