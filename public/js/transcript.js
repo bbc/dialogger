@@ -1,13 +1,14 @@
 define([
   'jquery',
   'ckeditor-jquery',
-], function($, CKEditor)
+  'utils'
+], function($, CKEditor, Utils)
 {
   var editor;
   var update = function(id) {
     if (editor) {
       $.getJSON('/api/assets/'+id, function(data) {
-        editor.setData(data[0].transcript.text);
+        editor.setData(Utils.transcriptToHTML(data[0].transcript));
       });
     }
   }; 
