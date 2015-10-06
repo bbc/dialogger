@@ -5,7 +5,6 @@ require.config({
     backbone: '../bower_components/backbone/backbone-min',
     dropzone: '../bower_components/dropzone/dist/dropzone-amd-module',
     ckeditor: '../bower_components/ckeditor/ckeditor',
-    'ckeditor-jquery': '../bower_components/ckeditor/adapters/jquery',
     semantic: '../semantic/dist/semantic.min',
     text: '../bower_components/text/text'
   },
@@ -14,9 +13,11 @@ require.config({
       exports: 'semantic',
       deps: ['jquery']
     },
-    'ckeditor-jquery': {
+    'ckeditor': {
       exports: 'CKEDITOR',
-      deps: ['jquery', 'ckeditor']
+      init: function() {
+        this.CKEDITOR.disableAutoInline = true;
+      }
     }
   }
 

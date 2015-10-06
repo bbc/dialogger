@@ -1,6 +1,6 @@
 define([
   'jquery',
-  'ckeditor-jquery',
+  'ckeditor',
   'utils'
 ], function($, CKEditor, Utils)
 {
@@ -22,8 +22,7 @@ define([
     }
   }; 
   var initialize = function() {
-    editor = $('#transcript').ckeditor({
-      skin: 'discourse',
+    editor = CKEditor.inline('transcript', {
       height: '500px',
       removePlugins: 'toolbar,contextmenu,liststyle,tabletools,elementspath,link',
       resize_enabled: false,
@@ -31,14 +30,8 @@ define([
         [8, 'strike'], //backspace
         [46, 'strike'] //delete
       ],*/
-      extraAllowedContent: 'strong s a [*]{*}',
-      on: {
-        instanceReady: function(evt) {
-          editor = evt.editor;
-        }
-      }
+      extraAllowedContent: 'i strong s a [*]{*}'
     });
-    console.log(editor);
   };
   return {
     initialize: initialize,
