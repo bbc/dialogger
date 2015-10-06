@@ -5,6 +5,7 @@ define([
 ], function($, CKEditor, Utils)
 {
   var editor;
+
   var update = function(id) {
     if (editor) {
       $.getJSON('/api/assets/'+id, function(data) {
@@ -27,7 +28,6 @@ define([
     });
   };
   return {
-    editor: editor,
     initialize: initialize,
     update: update
   };

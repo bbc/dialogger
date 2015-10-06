@@ -7,7 +7,7 @@
 <% } %>
       <div class="content">
 <% if (model.ready) { %>
-        <div class="header"><a href="javascript:void(0);" onclick="openTranscript('<%= model._id %>')"><%= model.name %></a></div>
+        <div class="header"><a href="#" data-id="<%= model._id %>"><%= model.name %></a></div>
 <% } else { %>
         <div class="header"><%= model.name %></div>
 <% } %>
