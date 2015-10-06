@@ -1,7 +1,8 @@
 define([
   'jquery',
-  'semantic'
-], function($, Semantic)
+  'semantic',
+  'transcript'
+], function($, Semantic, Transcript)
 {
   var initialize = function() {
     var leftSidebar = $('.left.sidebar')
@@ -22,6 +23,13 @@ define([
         dimPage: false
     })
     .sidebar('attach events', '#rightButton');
+
+    $('#boldButton').click(function() {
+      Transcript.bold();
+    });
+    $('#italicButton').click(function() {
+      Transcript.italic();
+    });
   };
   return {
     initialize: initialize

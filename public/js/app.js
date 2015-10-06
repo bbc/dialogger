@@ -11,8 +11,8 @@ define([
     var viewAssetsList = new AssetsListView();
     var viewUser = new UserView();
     Upload.initialize();
-    UI.initialize();
     Transcript.initialize();
+    UI.initialize();
   }
   return {
     initialize: initialize

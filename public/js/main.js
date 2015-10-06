@@ -15,6 +15,7 @@ require.config({
       deps: ['jquery']
     },
     'ckeditor-jquery': {
+      exports: 'CKEDITOR',
       deps: ['jquery', 'ckeditor']
     }
   }

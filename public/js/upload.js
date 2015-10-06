@@ -1,12 +1,13 @@
 define([
   'jquery',
-  'dropzone'
-], function($, Dropzone)
+  'dropzone',
+  'text!templates/upload.html'
+], function($, Dropzone, UploadTemplate)
 {
   var initialize = function() {
     $('#uploadForm').dropzone({
       clickable: '#uploadButton',
-      previewTemplate: $('#uploadItem').html(),
+      previewTemplate: UploadTemplate,
       addedfile: function(file) {
         file.previewElement = $(this.options.previewTemplate);
         $(file.previewElement).find('.header').text(file.name);

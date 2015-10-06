@@ -14,11 +14,11 @@
 </head>
 <body>
 
-<div class="ui left vertical inline sidebar">
+<div class="ui left vertical inline sidebar" style="background-color: #fff;">
   <div class="ui celled list" id="assetsList"></div>
 </div>
 
-<div class="ui right vertical inline sidebar">
+<div class="ui right vertical inline sidebar" style="background-color: #fff;">
   <div class="ui celled list">
     <div class="item">
       <div class="right floated content">
@@ -75,6 +75,12 @@
   </a>
   <a class="item">
     <i class="stop icon"></i>
+  </a>
+  <a class="item" id="boldButton">
+    <i class="bold icon"></i>
+  </a>
+  <a class="item" id="italicButton">
+    <i class="italic icon"></i>
   </a>
   <div class="right menu">
     <a class="item">
@@ -137,21 +143,6 @@
 
 <form action="/api/assets" method="post" class="dropzone" id="uploadForm"
   style="display: none"></form>
-
-<!-- UPLOAD ITEM TEMPLATE -->
-<div id="uploadItem" style="display: none">
-    <div class="item">
-      <div data-percent="0" class="ui top attached progress">
-        <div style="transition-duration: 300ms; width: 0%;"
-             class="bar"></div>
-      </div>
-      <i class="file audio outline icon blue"></i>
-      <div class="content">
-        <div class="header"></div>
-        <div class="description">Uploading...</div>
-      </div>
-    </div>
-</div>
 
 </body>
 

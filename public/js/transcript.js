@@ -6,6 +6,14 @@ define([
 {
   var editor;
 
+  var bold = function() {
+    editor.execCommand('bold');
+  };
+
+  var italic = function() {
+    editor.execCommand('italic');
+  };
+
   var update = function(id) {
     if (editor) {
       $.getJSON('/api/assets/'+id, function(data) {
@@ -15,21 +23,28 @@ define([
   }; 
   var initialize = function() {
     editor = $('#transcript').ckeditor({
-      keystrokes: [
+      skin: 'discourse',
+      height: '500px',
+      removePlugins: 'toolbar,contextmenu,liststyle,tabletools,elementspath,link',
+      resize_enabled: false,
+      /*keystrokes: [
         [8, 'strike'], //backspace
         [46, 'strike'] //delete
-      ],
-      extraAllowedContent: 'a [*]{*}',
+      ],*/
+      extraAllowedContent: 'strong s a [*]{*}',
       on: {
         instanceReady: function(evt) {
           editor = evt.editor;
         }
       }
     });
+    console.log(editor);
   };
   return {
     initialize: initialize,
-    update: update
+    update: update,
+    bold: bold,
+    italic: italic
   };
 });
 
