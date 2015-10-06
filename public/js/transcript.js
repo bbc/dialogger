@@ -30,7 +30,7 @@ define([
         [8, 'strike'], //backspace
         [46, 'strike'] //delete
       ],*/
-      extraAllowedContent: 'i strong s a [*]{*}'
+      allowedContent: true
     });
   };
   return {
