@@ -18,6 +18,7 @@ define([
     if (editor) {
       $.getJSON('/api/assets/'+id, function(data) {
         editor.setData(Utils.transcriptToHTML(data[0].transcript));
+        editor.resetUndo();
       });
     }
   }; 
