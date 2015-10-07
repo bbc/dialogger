@@ -30,6 +30,9 @@ define([
     $('#italicButton').click(function() {
       Transcript.italic();
     });
+    $('#saveButton').click(function() {
+      Transcript.save();
+    });
   };
   return {
     initialize: initialize

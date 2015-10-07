@@ -15,7 +15,7 @@ define([
     },
     clicked: function(e) {
       var id = $(e.currentTarget).data('id');
-      Transcript.update(id);
+      Transcript.load(id);
     },
     initialize: function() {
       this.collection = new AssetsCollection();
