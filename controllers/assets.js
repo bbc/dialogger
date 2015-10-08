@@ -36,7 +36,7 @@ function transcribe(doc)
   });
 };
 
-exports.upload = function(req, res)
+exports.save = function(req, res)
 {
   // extract information about file
   mimovie(req.file.path, function(err, info) {
@@ -94,7 +94,7 @@ exports.asset = function(req, res)
   });
 };
 
-exports.save = function(req, res)
+exports.update = function(req, res)
 {
   db.assets.find({_id: req.params.id, owner: req.user._id}, function(err, doc)
   {

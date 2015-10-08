@@ -9,6 +9,7 @@ var log = module.parent.exports.log;
 module.exports.db = db;
 module.exports.log = log;
 var assetsController = require('./controllers/assets.js');
+var editsController = require('./controllers/edits.js');
 
 app.post('/api/login', passport.authenticate('local',
   {successRedirect: '/api/loginSuccess',
@@ -33,11 +34,18 @@ app.get('/api/user', isLoggedIn, function(req, res) {
 
 // ASSETS
 app.post('/api/assets', isLoggedIn, upload.single('file'),
-    assetsController.upload);
+    assetsController.save);
 app.get('/api/assets', isLoggedIn, assetsController.assets);
 app.get('/api/assets/:id', isLoggedIn, assetsController.asset);
-app.put('/api/assets/:id', isLoggedIn, assetsController.save);
+app.put('/api/assets/:id', isLoggedIn, assetsController.update);
 app.delete('/api/assets/:id', isLoggedIn, assetsController.destroy);
+
+// EDITS
+app.post('/api/edits', isLoggedIn, editsController.save);
+app.get('/api/edits', isLoggedIn, editsController.edits);
+app.get('/api/edits/:id', isLoggedIn, editsController.edit);
+app.put('/api/edits/:id', isLoggedIn, editsController.update);
+app.delete('/api/edits/:id', isLoggedIn, editsController.destroy);
 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated())
