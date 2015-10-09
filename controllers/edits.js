@@ -1,6 +1,17 @@
 var consts = require('../config/consts');
+var edl = require('../helpers/edl');
 var db = module.parent.exports.db;
 var log = module.parent.exports.log;
+
+exports.download = function(req, res)
+{
+  db.edits.find({_id: req.params.id, owner: req.user._id}, function (err, docs) {
+    if (err) log.error(err);
+    else {
+      res.json(edl.generate(docs[0].words));
+    }
+  });
+};
 
 exports.save = function(req, res)
 {
