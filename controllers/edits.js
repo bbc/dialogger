@@ -8,7 +8,7 @@ exports.download = function(req, res)
   db.edits.find({_id: req.params.id, owner: req.user._id}, function (err, docs) {
     if (err) log.error(err);
     else {
-      res.json(edl.generate(docs[0].words));
+      res.json(edl.generate(docs[0].transcript.words));
     }
   });
 };

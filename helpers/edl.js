@@ -9,5 +9,6 @@ exports.generate = function(words)
       inpoint = -1;
     }
   }
+  if (inpoint) edl.push([inpoint, words[words.length-1].end]);
   return edl;
 };
