@@ -7,7 +7,9 @@ exports.save = function(req, res)
   db.edits.insert({
     owner: req.user._id,
     asset: req.body.assetid,
-    edit: req.body.edit,
+    name: req.body.name,
+    description: req.body.description,
+    transcript: req.body.transcript,
     dateCreated: new Date(),
     dateModified: new Date()
   }, function(err, doc) {
@@ -24,7 +26,7 @@ exports.update = function(req, res)
 {
   db.edits.update({_id: req.params.id, owner: req.user._id},
       {$set: {
-        edit: req.body.edit,
+        transcript: req.body.transcript,
         dateModified: new Date()
       }}, function(err, result) {
     if (err) {
@@ -54,7 +56,7 @@ exports.edits = function(req, res)
   db.edits.find(
       {owner: req.user._id},
       {sort: {dateCreated: 1},
-       fields: {edit: 0}}, function(err, docs) {
+       fields: {transcript: 0}}, function(err, docs) {
     if (err) log.error(err);
     else res.json(docs);
   });
@@ -63,7 +65,7 @@ exports.edits = function(req, res)
 exports.edit = function(req, res)
 {
   // list a certain edit 
-  db.assets.find({_id: req.params.id, owner: req.user._id},
+  db.edits.find({_id: req.params.id, owner: req.user._id},
       function(err, docs) {
     if (err) log.error(err);
     else res.json(docs);

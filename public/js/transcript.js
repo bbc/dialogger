@@ -1,11 +1,13 @@
 define([
   'jquery',
   'ckeditor',
-  'utils'
-], function($, CKEditor, Utils)
+  'utils',
+  'collections/edits'
+], function($, CKEditor, Utils, EditsCollection)
 {
   var editor;
-  var loadedId;
+  var loadedAsset;
+  var loadedEdit;
 
   var bold = function() {
     editor.execCommand('bold');
@@ -16,9 +18,22 @@ define([
   };
   
   var save = function() {
-    if (loadedId) {
-      console.log(editor.getData());
-      console.log(loadedId);
+    if (loadedAsset) {
+      var edit = {
+        name: loadedAsset.name,
+        description: window.prompt('Please enter a description of your edit',''),
+        assetid: loadedAsset._id,
+        transcript: {words: Utils.HTMLtoTranscript(editor.getData())}
+      };
+      $.ajax('/api/edits', {
+        data: JSON.stringify(edit),
+        contentType: 'application/json',
+        method: 'POST',
+        success: function (data) {
+          console.log(data);
+          EditsCollection.fetch();
+        }
+      });
     }
   };
 
@@ -27,7 +42,7 @@ define([
       $.getJSON('/api/assets/'+id, function(data) {
         editor.setData(Utils.transcriptToHTML(data[0].transcript));
         editor.resetUndo();
-        loadedId = id;
+        loadedAsset = data[0];
       });
     }
   }; 

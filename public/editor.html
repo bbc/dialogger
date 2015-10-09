@@ -20,28 +20,7 @@
 </div>
 
 <div class="ui right vertical inline sidebar" style="background-color: #fff;">
-  <div class="ui celled list">
-    <div class="item">
-      <div class="right floated content">
-        <a class="ui tiny basic label"><i class="cut icon"></i>Export</a>
-      </div>
-      <i class="edit icon"></i>
-      <div class="content">
-        <div class="header">test file 1.wav</div>
-        <div class="description">Rough edit 1</div>
-      </div>
-    </div>
-    <div class="item">
-      <div class="right floated content">
-        <a class="ui tiny basic label"><i class="cut icon"></i>Export</a>
-      </div>
-      <i class="edit icon"></i>
-      <div class="content">
-        <div class="header">test file 2.wav</div>
-        <div class="description">First half of interview which comes with a
-          longer description to test how well that works in the UI</div>
-      </div>
-    </div>
+  <div class="ui celled list" id="editsList">
   </div>
 </div>
 
@@ -104,7 +83,7 @@
 <div class="ui bottom attached segment pushable" style="height: 80%">
   <div class="pusher">
     <div class="ui text container" id="transcript" contenteditable="true">
-      <p>Bacon ipsum dolor amet pastrami jowl sausage, jerky venison bresaola
+      <p><a data-m="1234">Bacon </a><a data-m="2345">ipsum </a>dolor amet pastrami jowl sausage, jerky venison bresaola
       sirloin ribeye rump kevin meatball porchetta tenderloin pork loin cow.
       Spare ribs hamburger doner beef ribs. Rump beef frankfurter, strip steak
       ground round andouille fatback kevin. Frankfurter ham tail tri-tip

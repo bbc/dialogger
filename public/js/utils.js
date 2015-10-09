@@ -11,7 +11,18 @@ define([
     }
     return html;
   };
+  var HTMLtoTranscript = function(html) {
+    var words = [];
+    $(html).find('a').each(function() {
+      var word = $(this).text().trim();
+      var start = $(this).attr('data-m');
+      if (word) words.push({word: word, start: start});
+    });
+    console.log(words);
+    return words;
+  };
   return {
-    transcriptToHTML: transcriptToHTML
+    transcriptToHTML: transcriptToHTML,
+    HTMLtoTranscript: HTMLtoTranscript
   };
 });

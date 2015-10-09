@@ -2,36 +2,34 @@ define([
   'jquery',
   'underscore',
   'backbone',
-  'collections/assets',
-  'text!templates/assetsList.html',
+  'collections/edits',
+  'text!templates/editsList.html',
   'transcript'
-], function($, _, Backbone, AssetsCollection, assetsListTemplate, Transcript)
+], function($, _, Backbone, EditsCollection, EditsListTemplate, Transcript)
 {
   var instance;
-  var AssetsListView = Backbone.View.extend({
-    el: '#assetsList',
-    template: _.template(assetsListTemplate),
+  var EditsListView = Backbone.View.extend({
+    el: '#editsList',
+    template: _.template(EditsListTemplate),
     events: {
       'click a': 'clicked'
     },
     clicked: function(e) {
       var id = $(e.currentTarget).data('id');
-      Transcript.load(id);
     },
     initialize: function() {
-      this.collection = AssetsCollection.initialize();
+      this.collection = EditsCollection.initialize();
       this.listenTo(this.collection, 'sync', this.render);
       this.collection.fetch();
       this.render();
     },
     render: function() {
-      this.$el.find('.asset').remove();
+      this.$el.find('.edit').remove();
       this.$el.prepend(this.template({collection: this.collection.toJSON()}));
     }
   });
- 
   var initialize = function() {
-    instance = new AssetsListView(); 
+    instance = new EditsListView();
   };
   return {initialize: initialize};
 });

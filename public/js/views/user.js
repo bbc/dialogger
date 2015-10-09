@@ -5,7 +5,8 @@ define([
   'models/user'
 ], function($, _, Backbone, UserModel)
 {
-  var userView = Backbone.View.extend({
+  var instance;
+  var UserView = Backbone.View.extend({
     el: '#userView',
     initialize: function() {
       this.model = new UserModel();
@@ -17,6 +18,9 @@ define([
       this.$el.html('<i class="user icon"></i>'+this.model.get('username'));
     }
   });
-  return userView;
+  var initialize = function() {
+    instance = new UserView();
+  };
+  return {initialize: initialize};
 });
 

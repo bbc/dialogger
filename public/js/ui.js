@@ -1,8 +1,9 @@
 define([
   'jquery',
   'semantic',
-  'transcript'
-], function($, Semantic, Transcript)
+  'transcript',
+  'collections/assets'
+], function($, Semantic, Transcript, AssetsCollection)
 {
   var initialize = function() {
     var leftSidebar = $('.left.sidebar')
@@ -33,6 +34,7 @@ define([
     $('#saveButton').click(function() {
       Transcript.save();
     });
+    setInterval(AssetsCollection.fetch, 5000);
   };
   return {
     initialize: initialize

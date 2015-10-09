@@ -20,6 +20,7 @@ require('./config/passport')(passport, db);
 var app = express();
 app.use('/', express.static(__dirname+'/public'));
 app.use(cookieParser());
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // configure passport
