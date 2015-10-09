@@ -12,10 +12,14 @@ define([
     el: '#editsList',
     template: _.template(EditsListTemplate),
     events: {
-      'click a': 'clicked'
+      'click .header a': 'open',
+      'click .right a': 'exportEdit'
     },
-    clicked: function(e) {
+    open: function(e) {
       var id = $(e.currentTarget).data('id');
+    },
+    exportEdit: function(e) {
+      Transcript.exportEdit();
     },
     initialize: function() {
       this.collection = EditsCollection.initialize();

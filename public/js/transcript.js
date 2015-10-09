@@ -30,7 +30,6 @@ define([
         contentType: 'application/json',
         method: 'POST',
         success: function (data) {
-          console.log(data);
           EditsCollection.fetch();
         }
       });
@@ -46,6 +45,11 @@ define([
       });
     }
   }; 
+
+  var exportEdit = function() {
+    alert('EXPORTING');
+  };
+
   var initialize = function() {
     editor = CKEditor.inline('transcript', {
       height: '500px',
@@ -61,6 +65,7 @@ define([
   return {
     initialize: initialize,
     load: load,
+    exportEdit: exportEdit,
     save: save,
     bold: bold,
     italic: italic
