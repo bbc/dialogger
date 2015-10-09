@@ -19,7 +19,8 @@ define([
       var id = $(e.currentTarget).data('id');
     },
     exportEdit: function(e) {
-      Transcript.exportEdit();
+      var id = $(e.currentTarget).data('id');
+      window.open('/api/edits/export/'+id, '_blank');
     },
     initialize: function() {
       this.collection = EditsCollection.initialize();

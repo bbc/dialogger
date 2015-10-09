@@ -1,7 +1,7 @@
 <% _.each(collection, function(model) { %>
     <div class="item edit">
       <div class="right floated content">
-        <a class="ui tiny basic label"><i class="cut icon"></i>Export</a>
+        <a class="ui tiny basic label" data-id="<%= model._id %>"><i class="cut icon"></i>Export</a>
       </div>
       <i class="edit icon"></i>
       <div class="content">

@@ -46,10 +46,6 @@ define([
     }
   }; 
 
-  var exportEdit = function() {
-    alert('EXPORTING');
-  };
-
   var initialize = function() {
     editor = CKEditor.inline('transcript', {
       height: '500px',
@@ -65,7 +61,6 @@ define([
   return {
     initialize: initialize,
     load: load,
-    exportEdit: exportEdit,
     save: save,
     bold: bold,
     italic: italic
