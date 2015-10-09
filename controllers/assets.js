@@ -55,6 +55,7 @@ exports.save = function(req, res)
         ready: false,
         error: false,
         dateCreated: new Date(),
+        dateModified: new Date(),
         status: consts.stt.preStatus
       }, function(err, doc) {
         if (err) {
@@ -64,7 +65,7 @@ exports.save = function(req, res)
 
           // transcribe recording
           transcribe(doc);
-          log.info({asset: doc}, 'Asset uploaded');
+          log.info({asset: doc, username: req.user.username}, 'Asset uploaded');
           res.json(doc);
         }
       });
@@ -105,12 +106,14 @@ exports.update = function(req, res)
     // save update
     } else {
       db.assets.updateById(req.params.id,
-        { $set: {name: req.body.name} }, function(err, result) {
+        { $set: {
+          name: req.body.name,
+          dateModified: new Date()} }, function(err, result) {
         if (err) {
           log.error(err);
           res.status(500);
         } else {
-          log.info({asset: req.body}, 'Asset renamed');
+          log.info({asset: req.body, username: req.user.username}, 'Asset renamed');
           res.json(result);
         }
       });
@@ -136,7 +139,7 @@ exports.destroy = function(req, res)
           log.error(err);
           res.status(500);
         } else {
-          log.info({asset: req.params.id}, 'Deleted asset');
+          log.info({asset: req.params.id, username: req.user.username}, 'Deleted asset');
           res.json({success: true});
         }
       });
