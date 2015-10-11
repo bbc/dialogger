@@ -1,17 +1,23 @@
 <% _.each(collection, function(model) { %>
-    <div class="item asset">
+    <div class="item asset <%= model.selected ? 'selected' : '' %>">
 <% if (model.error) { %>
-      <i class="file audio outline icon red"></i>
+      <i class="warning icon red"></i>
+<% } else if (model.info.video_tracks) { %>
+      <i class="file video outline icon blue"></i>
 <% } else { %>
       <i class="file audio outline icon blue"></i>
 <% } %>
       <div class="content">
-<% if (model.ready) { %>
+<% if (model.ready && model.info.video_tracks) { %>
         <div class="header"><a href="#" data-id="<%= model._id %>"><%= model.name %></a></div>
+        <div class="description">video</div>
+<% } else if (model.ready) { %>
+        <div class="header"><a href="#" data-id="<%= model._id %>"><%= model.name %></a></div>
+        <div class="description">audio</div>
 <% } else { %>
         <div class="header"><%= model.name %></div>
-<% } %>
         <div class="description"><%= model.status %></div>
+<% } %>
       </div>
     </div>
 <% }); %>

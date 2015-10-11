@@ -1,3 +1,6 @@
 #transcript a {
   color: #000;
 }
+.selected {
+  background-color: #f5f5f5;
+}

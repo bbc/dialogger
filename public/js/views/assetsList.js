@@ -16,6 +16,9 @@ define([
     },
     clicked: function(e) {
       var id = $(e.currentTarget).data('id');
+      var model = this.collection.get(id);
+      model.set({selected: true});
+      this.render();
       Transcript.load(id);
     },
     initialize: function() {
