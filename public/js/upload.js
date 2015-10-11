@@ -1,8 +1,9 @@
 define([
   'jquery',
   'dropzone',
-  'text!templates/upload.html'
-], function($, Dropzone, UploadTemplate)
+  'text!templates/upload.html',
+  'collections/assets'
+], function($, Dropzone, UploadTemplate, AssetsCollection)
 {
   var initialize = function() {
     $('#uploadForm').dropzone({
@@ -24,7 +25,7 @@ define([
       },
       success: function(file, res) {
         $(file.previewElement).remove();
-        assets.fetch();
+        AssetsCollection.fetch();
       },
       processing: function(){},
       sending: function(){},
