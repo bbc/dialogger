@@ -4,8 +4,10 @@ define([
   'backbone',
   'collections/assets',
   'text!templates/assetsList.html',
-  'transcript'
-], function($, _, Backbone, AssetsCollection, assetsListTemplate, Transcript)
+  'transcript',
+  'notification'
+], function($, _, Backbone, AssetsCollection, assetsListTemplate, Transcript,
+  Notification)
 {
   var instance;
   var AssetsListView = Backbone.View.extend({
@@ -21,9 +23,17 @@ define([
       this.render();
       Transcript.load(id);
     },
+    assetReady: function(model) {
+      if (model.attributes.ready) Notification.notify(model.attributes.name+' is ready');
+    },
+    assetError: function(model) {
+      if (model.attributes.error) Notification.notify(model.attributes.name+' failed');
+    },
     initialize: function() {
       this.collection = AssetsCollection.initialize();
       this.listenTo(this.collection, 'sync', this.render);
+      this.listenTo(this.collection, 'change:ready', this.assetReady);
+      this.listenTo(this.collection, 'change:error', this.assetError);
       this.collection.fetch();
       this.render();
     },
