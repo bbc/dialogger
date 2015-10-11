@@ -15,6 +15,9 @@ define([
   var fetch = function() {
     instance.fetch();
   };
-  return {initialize: initialize};
+  return {
+    initialize: initialize,
+    fetch: fetch
+  };
 });
 
