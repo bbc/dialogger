@@ -4,7 +4,7 @@ define([
 ], function(_, Backbone)
 {
   var editModel = Backbone.Model.extend({
-    url: '/api/edits/1'
+    idAttribute: '_id'
   });
   return editModel;
 });
