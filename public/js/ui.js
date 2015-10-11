@@ -23,7 +23,8 @@ define([
         transition: 'overlay',
         dimPage: false
     })
-    .sidebar('attach events', '#rightButton');
+    .sidebar('attach events', '#rightButton')
+    .sidebar('attach events', '#saveButton', 'show');
 
     $('#boldButton').click(function() {
       Transcript.bold();
