@@ -17,6 +17,10 @@ define([
     },
     open: function(e) {
       var id = $(e.currentTarget).data('id');
+      Transcript.loadEdit(id);
+      var model = this.collection.get(id);
+      model.set({selected: true});
+      this.render();
     },
     exportEdit: function(e) {
       var id = $(e.currentTarget).data('id');

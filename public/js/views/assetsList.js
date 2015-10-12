@@ -14,14 +14,14 @@ define([
     el: '#assetsList',
     template: _.template(assetsListTemplate),
     events: {
-      'click a': 'clicked'
+      'click .header a': 'open'
     },
-    clicked: function(e) {
+    open: function(e) {
       var id = $(e.currentTarget).data('id');
+      Transcript.loadAsset(id);
       var model = this.collection.get(id);
       model.set({selected: true});
       this.render();
-      Transcript.load(id);
     },
     assetReady: function(model) {
       if (model.attributes.ready) Notification.notify(model.attributes.name+' is ready');
