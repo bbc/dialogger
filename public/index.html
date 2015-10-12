@@ -9,16 +9,16 @@
   <!-- Site Properities -->
   <title>Fixed Menu Example - Semantic</title>
 
-  <link rel="stylesheet" type="text/css" href="semantic/dist/semantic.min.css">
-  <script src="bower_components/jquery/dist/jquery.min.js"></script>
-  <script src="semantic/dist/semantic.min.js"></script>
+  <link rel="stylesheet" type="text/css" href="public/semantic/dist/semantic.min.css">
+  <script src="public/bower_components/jquery/dist/jquery.min.js"></script>
+  <script src="public/semantic/dist/semantic.min.js"></script>
 </head>
 <body>
 
 <div class="ui fixed inverted menu">
   <div class="ui container">
     <div href="#" class="header item">
-      <img src="assets/bbc.png" class="ui tiny image"
+      <img src="public/assets/bbc.png" class="ui tiny image"
       style="margin-right: 1em" >
       Discourse
     </div>
@@ -109,7 +109,7 @@ $(document).ready(function()
     method: 'POST',
     serializeForm: true,
     onSuccess: function(response) {
-      window.location.href = '/editor.html';
+      window.location.href = '/';
     },
     onFailure: function(response) {
       $('.ui.error.message').html('<ul class="list"><li>'+

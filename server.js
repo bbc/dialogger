@@ -18,7 +18,7 @@ require('./config/passport')(passport, db);
 
 // configure express
 var app = express();
-app.use('/', express.static(__dirname+'/public'));
+app.use('/public', express.static(__dirname+'/public'));
 app.use(cookieParser());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));

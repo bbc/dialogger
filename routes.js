@@ -11,6 +11,14 @@ module.exports.log = log;
 var assetsController = require('./controllers/assets.js');
 var editsController = require('./controllers/edits.js');
 
+app.get('/', function(req, res) {
+  if (req.isAuthenticated()) {
+    res.sendFile(__dirname+'/public/editor.html');
+  } else {
+    res.sendFile(__dirname+'/public/index.html');
+  }
+});
+
 app.post('/api/login', passport.authenticate('local',
   {successRedirect: '/api/loginSuccess',
    failureRedirect: '/api/loginFailure',
