@@ -72,7 +72,8 @@ define([
   };
   return {
     initialize: initialize,
-    load: load,
+    loadAsset: loadAsset,
+    loadEdit: loadEdit,
     save: save,
     bold: bold,
     italic: italic
