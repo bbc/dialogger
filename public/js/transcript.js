@@ -8,27 +8,27 @@ define([
   var editor;
   var loadedAsset;
   var loadedEdit;
-
-  var bold = function() {
-    editor.execCommand('bold');
-  };
-
-  var italic = function() {
-    editor.execCommand('italic');
-  };
+  var bold = function() { editor.execCommand('bold'); };
+  var italic = function() { editor.execCommand('italic'); };
   
   var save = function() {
-    if (loadedAsset) {
+    if (editor && (loadedAsset || loadedEdit))
+    {
+      var method = 'PUT';
       var edit = {
-        name: loadedAsset.name,
-        description: window.prompt('Please enter a description of your edit',''),
-        assetid: loadedAsset._id,
-        transcript: {words: Utils.HTMLtoTranscript(editor.getData())}
+        transcript: {words: Utils.HTMLtoTranscript(editor.getData())},
+        html: editor.getData()
       };
+      if (loadedAsset) {
+        method = 'POST';
+        edit.name = loadedAsset.name;
+        edit.assetid = loadedAsset._id;
+        edit.description = window.prompt('Please enter a description of your edit','');
+      }
       $.ajax('/api/edits', {
         data: JSON.stringify(edit),
         contentType: 'application/json',
-        method: 'POST',
+        method: method,
         success: function (data) {
           EditsCollection.fetch();
         }
@@ -36,12 +36,24 @@ define([
     }
   };
 
-  var load = function(id) {
+  var loadEdit = function(id) {
+    if (editor) {
+      $.getJSON('/api/edits/'+id, function(data) {
+        editor.setData(data[0].html);
+        editor.resetUndo();
+        loadedEdit = data[0];
+        loadedAsset = null;
+      });
+    }
+  };
+
+  var loadAsset = function(id) {
     if (editor) {
       $.getJSON('/api/assets/'+id, function(data) {
         editor.setData(Utils.transcriptToHTML(data[0].transcript));
         editor.resetUndo();
         loadedAsset = data[0];
+        loadedEdit = null;
       });
     }
   }; 
