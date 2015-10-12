@@ -19,6 +19,7 @@ consts.auth.secret = 'bbcresearchanddevelopment';
 consts.files = {};
 consts.files.root = '/data/discourse/';
 consts.files.assets = consts.files.root+'assets/';
+consts.files.temp = consts.files.root+'temp/';
 
 // SPEECH TO TEXT
 consts.stt = {};

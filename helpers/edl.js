@@ -16,14 +16,18 @@ exports.generate = function(words)
   return edl;
 };
 
-exports.process = function(inFilename, outFilename, edl)
+exports.process = function(inFilename, outFilename, edl, res)
 {
   var cmd = 'melt';
   for (var i=0; i<edl.length; i++) {
     var inFrame = Math.round(edl[i][0]*FRAME_RATE);
     var outFrame = Math.round(edl[i][1]*FRAME_RATE);
-    cmd += ' '+filename+' in='+inFrame+' out='+outFrame;
+    cmd += ' '+inFilename+' in='+inFrame+' out='+outFrame;
   }
-  cmd += ' -consumer avformat:'+outFilename;
+  cmd += ' -consumer avformat:'+outFilename+' -acodec libmp3lame';
   console.log(cmd);
+  exec(cmd, function(error, stdout, stderr) {
+    if (error) res.status(500);
+    else res.sendFile(outFilename);
+  });
 };

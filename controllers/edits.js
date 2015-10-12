@@ -9,9 +9,14 @@ exports.download = function(req, res)
     if (err) log.error(err);
     else if (!docs.length) res.status(500);
     else {
-      var edits = edl.generate(docs[0].transcript.words);
-      edl.process(edits);
-      res.json(edits);
+      db.assets.find({_id: docs[0].asset, owner: req.user._id}, function (err, assets) {
+        if (err) log.error(err);
+        else if (!assets.length) res.status(500);
+        else {
+          var edits = edl.generate(docs[0].transcript.words);
+          edl.process(assets[0].path, consts.files.temp+docs[0].asset+'.avi', edits, res);
+        }
+      });
     }
   });
 };
@@ -24,6 +29,7 @@ exports.save = function(req, res)
     name: req.body.name,
     description: req.body.description,
     transcript: req.body.transcript,
+    html: req.body.html,
     dateCreated: new Date(),
     dateModified: new Date()
   }, function(err, doc) {
@@ -41,6 +47,7 @@ exports.update = function(req, res)
   db.edits.update({_id: req.params.id, owner: req.user._id},
       {$set: {
         transcript: req.body.transcript,
+        html: req.body.html,
         dateModified: new Date()
       }}, function(err, result) {
     if (err) {
@@ -70,7 +77,7 @@ exports.edits = function(req, res)
   db.edits.find(
       {owner: req.user._id},
       {sort: {dateCreated: 1},
-       fields: {transcript: 0}}, function(err, docs) {
+       fields: {transcript: 0, html: 0}}, function(err, docs) {
     if (err) log.error(err);
     else res.json(docs);
   });
