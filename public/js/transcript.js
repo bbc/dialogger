@@ -12,20 +12,26 @@ define([
   var italic = function() { editor.execCommand('italic'); };
   
   var save = function() {
-    if (editor && (loadedAsset || loadedEdit))
+    var method, url;
+    if (editor)
     {
-      var method = 'PUT';
       var edit = {
         transcript: {words: Utils.HTMLtoTranscript(editor.getData())},
         html: editor.getData()
       };
-      if (loadedAsset) {
+      if (loadedEdit) {
+        method = 'PUT';
+        url = '/api/edits/'+loadedEdit._id;
+      } else if (loadedAsset) {
         method = 'POST';
+        url = '/api/edits';
         edit.name = loadedAsset.name;
         edit.assetid = loadedAsset._id;
         edit.description = window.prompt('Please enter a description of your edit','');
+      } else {
+        return;
       }
-      $.ajax('/api/edits', {
+      $.ajax(url, {
         data: JSON.stringify(edit),
         contentType: 'application/json',
         method: method,
@@ -67,7 +73,12 @@ define([
         [8, 'strike'], //backspace
         [46, 'strike'] //delete
       ],*/
-      allowedContent: true
+      allowedContent: true,
+      on: {
+        selectionChange: function(e) {
+          var start = $(e.data.selection.getStartElement())[0].data('start');
+        }
+      }
     });
   };
   return {
