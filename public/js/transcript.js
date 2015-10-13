@@ -50,7 +50,7 @@ define([
   var loadAsset = function(id) {
     if (editor) {
       $.getJSON('/api/assets/'+id, function(data) {
-        editor.setData(Utils.transcriptToHTML(data[0].transcript));
+        editor.setData(Utils.transcriptToHTML(data[0]));
         editor.resetUndo();
         loadedAsset = data[0];
         loadedEdit = null;

@@ -2,20 +2,32 @@ define([
   'jquery'
 ], function($)
 {
-  var transcriptToHTML = function(transcript) {
+  var transcriptToHTML = function(asset) {
     var html = '';
-    for (var i=0; i<transcript.words.length; i++) {
-      var word = transcript.words[i].word;
-      var startTime = transcript.words[i].start * 1000;
-      var endTime = transcript.words[i].end * 1000;
-      if (i+1 >= transcript.words.length)
+    var words = asset.transcript.words; 
+    var segments = asset.segments.segments;
+    var currentSegment = 0;
+    for (var i=0; i<words.length; i++) {
+      if (currentSegment < segments.length &&
+          words[i].start > segments[currentSegment].start) {
+        var speaker = segments[currentSegment].speaker['@id'];
+        var gender = segments[currentSegment].speaker.gender;
+        if (currentSegment>0) html += '</p>';
+        html += '<p><strong><font color="'+(gender==='M'?'blue':'red')+'">['+speaker+']</font></strong> ';
+        currentSegment += 1;
+      }
+      var word = words[i].word;
+      var startTime = words[i].start * 1000;
+      var endTime = words[i].end * 1000;
+      if (i+1 >= words.length)
         var nextTime = startTime+endTime;
       else
-        var nextTime = transcript.words[i+1].start * 1000;
+        var nextTime = words[i+1].start * 1000;
       html += '<a data-start="'+startTime+
                '" data-end="'+endTime+
                '" data-next="'+nextTime+'">'+word+' </a>';
     }
+    html += '</p>';
     return html;
   };
   var HTMLtoTranscript = function(html) {
