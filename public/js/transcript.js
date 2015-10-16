@@ -64,6 +64,10 @@ define([
     }
   }; 
 
+  var wordClick = function(e) {
+    var start = $(e.data.selection.getStartElement())[0].data('start');
+  };
+
   var initialize = function() {
     editor = CKEditor.inline('transcript', {
       height: '500px',
@@ -75,9 +79,7 @@ define([
       ],*/
       allowedContent: true,
       on: {
-        selectionChange: function(e) {
-          var start = $(e.data.selection.getStartElement())[0].data('start');
-        }
+        selectionChange: wordClick
       }
     });
   };
