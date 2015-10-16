@@ -37,6 +37,7 @@ consts.melt = {};
 consts.melt.root = 'http://172.29.94.117/api/v0.1';
 consts.melt.upload = consts.melt.root;
 consts.melt.status = consts.melt.root+'/status/';
+consts.melt.output = '/data/melt/output/';
 
 consts.app = {};
 consts.app.port = 8080;

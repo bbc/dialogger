@@ -10,7 +10,7 @@ exports.transcode = function(options, cb)
     if (err && body.jobid) {
       cb('Transcoding failed at upload stage.', undefined);
     } else {
-      cb(null, jobid);
+      cb(null, body.jobid);
     }
   });
 };

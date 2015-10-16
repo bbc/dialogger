@@ -24,7 +24,14 @@ define([
     },
     exportEdit: function(e) {
       var id = $(e.currentTarget).data('id');
-      window.open('/api/edits/export/'+id, '_blank');
+      $.ajax('/api/edits/export/'+id, {
+        data: '',
+        contentType: 'application/json',
+        method: 'POST',
+        success: function(data) {
+          alert(data.jobid);
+        }
+      });
     },
     initialize: function() {
       this.collection = EditsCollection.initialize();
