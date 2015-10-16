@@ -1,9 +1,11 @@
 define([
   'jquery',
+  'jquery-serialize-object',
   'semantic',
   'transcript',
-  'collections/assets'
-], function($, Semantic, Transcript, AssetsCollection)
+  'collections/assets',
+  'collections/edits'
+], function($, SerialObject, Semantic, Transcript, AssetsCollection, EditsCollection)
 {
   var initialize = function() {
     var leftSidebar = $('.left.sidebar')
@@ -35,6 +37,47 @@ define([
     $('#saveButton').click(function() {
       Transcript.save();
     });
+
+    $('#exportSubmit').click(function() {
+      $('#exportForm .submit').click();
+    });
+
+    // test for success variable in JSON response
+    $.fn.api.settings.successTest = function(response) {
+      if(response && response.success) {
+        return response.success;
+      }
+      return false;
+    };
+
+    // configure API endpoint
+    $.fn.api.settings.api = {
+      'export': '/api/edits/export/{id}'
+    };
+
+    // configure form validation
+    $('#exportForm')
+    .form({
+      fields: {
+        name: 'empty'
+      }
+    })
+    // configure form submission
+    .api({
+      action: 'export',
+      method: 'POST',
+      serializeForm: true,
+      onSuccess: function(response) {
+        $('#exportForm').form('reset');
+        $('#exportModal').modal('hide');
+        EditsCollection.set($('#exportForm').data('id'), 'jobid', response.jobid);
+        EditsCollection.set($('#exportForm').data('id'), 'ready', false);
+      },
+      onFailure: function(response) {
+        alert('Error: '+response);
+      }
+    });
+
     setInterval(AssetsCollection.fetch, 5000);
   };
   return {

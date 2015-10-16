@@ -15,9 +15,13 @@ define([
   var fetch = function() {
     instance.fetch();
   };
+  var set = function(id, field, value) {
+    instance.get(id).set(field, value);
+  };
   return {
     initialize: initialize,
-    fetch: fetch
+    fetch: fetch,
+    set: set
   };
 });
 

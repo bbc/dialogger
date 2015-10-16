@@ -18,6 +18,7 @@
     "dropzone": "~4.0.1",
     "ckeditor": "~4.5.3",
     "requirejs": "~2.1.20",
-    "text": "requirejs-text#~2.0.14"
+    "text": "requirejs-text#~2.0.14",
+    "jquery-serialize-object": "~2.5.0"
   }
 }

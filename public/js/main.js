@@ -1,6 +1,7 @@
 require.config({
   paths: {
     jquery: '../bower_components/jquery/dist/jquery',
+    'jquery-serialize-object': '../bower_components/jquery-serialize-object/jquery.serialize-object',
     underscore: '../bower_components/underscore/underscore-min',
     backbone: '../bower_components/backbone/backbone-min',
     dropzone: '../bower_components/dropzone/dist/dropzone-amd-module',

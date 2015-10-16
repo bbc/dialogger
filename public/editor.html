@@ -126,6 +126,40 @@
   </div>
 </div>
 
+<div class="ui small modal" id="exportModal">
+    <div class="content">
+      <form class="ui form" id="exportForm">
+        <div class="field">
+          <label>Filename</label>
+          <input type="text" name="name" id="exportName">
+        </div>
+        <div class="field">
+          <label>Video format</label>
+          <select class="ui dropdown" name="video[codec]">
+            <option value="">(no video)</option>
+            <option value="x264">H.264</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Audio format</label>
+          <select class="ui dropdown" name="audio[codec]">
+            <option value="">(no audio)</option>
+            <option value="pcm_s16le">WAV</option>
+          </select>
+        </div>
+        <div class="ui error message"></div>
+        <div class="submit"></div>
+        <input type="hidden" name="id" id="exportID">
+      </form>
+    </div>
+    <div class="actions">
+      <div class="ui deny button">Cancel</div>
+      <div class="ui right labeled icon teal button" id="exportSubmit">
+        Export <i class="sign in icon"></i>
+      </div>
+    </div>
+</div>
+
 <form action="/api/assets" method="post" class="dropzone" id="uploadForm"
   style="display: none"></form>
 

@@ -1,7 +1,9 @@
 <% _.each(collection, function(model) { %>
     <div class="item edit <%= model.selected ? 'selected' : '' %>">
       <div class="right floated content">
-        <a class="ui tiny basic label" data-id="<%= model._id %>"><i class="cut icon"></i>Export</a>
+        <button class="mini ui button <%= (model.jobid && !model.ready) ? 'loading' : '' %>" data-id="<%= model._id %>">
+          <i class="cut icon"></i>Export
+        </button>
       </div>
       <i class="edit icon"></i>
       <div class="content">

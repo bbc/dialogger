@@ -13,7 +13,7 @@ define([
     template: _.template(EditsListTemplate),
     events: {
       'click .header a': 'open',
-      'click .right a': 'exportEdit'
+      'click .right button': 'exportEdit'
     },
     open: function(e) {
       var id = $(e.currentTarget).data('id');
@@ -24,18 +24,20 @@ define([
     },
     exportEdit: function(e) {
       var id = $(e.currentTarget).data('id');
-      $.ajax('/api/edits/export/'+id, {
-        data: '',
-        contentType: 'application/json',
-        method: 'POST',
-        success: function(data) {
-          alert(data.jobid);
-        }
-      });
+      var modal = this.collection.get(id);
+      if (modal.get('jobid') && modal.get('ready')) {
+        // download
+      } else if (!modal.get('jobid')) {
+        var name = this.collection.get(id).get('name');
+        $('#exportForm').data('id', id);
+        $('#exportName').val(name);
+        $('#exportModal').modal('show');
+      }
     },
     initialize: function() {
       this.collection = EditsCollection.initialize();
       this.listenTo(this.collection, 'sync', this.render);
+      this.listenTo(this.collection, 'change:ready', this.render);
       this.collection.fetch();
       this.render();
     },

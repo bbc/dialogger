@@ -32,21 +32,17 @@ exports.transcode = function(req, res)
         } else if (!assets.length) {
           res.status(500);
         } else {
-          var edits = edl.generate(docs[0].transcript.words);
-          var options = {
-            path: assets[0].path,
-            edl: edits,
-            audio: {
-              codec: 'pcm_s16le'
-            },
-            name: 'test.wav'
-          };
+          var options = req.body;
+          options.path = assets[0].path;
+          options.edl = edl.generate(docs[0].transcript.words);
+
           melt.transcode(options, function(err, jobid) {
             if (err) {
               log.error(err);
               res.status(500);
             } else {
-              res.json({jobid: jobid});
+              log.info({options: options, username: req.user.username}, 'Transcoding started');
+              res.json({success: true, jobid: jobid});
             }
           });
         }
