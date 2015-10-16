@@ -1,20 +1,54 @@
 var consts = require('../config/consts');
 var edl = require('../helpers/edl');
+var melt = require('../helpers/melt');
 var db = module.parent.exports.db;
 var log = module.parent.exports.log;
 
 exports.download = function(req, res)
+{
+  melt.download(req.body.jobid, function(err, ready) {
+    if (err) {
+      log.error(err);
+      res.status(500).send(err);
+    } else if (ready) {
+      res.sendFile(consts.melt.outputPath+req.body.jobid,
+          {'Content-Disposition': 'attachment; filename="example.wav"'});
+    } else {
+      res.sendStatus(202);
+    }
+  });
+};
+
+exports.transcode = function(req, res)
 {
   db.edits.find({_id: req.params.id, owner: req.user._id}, function (err, docs) {
     if (err) log.error(err);
     else if (!docs.length) res.status(500);
     else {
       db.assets.find({_id: docs[0].asset, owner: req.user._id}, function (err, assets) {
-        if (err) log.error(err);
-        else if (!assets.length) res.status(500);
-        else {
+        if (err) {
+          log.error(err);
+          res.status(500);
+        } else if (!assets.length) {
+          res.status(500);
+        } else {
           var edits = edl.generate(docs[0].transcript.words);
-          edl.process(assets[0].path, consts.files.temp+docs[0].asset+'.avi', edits, res);
+          var options = {
+            path: assets[0].path,
+            edl: edits,
+            audio: {
+              codec: 'pcm_s16le'
+            },
+            name: 'test.wav'
+          };
+          melt.transcode(options, function(err, jobid) {
+            if (err) {
+              log.error(err);
+              res.status(500);
+            } else {
+              res.json({jobid: jobid});
+            }
+          });
         }
       });
     }

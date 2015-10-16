@@ -33,6 +33,11 @@ consts.stt.preStatus = 'Transcribing';
 consts.stt.postStatus = 'Ready';
 consts.stt.errStatus = 'Transcription failed';
 
+consts.melt = {};
+consts.melt.root = 'http://172.29.94.117/api/v0.1';
+consts.melt.upload = consts.melt.root;
+consts.melt.status = consts.melt.root+'/status/';
+
 consts.app = {};
 consts.app.port = 8080;
 

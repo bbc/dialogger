@@ -1,6 +1,3 @@
-var exec = require('child_process').exec;
-var FRAME_RATE=25;
-
 exports.generate = function(words)
 {
   var edl=[];
@@ -14,20 +11,4 @@ exports.generate = function(words)
   }
   if (inpoint) edl.push([inpoint, words[words.length-1].end]);
   return edl;
-};
-
-exports.process = function(inFilename, outFilename, edl, res)
-{
-  var cmd = 'melt';
-  for (var i=0; i<edl.length; i++) {
-    var inFrame = Math.round(edl[i][0]*FRAME_RATE);
-    var outFrame = Math.round(edl[i][1]*FRAME_RATE);
-    cmd += ' '+inFilename+' in='+inFrame+' out='+outFrame;
-  }
-  cmd += ' -consumer avformat:'+outFilename+' -acodec libmp3lame';
-  console.log(cmd);
-  exec(cmd, function(error, stdout, stderr) {
-    if (error) res.status(500);
-    else res.sendFile(outFilename);
-  });
 };
