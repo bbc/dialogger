@@ -24,10 +24,12 @@ define([
     },
     exportEdit: function(e) {
       var id = $(e.currentTarget).data('id');
-      var modal = this.collection.get(id);
-      if (modal.get('jobid') && modal.get('ready')) {
-        // download
-      } else if (!modal.get('jobid')) {
+      var model = this.collection.get(id);
+      if (model.get('jobid') && model.get('ready')) {
+        window.open('/api/edits/export/'+model.get('jobid'), '_blank');
+        model.unset('jobid');
+        model.unset('ready');
+      } else if (!model.get('jobid')) {
         var name = this.collection.get(id).get('name');
         $('#exportForm').data('id', id);
         $('#exportName').val(name);

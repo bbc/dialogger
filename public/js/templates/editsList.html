@@ -2,7 +2,11 @@
     <div class="item edit <%= model.selected ? 'selected' : '' %>">
       <div class="right floated content">
         <button class="mini ui button <%= (model.jobid && !model.ready) ? 'loading' : '' %>" data-id="<%= model._id %>">
+<% if (model.jobid && model.ready) { %>
+          <i class="download icon"></i>Download
+<% } else { %>
           <i class="cut icon"></i>Export
+<% } %>
         </button>
       </div>
       <i class="edit icon"></i>

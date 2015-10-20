@@ -72,6 +72,17 @@ define([
         $('#exportModal').modal('hide');
         EditsCollection.set($('#exportForm').data('id'), 'jobid', response.jobid);
         EditsCollection.set($('#exportForm').data('id'), 'ready', false);
+        var checker = setInterval(function() {
+          $.ajax({
+            url: '/api/edits/export/status/'+response.jobid,
+            statusCode: {
+              200: function() {
+                clearInterval(checker);
+                EditsCollection.set($('#exportForm').data('id'), 'ready', true);
+              }
+            }
+          });
+        }, 5000);
       },
       onFailure: function(response) {
         alert('Error: '+response);

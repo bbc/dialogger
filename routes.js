@@ -56,6 +56,7 @@ app.put('/api/edits/:id', isLoggedIn, editsController.update);
 app.delete('/api/edits/:id', isLoggedIn, editsController.destroy);
 app.post('/api/edits/export/:id', isLoggedIn, editsController.transcode);
 app.get('/api/edits/export/:jobid', isLoggedIn, editsController.download);
+app.get('/api/edits/export/status/:jobid', isLoggedIn, editsController.download);
 
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated())

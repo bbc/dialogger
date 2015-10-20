@@ -7,14 +7,16 @@ var log = module.parent.exports.log;
 exports.download = function(req, res)
 {
   melt.download(req.params.jobid, function(err, ready) {
+    var returnStatus = req.path.indexOf('status') > -1 ? true : false;
     if (err) {
       log.error(err);
       res.status(500).send(err);
-    } else if (ready) {
-      res.sendFile(consts.melt.output+req.params.jobid,
-          {'Content-Disposition': 'attachment; filename="example.wav"'});
+    } else if (!ready) {
+      res.status(202).json({ready: false});
+    } else if (returnStatus) {
+      res.json({ready: true});
     } else {
-      res.sendStatus(202);
+      res.sendFile(consts.melt.output+req.params.jobid);
     }
   });
 };
