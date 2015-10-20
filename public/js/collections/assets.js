@@ -15,9 +15,13 @@ define([
   var fetch = function() {
     instance.fetch();
   };
+  var deselect = function() {
+    instance.invoke('set', {'selected': false});
+  };
   return {
     initialize: initialize,
-    fetch: fetch
+    fetch: fetch,
+    deselect: deselect
   };
 });
 

@@ -3,10 +3,11 @@ define([
   'underscore',
   'backbone',
   'collections/assets',
+  'collections/edits',
   'text!templates/assetsList.html',
   'transcript',
   'notification'
-], function($, _, Backbone, AssetsCollection, assetsListTemplate, Transcript,
+], function($, _, Backbone, AssetsCollection, EditsCollection, assetsListTemplate, Transcript,
   Notification)
 {
   var instance;
@@ -19,6 +20,8 @@ define([
     open: function(e) {
       var id = $(e.currentTarget).data('id');
       Transcript.loadAsset(id);
+      AssetsCollection.deselect();
+      EditsCollection.deselect();
       var model = this.collection.get(id);
       model.set({selected: true});
       this.render();
@@ -31,7 +34,7 @@ define([
     },
     initialize: function() {
       this.collection = AssetsCollection.initialize();
-      this.listenTo(this.collection, 'sync', this.render);
+      this.listenTo(this.collection, 'sync change', this.render);
       this.listenTo(this.collection, 'change:ready', this.assetReady);
       this.listenTo(this.collection, 'change:error', this.assetError);
       this.collection.fetch();

@@ -2,10 +2,11 @@ define([
   'jquery',
   'underscore',
   'backbone',
+  'collections/assets',
   'collections/edits',
   'text!templates/editsList.html',
   'transcript'
-], function($, _, Backbone, EditsCollection, EditsListTemplate, Transcript)
+], function($, _, Backbone, AssetsCollection, EditsCollection, EditsListTemplate, Transcript)
 {
   var instance;
   var EditsListView = Backbone.View.extend({
@@ -18,6 +19,8 @@ define([
     open: function(e) {
       var id = $(e.currentTarget).data('id');
       Transcript.loadEdit(id);
+      AssetsCollection.deselect();
+      EditsCollection.deselect();
       var model = this.collection.get(id);
       model.set({selected: true});
       this.render();
@@ -38,8 +41,7 @@ define([
     },
     initialize: function() {
       this.collection = EditsCollection.initialize();
-      this.listenTo(this.collection, 'sync', this.render);
-      this.listenTo(this.collection, 'change:ready', this.render);
+      this.listenTo(this.collection, 'sync change', this.render);
       this.collection.fetch();
       this.render();
     },
