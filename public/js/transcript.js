@@ -73,10 +73,10 @@ define([
       height: '500px',
       removePlugins: 'toolbar,contextmenu,liststyle,tabletools,elementspath,link',
       resize_enabled: false,
-      /*keystrokes: [
+      keystrokes: [
         [8, 'strike'], //backspace
         [46, 'strike'] //delete
-      ],*/
+      ],
       allowedContent: true,
       on: {
         selectionChange: wordClick
