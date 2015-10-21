@@ -1,11 +1,11 @@
 define([
   'jquery',
-  'jquery-serialize-object',
+  'serialize',
   'semantic',
   'transcript',
   'collections/assets',
   'collections/edits'
-], function($, SerialObject, Semantic, Transcript, AssetsCollection, EditsCollection)
+], function($, Serialize, Semantic, Transcript, AssetsCollection, EditsCollection)
 {
   var initialize = function() {
     var leftSidebar = $('.left.sidebar')
@@ -79,6 +79,10 @@ define([
               200: function() {
                 clearInterval(checker);
                 EditsCollection.set($('#exportForm').data('id'), 'ready', true);
+              },
+              500: function() {
+                clearInterval(checker);
+                alert('An error occured with the export process.');
               }
             }
           });

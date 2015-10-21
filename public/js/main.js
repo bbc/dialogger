@@ -1,7 +1,7 @@
 require.config({
   paths: {
     jquery: '../bower_components/jquery/dist/jquery',
-    'jquery-serialize-object': '../bower_components/jquery-serialize-object/jquery.serialize-object',
+    serialize: '../bower_components/jquery-serialize-object/jquery.serialize-object',
     underscore: '../bower_components/underscore/underscore-min',
     backbone: '../bower_components/backbone/backbone-min',
     dropzone: '../bower_components/dropzone/dist/dropzone-amd-module',
@@ -19,6 +19,9 @@ require.config({
       init: function() {
         this.CKEDITOR.disableAutoInline = true;
       }
+    },
+    'serialize': {
+      deps: ['jquery']
     }
   }
 
