@@ -75,7 +75,6 @@ define([
   };
 
   var initialize = function() {
-    CKEditor.disableAutoInline = true;
     editor = CKEditor.inline('transcript', {
       height: '500px',
       removePlugins: 'toolbar,contextmenu,liststyle,tabletools,elementspath,link',
