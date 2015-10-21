@@ -8,6 +8,7 @@ span.hidden {
   font-size: 0px;
 }
 span.hidden::after {
+  background-color: #c0c0c0;
   font-size: medium;
   content: '...';
   cursor: col-resize;
