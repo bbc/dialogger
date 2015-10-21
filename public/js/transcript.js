@@ -68,6 +68,12 @@ define([
     var start = $(e.data.selection.getStartElement())[0].data('start');
   };
 
+  var change = function(e) {
+    $('#transcript s').dblclick(function() {
+      $(this).replaceWith($(this).html());
+    });
+  };
+
   var initialize = function() {
     editor = CKEditor.inline('transcript', {
       height: '500px',
@@ -79,7 +85,8 @@ define([
       ],
       allowedContent: true,
       on: {
-        selectionChange: wordClick
+        selectionChange: wordClick,
+        change: change
       }
     });
   };
