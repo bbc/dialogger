@@ -32,7 +32,7 @@ define([
   };
   var HTMLtoTranscript = function(html) {
     var words = [];
-    $(html).find('a').each(function() {
+    $(html).find('a').not('.hidden a').each(function() {
       var word = $(this).text().trim();
       var start = $(this).data('start')/1000;
       var end = $(this).data('end')/1000;
