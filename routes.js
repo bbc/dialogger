@@ -19,6 +19,10 @@ app.get('/', function(req, res) {
   }
 });
 
+app.get('/about', function(req, res) {
+  res.sendFile(__dirname+'/public/about.html');
+});
+
 app.post('/api/login', passport.authenticate('local',
   {successRedirect: '/api/loginSuccess',
    failureRedirect: '/api/loginFailure',
