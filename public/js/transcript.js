@@ -69,24 +69,33 @@ define([
   };
 
   var change = function(e) {
-    $('#transcript s').dblclick(function() {
+    $('#transcript span.hidden').dblclick(function() {
       $(this).replaceWith($(this).html());
     });
   };
 
   var initialize = function() {
+    CKEditor.disableAutoInline = true;
     editor = CKEditor.inline('transcript', {
       height: '500px',
       removePlugins: 'toolbar,contextmenu,liststyle,tabletools,elementspath,link',
       resize_enabled: false,
       keystrokes: [
-        [8, 'strike'], //backspace
-        [46, 'strike'] //delete
+        [8, 'hide'], //backspace
+        [46, 'hide'] //delete
       ],
       allowedContent: true,
       on: {
         selectionChange: wordClick,
-        change: change
+        change: change,
+        key: function(e) { e.stop(); } // prevents competition with browser
+      }
+    });
+    editor.addCommand('hide', {
+      exec: function(e) {
+        e.insertHtml('<span class="hidden">'+
+          e.getSelection().getRanges()[0].cloneContents().getHtml()+
+          '</span>');
       }
     });
   };

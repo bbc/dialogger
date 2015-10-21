@@ -13,7 +13,7 @@ define([
         var speaker = segments[currentSegment].speaker['@id'];
         var gender = segments[currentSegment].speaker.gender;
         if (currentSegment>0) html += '</p>';
-        html += '<p><strong><font color="'+(gender==='M'?'blue':'red')+'">['+speaker+']</font></strong> ';
+        html += '<p><span class="speaker '+gender+'">['+speaker+']</span> ';
         currentSegment += 1;
       }
       var word = words[i].word;
@@ -32,7 +32,7 @@ define([
   };
   var HTMLtoTranscript = function(html) {
     var words = [];
-    $(html).find('a').each(function() {
+    $(html).find('a').not('.hidden a').each(function() {
       var word = $(this).text().trim();
       var start = $(this).data('start')/1000;
       var end = $(this).data('end')/1000;
