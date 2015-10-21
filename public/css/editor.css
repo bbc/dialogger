@@ -4,11 +4,20 @@
 .selected {
   background-color: #f5f5f5;
 }
-s, strike {
-  text-decoration: none;
+span.hidden {
   font-size: 0px;
 }
-s::after, strike::after {
+span.hidden::after {
   font-size: medium;
   content: '...';
+  cursor: col-resize;
+}
+span.speaker {
+  font-weight: bold;
+}
+span.speaker.M {
+  color: blue;
+}
+span.speaker.F {
+  color: red;
 }
