@@ -7,8 +7,9 @@ var db = module.parent.exports.db;
 var log = module.parent.exports.log;
 
 // Generate preview version
-function transcode(doc, cb)
+function transcode(doc, destPath, cb)
 {
+  // Configure transcoding settings
   var options = {
     path: doc.path,
     audio: consts.transcoder.audioPreview
@@ -16,29 +17,49 @@ function transcode(doc, cb)
   if (doc.info.video_tracks) options.video = consts.transoder.videoPreview;
 
   // Start transcoding job
-  transcoder.transcode(options, function(err, jobid) {
-    if (err) {
-      cb(err, undefined);
-    } else {
-      log.info({asset: doc, job: jobid}, 'Transcoding job started');
+  transcoder.transcode(options, true, function(err, jobid) {
 
-      // Check progress
-      var checker = setInterval(function() {
-        transcoder.download(jobid, function(err, ready) {
-          if (err) cb(err, undefined);
-          else if (ready) {
-            clearInterval(checker);
-            cb(null, consts.transcoder.output+jobid);
-          }
+    // Make sure preview folder exists
+    mkdirp(destPath, function(err) {
+      if (err) cb(err, doc);
+      else
+
+        // Move preview file
+        fs.rename(consts.transcoder.output+jobid,
+                  destPath, function(err) {
+          if (err) cb(err, doc);
+          else cb(null, doc);
         });
-      }, 5000);
-    }
+    });
   });
+};
+
+function transcodeResponse(err, doc)
+{
+  if (err) {
+    log.error(err);
+    db.assets.updateById(doc._id, {
+      $set: {
+        errorMessage: consts.transcoder.errStatus,
+        error: true
+      }
+    }, function(err, result) {
+      if (err) log.error(err);
+    });
+  } else {
+    db.assets.updateById(doc._id, {
+      $set: {
+        transcoded: true
+      }
+    }, function(err, result) {
+      if (err) log.error(err);
+    });
+  }
 };
 
 function transcribe(doc)
 {
-  // transcribe asset using STT service
+  // Start transcription job
   stt.transcribe(doc.path,
       function(err, transcript, segments) {
     if (err) {
@@ -94,27 +115,10 @@ exports.save = function(req, res)
         } else {
 
           // Process asset
+          var previewPath = consts.files.assets+req.user.username+
+                            '/previews/'+doc._id;
           transcribe(doc);
-          transcode(doc, function(err, path) {
-            if (err) {
-              log.error(err);
-              db.assets.updateById(doc._id, {
-                $set: {
-                  errorMessage: consts.transcoder.errStatus,
-                  error: true
-                }
-              }, function(err, result) {
-                if (err) log.error(err);
-              });
-            } else {
-              db.assets.updateById(doc._id, {
-                $set: {
-                  transcoded: true
-                }
-              }, function(err, result) {
-                if (err) log.error(err);
-              });
-            }
+          transcode(doc, previewPath, transcodeResponse);
           });
           log.info({asset: doc, username: req.user.username}, 'Asset uploaded');
           res.json(doc);

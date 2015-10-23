@@ -38,7 +38,7 @@ exports.transcode = function(req, res)
           options.path = assets[0].path;
           options.edl = edl.generate(docs[0].transcript.words);
 
-          transcoder.transcode(options, function(err, jobid) {
+          transcoder.transcode(options, false, function(err, jobid) {
             if (err) {
               log.error(err);
               res.status(500);
