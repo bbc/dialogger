@@ -52,10 +52,29 @@ define([
       }
     }
     if (inpoint) edl.push([inpoint, words[words.length-1].end]);
+    return edl;
+  };
+  var edlToPlaylist = function(edl, src) {
+    var playlist = [];
+    var time = 0;
+    for (var i=0; i<edl.length; i++) {
+      var duration = edl[i][1]-edl[i][0];
+      playlist.push({
+        type: 'video',
+        sourceStart: edl[i][0],
+        start: time,
+        duration: duration,
+        src: src,
+        id: i+1
+      });
+      time = time+duration;
+    }
+    return {tracks: [playlist]};
   };
   return {
     transcriptToHTML: transcriptToHTML,
     HTMLtoTranscript: HTMLtoTranscript,
-    transcriptToEDL: transcriptToEDL
+    transcriptToEDL: transcriptToEDL,
+    edlToPlaylist: edlToPlaylist
   };
 });
