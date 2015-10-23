@@ -1,5 +1,4 @@
 var consts = require('../config/consts');
-var edl = require('../helpers/edl');
 var transcoder = require('../helpers/transcoder');
 var db = module.parent.exports.db;
 var log = module.parent.exports.log;
@@ -36,7 +35,7 @@ exports.transcode = function(req, res)
         } else {
           var options = req.body;
           options.path = assets[0].path;
-          options.edl = edl.generate(docs[0].transcript.words);
+          options.edl = docs[0].edl;
 
           transcoder.transcode(options, false, function(err, jobid) {
             if (err) {
@@ -62,6 +61,7 @@ exports.save = function(req, res)
     description: req.body.description,
     transcript: req.body.transcript,
     html: req.body.html,
+    edl: req.body.edl,
     dateCreated: new Date(),
     dateModified: new Date()
   }, function(err, doc) {
@@ -80,6 +80,7 @@ exports.update = function(req, res)
       {$set: {
         transcript: req.body.transcript,
         html: req.body.html,
+        edl: req.body.edl,
         dateModified: new Date()
       }}, function(err, result) {
     if (err) {
@@ -109,7 +110,7 @@ exports.edits = function(req, res)
   db.edits.find(
       {owner: req.user._id},
       {sort: {dateCreated: 1},
-       fields: {transcript: 0, html: 0}}, function(err, docs) {
+       fields: {transcript: 0, html: 0, edl: 0}}, function(err, docs) {
     if (err) log.error(err);
     else res.json(docs);
   });

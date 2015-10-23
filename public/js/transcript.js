@@ -15,9 +15,11 @@ define([
     var method, url;
     if (editor)
     {
+      var words = Utils.HTMLtoTranscript(editor.getData());
       var edit = {
-        transcript: {words: Utils.HTMLtoTranscript(editor.getData())},
-        html: editor.getData()
+        transcript: {words: words},
+        html: editor.getData(),
+        edl: Utils.transcriptToEDL(words);
       };
       if (loadedEdit) {
         method = 'PUT';
