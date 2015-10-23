@@ -6,6 +6,12 @@ consts.name = 'discourse';
 consts.db = {};
 consts.db.url = 'localhost/discourse';
 
+// LOGGING
+consts.log = {};
+consts.log.systemEmail = 'discourse-logger@rd.bbc.co.uk';
+consts.log.adminEmail = 'chris.baume@bbc.co.uk';
+consts.log.smtpServer = 'smtp.rd.bbc.co.uk';
+
 // AUTHENTICATION
 consts.auth = {};
 consts.auth.url = 'ldap://national.core.bbc.co.uk';
