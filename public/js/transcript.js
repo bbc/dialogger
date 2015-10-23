@@ -2,8 +2,9 @@ define([
   'jquery',
   'ckeditor',
   'utils',
+  'preview',
   'collections/edits'
-], function($, CKEditor, Utils, EditsCollection)
+], function($, CKEditor, Utils, Preview, EditsCollection)
 {
   var editor;
   var loadedAsset;
@@ -15,11 +16,11 @@ define([
     var method, url;
     if (editor)
     {
-      var words = Utils.HTMLtoTranscript(editor.getData());
+      var words = Utils.HTMLtoWords(editor.getData());
       var edit = {
         transcript: {words: words},
         html: editor.getData(),
-        edl: Utils.transcriptToEDL(words);
+        edl: Utils.wordsToEDL(words)
       };
       if (loadedEdit) {
         method = 'PUT';
@@ -48,6 +49,7 @@ define([
     if (editor) {
       $.getJSON('/api/edits/'+id, function(data) {
         editor.setData(data[0].html);
+        Preview.updateHTML(data[0].html, id);
         editor.resetUndo();
         loadedEdit = data[0];
         loadedAsset = null;
@@ -59,6 +61,7 @@ define([
     if (editor) {
       $.getJSON('/api/assets/'+id, function(data) {
         editor.setData(Utils.transcriptToHTML(data[0]));
+        Preview.updateHTML(editor.getData(), id);
         editor.resetUndo();
         loadedAsset = data[0];
         loadedEdit = null;
@@ -68,6 +71,7 @@ define([
 
   var wordClick = function(e) {
     var start = $(e.data.selection.getStartElement())[0].data('start');
+    Preview.seekOrig(start/1000);
   };
 
   var change = function(e) {
@@ -100,13 +104,28 @@ define([
       }
     });
   };
+  var play = function() {
+    if (loadedAsset) {
+      Preview.updateHTML(editor.getData(), loadedAsset._id);
+    } else if (loadedEdit) {
+      Preview.updateHTML(editor.getData(), loadedEdit.asset);
+    } else {
+      return;
+    }
+    Preview.play();
+  };
+  var stop = function() {
+    Preview.stop();
+  };
   return {
     initialize: initialize,
     loadAsset: loadAsset,
     loadEdit: loadEdit,
     save: save,
     bold: bold,
-    italic: italic
+    italic: italic,
+    play: play,
+    stop: stop
   };
 });
 

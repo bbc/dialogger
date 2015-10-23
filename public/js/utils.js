@@ -30,7 +30,7 @@ define([
     html += '</p>';
     return html;
   };
-  var HTMLtoTranscript = function(html) {
+  var HTMLtoWords = function(html) {
     var words = [];
     $(html).find('a').not('.hidden a').each(function() {
       var word = $(this).text().trim();
@@ -41,7 +41,7 @@ define([
     });
     return words;
   };
-  var transcriptToEDL = function(words) {
+  var wordsToEDL = function(words) {
     var edl=[];
     var inpoint = -1;
     for (var i=0; i<words.length-1; i++) {
@@ -73,8 +73,8 @@ define([
   };
   return {
     transcriptToHTML: transcriptToHTML,
-    HTMLtoTranscript: HTMLtoTranscript,
-    transcriptToEDL: transcriptToEDL,
+    HTMLtoWords: HTMLtoWords,
+    wordsToEDL: wordsToEDL,
     edlToPlaylist: edlToPlaylist
   };
 });

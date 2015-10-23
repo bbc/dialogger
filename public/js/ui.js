@@ -3,9 +3,10 @@ define([
   'serialize',
   'semantic',
   'transcript',
+  'preview',
   'collections/assets',
   'collections/edits'
-], function($, Serialize, Semantic, Transcript, AssetsCollection, EditsCollection)
+], function($, Serialize, Semantic, Transcript, Preview, AssetsCollection, EditsCollection)
 {
   var initialize = function() {
     var leftSidebar = $('.left.sidebar')
@@ -28,6 +29,12 @@ define([
     .sidebar('attach events', '#rightButton')
     .sidebar('attach events', '#saveButton', 'show');
 
+    $('#playButton').click(function() {
+      Transcript.play();
+    });
+    $('#stopButton').click(function() {
+      Transcript.stop();
+    });
     $('#boldButton').click(function() {
       Transcript.bold();
     });

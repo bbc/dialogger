@@ -1,20 +1,48 @@
 define([
   'jquery',
-  'videocompositor'
-], function($, VideoCompositor)
+  'videocompositor',
+  'utils'
+], function($, VideoCompositor, Utils)
 {
   var instance;
   var initialize = function() {
     instance = new VideoCompositor($('#preview')[0]); 
-    instance.playlist = {
-      "tracks":[
-        [{type: "video", sourceStart:0, start:0, duration:10, src:"/api/assets/preview/562a3be5304a63a51a32b889", id:"1"},
-         {type: "video", sourceStart:30, start:10, duration:10, src:"/api/assets/preview/562a3be5304a63a51a32b889", id:"2"}]
-      ]
-    };
+  };
+  var updateHTML = function(html, id) {
+    var playlist = Utils.edlToPlaylist(Utils.wordsToEDL(Utils.HTMLtoWords(html)), '/api/assets/preview/'+id);
+    instance.playlist = playlist;
+    console.log(playlist);
+  };
+  var updateWords = function(words, id) {
+    playlist = Utils.edlToPlaylist(Utils.wordsToEDL(words), '/api/assets/preview/'+id);
+    instance.playlist = playlist;
+    console.log(playlist);
+  };
+  var play = function() {
     instance.play();
   };
+  var stop = function() {
+    instance.pause();
+    seek(0);
+  };
+  var seek = function(time) {
+    instance.currentTime = time;
+  };
+  var seekOrig = function(origTime) {
+    var edits = instance.playlist.tracks[0];
+    for (var i=0; i<edits.length; i++) {
+      if (origTime >= edits[i].sourceStart && (i==edits.length-1 || origTime < edits[i+1].sourceStart)) {
+        seek(origTime-edits[i].sourceStart+edits[i].start);
+      }
+    }
+  };
   return {
-    initialize: initialize
+    initialize: initialize,
+    updateHTML: updateHTML,
+    updateWords: updateWords,
+    play: play,
+    stop: stop,
+    seek: seek,
+    seekOrig: seekOrig
   };
 });
