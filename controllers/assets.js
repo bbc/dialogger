@@ -1,5 +1,6 @@
 var consts = require('../config/consts');
 var mimovie = require('mimovie');
+var mkdirp = require('mkdirp');
 var fs = require('fs');
 var stt = require('../helpers/stt-kaldi');
 var transcoder = require('../helpers/transcoder');
@@ -7,30 +8,35 @@ var db = module.parent.exports.db;
 var log = module.parent.exports.log;
 
 // Generate preview version
-function transcode(doc, destPath, cb)
+function transcode(doc, destFolder, cb)
 {
   // Configure transcoding settings
   var options = {
+    name: 'preview.mp4',
     path: doc.path,
     audio: consts.transcoder.audioPreview
   };
-  if (doc.info.video_tracks) options.video = consts.transoder.videoPreview;
+  if (doc.info.video_tracks) options.video = consts.transcoder.videoPreview;
+  log.info(options);
 
   // Start transcoding job
   transcoder.transcode(options, true, function(err, jobid) {
+    if (err) cb(err, doc);
+    else {
 
-    // Make sure preview folder exists
-    mkdirp(destPath, function(err) {
-      if (err) cb(err, doc);
-      else
+      // Make sure preview folder exists
+      mkdirp(destFolder, function(err) {
+        if (err) cb(err, doc);
+        else
 
-        // Move preview file
-        fs.rename(consts.transcoder.output+jobid,
-                  destPath, function(err) {
-          if (err) cb(err, doc);
-          else cb(null, doc);
-        });
-    });
+          // Move preview file
+          fs.rename(consts.transcoder.output+jobid,
+                    destFolder+'/'+doc._id, function(err) {
+            if (err) cb(err, doc);
+            else cb(null, doc);
+          });
+      });
+    }
   });
 };
 
@@ -47,6 +53,7 @@ function transcodeResponse(err, doc)
       if (err) log.error(err);
     });
   } else {
+    log.info({asset: doc}, 'Preview file generated');
     db.assets.updateById(doc._id, {
       $set: {
         transcoded: true
@@ -116,10 +123,9 @@ exports.save = function(req, res)
 
           // Process asset
           var previewPath = consts.files.assets+req.user.username+
-                            '/previews/'+doc._id;
+                            '/previews';
           transcribe(doc);
           transcode(doc, previewPath, transcodeResponse);
-          });
           log.info({asset: doc, username: req.user.username}, 'Asset uploaded');
           res.json(doc);
         }

@@ -20,7 +20,7 @@ exports.transcode = function(options, wait, cb)
 
 function check(job, cb)
 {
-  download(job, function(err, ready) {
+  exports.download(job, function(err, ready) {
     if (err) cb(err, undefined);
     else if (ready) cb(null, job);
     else {

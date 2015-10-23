@@ -45,8 +45,9 @@ consts.transcoder.root = 'http://172.29.94.117/api/v0.1';
 consts.transcoder.upload = consts.transcoder.root;
 consts.transcoder.status = consts.transcoder.root+'/status/';
 consts.transcoder.output = '/data/melt/output/';
-consts.transcoder.audioPreview = {codec: 'libfdk_aac', bitrate: '128k'};
+consts.transcoder.audioPreview = {codec: 'aac', bitrate: '128k'};
 consts.transcoder.videoPreview = {codec: 'libx264', bitrate: '500k'};
+consts.transcoder.checkInterval = 5;
 
 consts.app = {};
 consts.app.port = 8080;
