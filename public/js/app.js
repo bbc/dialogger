@@ -3,10 +3,11 @@ define([
   'upload',
   'ui',
   'transcript',
+  'preview',
   'views/assetsList',
   'views/editsList',
   'views/user'
-], function($, Upload, UI, Transcript, AssetsListView, EditsListView, UserView)
+], function($, Upload, UI, Transcript, Preview, AssetsListView, EditsListView, UserView)
 {
   var initialize = function(){
     AssetsListView.initialize();
@@ -15,6 +16,7 @@ define([
     Upload.initialize();
     Transcript.initialize();
     UI.initialize();
+    Preview.initialize();
     setInterval(AssetsListView.fetch, 5000);
   }
   return {

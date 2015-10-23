@@ -7,7 +7,8 @@ require.config({
     dropzone: '../bower_components/dropzone/dist/dropzone-amd-module',
     ckeditor: '../bower_components/ckeditor/ckeditor',
     semantic: '../semantic/dist/semantic.min',
-    text: '../bower_components/text/text'
+    text: '../bower_components/text/text',
+    videocompositor: 'html5-video-compositor/dist/videocompositor'
   },
   shim: {
     'semantic': {
@@ -22,6 +23,9 @@ require.config({
     },
     'serialize': {
       deps: ['jquery']
+    },
+    'videocompositor': {
+      exports: 'VideoCompositor'
     }
   }
 

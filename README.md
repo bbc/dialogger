@@ -16,6 +16,14 @@ During installation, set the Semantic UI path to `public/semantic/`.
     cd public/semantic
     gulp build
 
+You also need to install [html5-video-compositor](https://github.com/bbc/html5-video-compositor):
+
+    cd public/js
+    git clone git@github.com:bbc/html5-video-compositor.git
+    cd html5-video-compositor
+    npm install
+    npm run build
+
 ## Proxy setup
 
 These instructions redirect everything on port 389 through socks-gw. Firstly,

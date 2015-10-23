@@ -207,3 +207,16 @@ exports.destroy = function(req, res)
     }
   });
 };
+
+exports.preview = function(req, res)
+{
+  db.assets.find({_id: req.params.id, owner: req.user._id}, function(err, doc)
+  {
+    if (err) {
+      log.error(err);
+      res.status(500).send(err);
+    } else {
+      res.sendFile(consts.files.assets+req.user.username+'/previews/'+req.params.id);
+    }
+  });
+};
