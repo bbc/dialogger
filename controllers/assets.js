@@ -7,7 +7,7 @@ var db = module.parent.exports.db;
 var log = module.parent.exports.log;
 
 // Generate preview version
-function transcode(doc)
+function transcode(doc, cb)
 {
   var options = {
     path: doc.path,
@@ -18,34 +18,17 @@ function transcode(doc)
   // Start transcoding job
   transcoder.transcode(options, function(err, jobid) {
     if (err) {
-      log.error(err);
-      db.assets.updateById(doc._id, {
-        $set: {
-          errorMessage: consts.transcoder.errStatus,
-          error: true
-        }
-      }, function(err, result) {
-        if (err) log.error(err);
-      });
+      cb(err, undefined);
     } else {
       log.info({asset: doc, job: jobid}, 'Transcoding job started');
 
       // Check progress
       var checker = setInterval(function() {
         transcoder.download(jobid, function(err, ready) {
-          if (err) log.error(err);
+          if (err) cb(err, undefined);
           else if (ready) {
-
-            // Mark as transcoded in database
             clearInterval(checker);
-            log.info({asset: doc}, 'Asset transcoded');
-            db.assets.updateById(doc._id, {
-              $set: {
-                transcribed: true
-              }
-            }, function(err, result) {
-              if (err) log.error(err);
-            });
+            cb(null, consts.transcoder.output+jobid);
           }
         });
       }, 5000);
@@ -100,7 +83,7 @@ exports.save = function(req, res)
         size: req.file.size,
         info: info,
         ready: false,
-        transcribed: false,
+        transcoded: false,
         error: false,
         dateCreated: new Date(),
         dateModified: new Date(),
@@ -112,7 +95,27 @@ exports.save = function(req, res)
 
           // Process asset
           transcribe(doc);
-          transcode(doc);
+          transcode(doc, function(err, path) {
+            if (err) {
+              log.error(err);
+              db.assets.updateById(doc._id, {
+                $set: {
+                  errorMessage: consts.transcoder.errStatus,
+                  error: true
+                }
+              }, function(err, result) {
+                if (err) log.error(err);
+              });
+            } else {
+              db.assets.updateById(doc._id, {
+                $set: {
+                  transcoded: true
+                }
+              }, function(err, result) {
+                if (err) log.error(err);
+              });
+            }
+          });
           log.info({asset: doc, username: req.user.username}, 'Asset uploaded');
           res.json(doc);
         }
