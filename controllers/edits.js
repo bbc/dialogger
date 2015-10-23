@@ -1,12 +1,12 @@
 var consts = require('../config/consts');
 var edl = require('../helpers/edl');
-var melt = require('../helpers/melt');
+var transcoder = require('../helpers/transcoder');
 var db = module.parent.exports.db;
 var log = module.parent.exports.log;
 
 exports.download = function(req, res)
 {
-  melt.download(req.params.jobid, function(err, ready) {
+  transcoder.download(req.params.jobid, function(err, ready) {
     var returnStatus = req.path.indexOf('status') > -1 ? true : false;
     if (err) {
       log.error(err);
@@ -16,7 +16,7 @@ exports.download = function(req, res)
     } else if (returnStatus) {
       res.json({ready: true});
     } else {
-      res.sendFile(consts.melt.output+req.params.jobid);
+      res.sendFile(consts.transcoder.output+req.params.jobid);
     }
   });
 };
@@ -38,7 +38,7 @@ exports.transcode = function(req, res)
           options.path = assets[0].path;
           options.edl = edl.generate(docs[0].transcript.words);
 
-          melt.transcode(options, function(err, jobid) {
+          transcoder.transcode(options, function(err, jobid) {
             if (err) {
               log.error(err);
               res.status(500);

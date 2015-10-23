@@ -2,8 +2,56 @@ var consts = require('../config/consts');
 var mimovie = require('mimovie');
 var fs = require('fs');
 var stt = require('../helpers/stt-kaldi');
+var transcoder = require('../helpers/transcoder');
 var db = module.parent.exports.db;
 var log = module.parent.exports.log;
+
+// Generate preview version
+function transcode(doc)
+{
+  var options = {
+    path: doc.path,
+    audio: consts.transcoder.audioPreview
+  };
+  if (doc.info.video_tracks) options.video = consts.transoder.videoPreview;
+
+  // Start transcoding job
+  transcoder.transcode(options, function(err, jobid) {
+    if (err) {
+      log.error(err);
+      db.assets.updateById(doc._id, {
+        $set: {
+          errorMessage: consts.transcoder.errStatus,
+          error: true
+        }
+      }, function(err, result) {
+        if (err) log.error(err);
+      });
+    } else {
+      log.info({asset: doc, job: jobid}, 'Transcoding job started');
+
+      // Check progress
+      var checker = setInterval(function() {
+        transcoder.download(jobid, function(err, ready) {
+          if (err) log.error(err);
+          else if (ready) {
+
+            // Mark as transcoded in database
+            clearInterval(checker);
+            log.info({asset: doc}, 'Asset transcoded');
+            db.assets.updateById(doc._id, {
+              $set: {
+                transcribed: true
+              }
+            }, function(err, result) {
+              if (err) log.error(err);
+            });
+          }
+        });
+      }, 5000);
+    }
+  });
+};
 
 function transcribe(doc)
 {
@@ -14,7 +62,7 @@ function transcribe(doc)
       log.error(err);
       db.assets.updateById(doc._id, {
         $set: {
-          status: consts.stt.errStatus,
+          errorMessage: consts.stt.errStatus,
           error: true
         }
       }, function(err, result) {
@@ -24,7 +72,6 @@ function transcribe(doc)
       log.info({asset: doc}, 'Transcription generated');
       db.assets.updateById(doc._id, {
         $set: {
-          status: consts.stt.postStatus,
           ready: true,
           transcript: transcript,
           segments: segments
@@ -53,18 +100,19 @@ exports.save = function(req, res)
         size: req.file.size,
         info: info,
         ready: false,
+        transcribed: false,
         error: false,
         dateCreated: new Date(),
         dateModified: new Date(),
-        status: consts.stt.preStatus
       }, function(err, doc) {
         if (err) {
           log.error(err);
           res.status(500);
         } else {
 
-          // transcribe recording
+          // Process asset
           transcribe(doc);
+          transcode(doc);
           log.info({asset: doc, username: req.user.username}, 'Asset uploaded');
           res.json(doc);
         }
