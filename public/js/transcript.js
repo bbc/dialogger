@@ -74,6 +74,28 @@ define([
     Preview.seekOrig(start/1000);
   };
 
+  var keyHandler = function(e)
+  {
+    if (e.data.keyCode == 8 || e.data.keyCode == 46) {
+      var html = editor.getSelectedHtml(true);
+      if ($(html).length == 0) {
+        //console.log(editor.getSelection().getStartElement());
+        //console.log(editor.getSelection().getSelectedElement());
+        //console.log(editor.getSelection().getRanges()[0]);
+        //console.log(editor.getSelection().getRanges()[1]);
+        if (!editor.getSelection().getStartElement().is('a')) {
+          console.log('Removing text');
+        } else {
+          console.log('Doing nothing');
+          e.cancel();
+        }
+      } else {
+        editor.insertHtml('<span class="hidden">'+html+'</span>');
+        e.cancel();
+      }
+    }
+  };
+
   var change = function(e) {
     $('#transcript span.hidden').dblclick(function() {
       $(this).replaceWith($(this).html());
@@ -82,25 +104,13 @@ define([
 
   var initialize = function() {
     editor = CKEditor.inline('transcript', {
-      height: '500px',
       removePlugins: 'toolbar,contextmenu,liststyle,tabletools,elementspath,link',
       resize_enabled: false,
-      keystrokes: [
-        [8, 'hide'], //backspace
-        [46, 'hide'] //delete
-      ],
       allowedContent: true,
       on: {
         selectionChange: wordClick,
         change: change,
-        key: function(e) { e.stop(); } // prevents competition with browser
-      }
-    });
-    editor.addCommand('hide', {
-      exec: function(e) {
-        e.insertHtml('<span class="hidden">'+
-          e.getSelection().getRanges()[0].cloneContents().getHtml()+
-          '</span>');
+        key: keyHandler
       }
     });
   };
