@@ -124,6 +124,9 @@ define([
     }
     Preview.play();
   };
+  var pause = function() {
+    Preview.pause();
+  };
   var stop = function() {
     Preview.stop();
   };
@@ -135,6 +138,7 @@ define([
     bold: bold,
     italic: italic,
     play: play,
+    pause: pause,
     stop: stop
   };
 });
