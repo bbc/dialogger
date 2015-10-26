@@ -14,6 +14,7 @@ span.hidden::after {
   cursor: col-resize;
 }
 span.speaker {
+  display: none;
   font-weight: bold;
 }
 span.speaker.M {
@@ -26,4 +27,6 @@ canvas {
   padding: 0;
   margin: auto;
   display: block;
+  width: 300px;
+  height: 169px;
 }
