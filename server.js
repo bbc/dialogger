@@ -20,8 +20,8 @@ require('./config/passport')(passport, db);
 var app = express();
 app.use('/public', express.static(__dirname+'/public'));
 app.use(cookieParser());
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json({ limit: '5mb' }));
+app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 
 // configure passport
 app.use(session({
