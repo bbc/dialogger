@@ -34,7 +34,7 @@ canvas {
   margin-top: 52px;
 }
 .pusher {
-  margin-top: 92px;
+  padding-top: 92px;
 }
 .pusher.preview {
   padding-bottom: 169px;
