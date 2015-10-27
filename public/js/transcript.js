@@ -49,7 +49,7 @@ define([
     if (editor) {
       $.getJSON('/api/edits/'+id, function(data) {
         editor.setData(data[0].html);
-        Preview.updateHTML(data[0].html, id);
+        Preview.updateHTML(data[0].html, data[0].asset);
         editor.resetUndo();
         loadedEdit = data[0];
         loadedAsset = null;
