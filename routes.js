@@ -29,6 +29,11 @@ app.post('/api/login', passport.authenticate('local',
    failureFlash: false }
 ));
 
+app.get('/api/logout', function(req, res) {
+  req.logout();
+  res.redirect('/');
+});
+
 app.get('/api/loginSuccess', function(req, res) {
   log.info({user: req.user}, 'User logged in');
   res.json({success: true});

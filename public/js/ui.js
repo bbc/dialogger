@@ -42,10 +42,17 @@ define([
     .sidebar('attach events', '#previewButton');
 
     $('#playButton').click(function() {
-      Transcript.play();
+      if ($('#playButton i:first').hasClass('play')) {
+        Transcript.play();
+        $('#playButton i:first').removeClass('play').addClass('pause');
+      } else {
+        Transcript.pause();
+        $('#playButton i:first').removeClass('pause').addClass('play');
+      }
     });
     $('#stopButton').click(function() {
       Transcript.stop();
+      $('#playButton i:first').removeClass('pause').addClass('play');
     });
     $('#boldButton').click(function() {
       Transcript.bold();
