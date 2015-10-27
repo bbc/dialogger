@@ -11,7 +11,6 @@ define([
   var initialize = function() {
     var leftSidebar = $('.left.sidebar')
     .sidebar({
-        context: $('.bottom.segment'),
         exclusive: false,
         transition: 'overlay',
         dimPage: false
@@ -21,13 +20,26 @@ define([
 
     var rightSidebar = $('.right.sidebar')
     .sidebar({
-        context: $('.bottom.segment'),
         exclusive: false,
         transition: 'overlay',
         dimPage: false
     })
     .sidebar('attach events', '#rightButton')
     .sidebar('attach events', '#saveButton', 'show');
+
+    var bottomSidebar = $('.bottom.sidebar')
+    .sidebar({
+        exclusive: false,
+        closable: false,
+        dimPage: false,
+        onVisible: function() {
+          $('.pusher').css('margin-bottom','169px');
+        },
+        onHide: function() {
+          $('.pusher').css('margin-bottom','0');
+        }
+    })
+    .sidebar('attach events', '#previewButton');
 
     $('#playButton').click(function() {
       Transcript.play();

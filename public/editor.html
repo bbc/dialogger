@@ -14,17 +14,17 @@
   <script data-main="public/js/main" src="public/bower_components/requirejs/require.js"></script>
 </head>
 <body>
-
-<div class="ui left vertical inline sidebar" style="background-color: #fff;">
+<div class="ui left vertical sidebar" style="margin-top: 92px !important; background-color: #fff;">
   <div class="ui celled list" id="assetsList"></div>
 </div>
-
-<div class="ui right vertical inline sidebar" style="background-color: #fff;">
+<div class="ui right vertical sidebar" style="margin-top: 92px !important; background-color: #fff;">
   <div class="ui celled list" id="editsList">
   </div>
 </div>
-
-<div class="ui inverted menu attached">
+<div class="ui bottom sidebar" style="background-color: #fff;">
+  <canvas id="preview"></canvas>
+</div>
+<div class="ui inverted top fixed menu">
   <div class="ui container">
     <div href="#" class="header item">
       <img src="public/assets/bbc.png" class="ui tiny image"
@@ -39,8 +39,7 @@
     </div>
   </div>
 </div>
-
-<div class="ui top attached sticky menu">
+<div class="ui top fixed menu" style="margin-top: 52px">
   <a class="item" id="leftButton">
     <i class="sidebar icon"></i> Media
   </a>
@@ -55,6 +54,9 @@
   </a> -->
   <a class="item" id="stopButton">
     <i class="stop icon"></i>
+  </a>
+  <a class="item" id="previewButton">
+    <i class="film icon"></i> Show/Hide
   </a>
 <!--  <a class="item" id="boldButton">
     <i class="bold icon"></i>
@@ -80,52 +82,12 @@
     </a>
   </div>
 </div>
-<div class="ui bottom attached segment pushable" style="height: 50%">
-  <div class="pusher">
-    <div class="ui text container" id="transcript" contenteditable="true">
-      <p>&nbsp;</p>
-      <p align="center">Please open a media asset or edit to start.</p>
-      <!--
-      <p><a data-m="1234">Bacon </a><a data-m="2345">ipsum </a>dolor amet pastrami jowl sausage, jerky venison bresaola
-      sirloin ribeye rump kevin meatball porchetta tenderloin pork loin cow.
-      Spare ribs hamburger doner beef ribs. Rump beef frankfurter, strip steak
-      ground round andouille fatback kevin. Frankfurter ham tail tri-tip
-      hamburger short ribs drumstick.</p>
-      <p>Kielbasa shoulder corned beef tenderloin, bresaola ground round jerky
-      tri-tip strip steak meatball hamburger brisket sirloin pig. Porchetta
-      andouille biltong, strip steak prosciutto corned beef pancetta cow tail
-      tri-tip meatloaf tongue spare ribs. Ham hock pork chop spare ribs shank
-      venison, beef ribs swine tongue jerky shankle. Tail ball tip frankfurter
-      sirloin, ham hock pork loin spare ribs shoulder cupim filet mignon.
-      Biltong beef ribs corned beef prosciutto swine. Beef ribs pancetta
-      venison meatball. Kielbasa shoulder capicola, filet mignon pancetta
-      landjaeger porchetta frankfurter tongue jerky pork belly sirloin pork
-      chop.</p>
-      <p>Turkey filet mignon kielbasa sirloin boudin corned beef short loin
-      landjaeger tenderloin pork loin ribeye chuck pastrami capicola pork.
-      Capicola frankfurter porchetta chicken turkey ball tip. Frankfurter swine
-      kielbasa venison. Tail kielbasa pork loin salami tri-tip turducken.
-      Picanha pork belly bresaola short loin pork loin. Corned beef tenderloin
-      pig turducken pork chop, chuck sirloin venison jowl salami capicola
-      hamburger ribeye shank drumstick.</p>
-      <p>Turducken jerky kielbasa sausage, kevin t-bone tri-tip bresaola doner
-      jowl filet mignon. Pork chop shankle swine kielbasa tongue filet mignon.
-      Capicola flank ham corned beef jowl leberkas biltong kevin ball tip
-      tongue prosciutto. Rump meatloaf shoulder shank frankfurter sirloin
-      capicola tenderloin beef tri-tip bresaola. Tri-tip pork loin tail tongue
-      bresaola sirloin flank porchetta meatball strip steak pork belly shoulder
-      alcatra leberkas ham.</p>
-      <p>Ball tip meatloaf strip steak, frankfurter pig prosciutto leberkas ribeye
-      spare ribs tri-tip hamburger kevin venison pork loin. Corned beef
-      kielbasa shoulder frankfurter cow pork rump cupim bresaola. Ham hock
-      ribeye brisket, turkey biltong spare ribs kevin fatback meatloaf pancetta
-      chicken flank beef ribs ham tri-tip. Meatball filet mignon hamburger
-      jerky doner cupim pancetta tenderloin sirloin.</p>
-      -->
-    </div>
+<div class="pusher" style="margin-top: 92px">
+  <div class="ui text container" id="transcript" contenteditable="true">
+    <p>&nbsp;</p>
+    <p align="center">Please open a media asset or edit to start.</p>
   </div>
 </div>
-
 <div class="ui small modal" id="exportModal">
     <div class="content">
       <form class="ui form" id="exportForm">
@@ -162,8 +124,6 @@
 
 <form action="/api/assets" method="post" class="dropzone" id="uploadForm"
   style="display: none"></form>
-
-<canvas id="preview"></canvas>
 
 </body>
 
