@@ -13,10 +13,10 @@ function transcode(doc, destFolder, cb)
   // Configure transcoding settings
   var options = {
     name: 'preview.mp4',
-    path: doc.path,
-    audio: consts.transcoder.audioPreview
+    path: doc.path
   };
-  if (doc.info.video_tracks) options.video = consts.transcoder.videoPreview;
+  if (doc.info.video_tracks) options.ffmpeg = consts.transcoder.videoPreview;
+  else options.ffmpeg = consts.transcoder.audioPreview;
   log.info(options);
 
   // Start transcoding job
