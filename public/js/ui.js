@@ -95,6 +95,12 @@ define([
       action: 'export',
       method: 'POST',
       serializeForm: true,
+      beforeSend: function(settings) {
+        console.log(settings);
+        if (settings.data.ffmpeg.vb) settings.data.ffmpeg.vb += 'k';
+        if (settings.data.ffmpeg.ab) settings.data.ffmpeg.ab += 'k';
+        return settings;
+      },
       onSuccess: function(response) {
         $('#exportForm').form('reset');
         $('#exportModal').modal('hide');
