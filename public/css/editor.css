@@ -30,3 +30,29 @@ canvas {
   width: 300px;
   height: 169px;
 }
+#editorMenu {
+  margin-top: 52px;
+}
+.pusher {
+  margin-top: 92px;
+}
+.pusher.preview {
+  padding-bottom: 169px;
+}
+.sidebar {
+  background-color: #fff;
+}
+.sidebar.left, .sidebar.right {
+  margin-top: 92px !important;
+}
+@media print {
+  .menu, .sidebar {
+    display: none !important;
+  }
+  .pusher {
+    margin-top: 0;
+  }
+  .pusher.preview {
+    padding-bottom: 0;
+  }
+}

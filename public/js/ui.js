@@ -33,10 +33,10 @@ define([
         closable: false,
         dimPage: false,
         onVisible: function() {
-          $('.pusher').css('margin-bottom','169px');
+          $('.pusher').addClass('preview');
         },
         onHide: function() {
-          $('.pusher').css('margin-bottom','0');
+          $('.pusher').removeClass('preview');
         }
     })
     .sidebar('attach events', '#previewButton');
