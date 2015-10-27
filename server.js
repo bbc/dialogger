@@ -11,7 +11,10 @@ var log = require('./config/log')(bunyan);
 module.exports.log = log;
 
 // set up database
-var db = require('./config/db')
+var db = require('./config/db');
+
+// set up session store
+var store = require('./config/store')(session);
 
 // set up passport
 require('./config/passport')(passport, db);
@@ -27,7 +30,8 @@ app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 app.use(session({
   secret: consts.auth.secret,
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: false,
+  store: store
 }));
 app.use(passport.initialize());
 app.use(passport.session());

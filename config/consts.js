@@ -4,7 +4,8 @@ consts.name = 'discourse';
 
 // DATABASE
 consts.db = {};
-consts.db.url = 'localhost/discourse';
+consts.db.url = 'mongodb://localhost:27017/discourse';
+consts.db.sessionCollection = 'sessions';
 
 // LOGGING
 consts.log = {};
