@@ -41,6 +41,8 @@ define([
     })
     .sidebar('attach events', '#previewButton');
 
+    $('.ui.dropdown').dropdown();
+
     $('#playButton').click(function() {
       if ($('#playButton i:first').hasClass('play')) {
         Transcript.play();
