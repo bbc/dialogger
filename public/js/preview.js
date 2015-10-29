@@ -5,8 +5,11 @@ define([
 ], function($, VideoCompositor, Utils)
 {
   var instance;
+  var refresh;
   var initialize = function() {
     instance = new VideoCompositor($('#preview')[0]); 
+    instance.addEventListener('play', playHandler);
+    instance.addEventListener('ended', endedHandler);
   };
   var updateHTML = function(html, id) {
     var playlist = Utils.edlToPlaylist(
@@ -40,6 +43,17 @@ define([
         seek(origTime-edits[i].sourceStart+edits[i].start);
       }
     }
+  };
+  var playHandler = function() {
+    refresh = setInterval(function() {
+      var time = instance.currentTime * 1000;
+      $('#transcript a').each(function() {
+        if ($(this).data('start') < time) $(this).addClass('played');
+      });
+    }, 250);
+  };
+  var endedHandler = function() {
+    clearInterval(refresh);
   };
   return {
     initialize: initialize,

@@ -4,6 +4,9 @@
 .selected {
   background-color: #f5f5f5;
 }
+a.played {
+  text-decoration: underline;
+}
 span.hidden {
   font-size: 0px;
 }
