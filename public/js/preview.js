@@ -6,10 +6,11 @@ define([
 {
   var instance;
   var refresh;
+  var playing = false;
   var initialize = function() {
     instance = new VideoCompositor($('#preview')[0]); 
     instance.addEventListener('play', playHandler);
-    instance.addEventListener('ended', endedHandler);
+    instance.addEventListener('pause', pauseHandler);
   };
   var updateHTML = function(html, id) {
     var playlist = Utils.edlToPlaylist(
@@ -32,28 +33,42 @@ define([
     instance.pause();
     seek(0);
   };
+  var isPlaying = function() {
+    return playing;
+  };
   var seek = function(time) {
     instance.currentTime = time;
   };
   var seekOrig = function(origTime) {
+    seek(getPlaylistTime(origTime));
+  };
+  var getPlaylistTime = function(origTime) {
     var edits = instance.playlist.tracks[0];
     for (var i=0; i<edits.length; i++) {
       if (origTime >= edits[i].sourceStart &&
-           (i==edits.length-1 || origTime < edits[i+1].sourceStart)) {
-        seek(origTime-edits[i].sourceStart+edits[i].start);
+          origTime < edits[i].sourceStart+edits[i].duration) {
+        return origTime - edits[i].sourceStart + edits[i].start;
       }
     }
+    return -1;
   };
   var playHandler = function() {
-    refresh = setInterval(function() {
-      var time = instance.currentTime * 1000;
-      $('#transcript a').each(function() {
-        if ($(this).data('start') < time) $(this).addClass('played');
-      });
-    }, 250);
+    playing = true;
+    refresh = setInterval(updatePosition, 100);
   };
-  var endedHandler = function() {
+  var pauseHandler = function() {
+    playing = false;
     clearInterval(refresh);
+    updatePosition();
+  };
+  var updatePosition = function() {
+    var time = instance.currentTime;
+    $('#transcript a').each(function() {
+      if (getPlaylistTime($(this).data('start')/1000) < playlistTime)
+        $(this).addClass('played');
+      else
+        $(this).removeClass('played');
+    });
   };
   return {
     initialize: initialize,
@@ -63,6 +78,8 @@ define([
     pause: pause,
     stop: stop,
     seek: seek,
-    seekOrig: seekOrig
+    seekOrig: seekOrig,
+    updatePosition: updatePosition,
+    isPlaying: isPlaying
   };
 });
