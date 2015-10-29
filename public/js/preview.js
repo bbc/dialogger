@@ -64,7 +64,7 @@ define([
   var updatePosition = function() {
     var time = instance.currentTime;
     $('#transcript a').each(function() {
-      if (getPlaylistTime($(this).data('start')/1000) < playlistTime)
+      if (getPlaylistTime($(this).data('start')/1000) < time)
         $(this).addClass('played');
       else
         $(this).removeClass('played');
