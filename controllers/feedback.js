@@ -1,6 +1,7 @@
 var consts = require('../config/consts');
 var path = require('path');
 var nodemailer = require('nodemailer');
+var smtpTransport = require('nodemailer-smtp-transport');
 var log = module.parent.exports.log;
 
 exports.form = function(req, res)
@@ -11,10 +12,10 @@ exports.form = function(req, res)
 exports.process = function(req, res)
 {
   if (req.body.message && req.body.type) {
-    var transporter = nodemailer.createTransport('SMTP', {
+    var transporter = nodemailer.createTransport(smtpTransport({
       host: consts.log.smtpServer,
       port: 25
-    });
+    }));
     transporter.sendMail({
       from: consts.log.systemEmail,
       to: consts.log.adminEmail,
