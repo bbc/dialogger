@@ -76,22 +76,18 @@ define([
 
   var keyHandler = function(e)
   {
-    if (e.data.keyCode == 8 || e.data.keyCode == 46) {
+    if (e.data.keyCode == 46) {
+      e.cancel();
       var html = editor.getSelectedHtml(true);
-      if ($(html).length == 0) {
-        //console.log(editor.getSelection().getStartElement());
-        //console.log(editor.getSelection().getSelectedElement());
-        //console.log(editor.getSelection().getRanges()[0]);
-        //console.log(editor.getSelection().getRanges()[1]);
-        if (!editor.getSelection().getStartElement().is('a')) {
-          console.log('Removing text');
-        } else {
-          console.log('Doing nothing');
-          e.cancel();
-        }
-      } else {
+      if ($(html).length > 0) {
         editor.insertHtml('<span class="hidden">'+html+'</span>');
-        e.cancel();
+        editor.getSelection().removeAllRanges();
+        if (Preview.isPlaying()) {
+          pause();
+          play();
+        } else {
+          stop();
+        }
       }
     }
   };
@@ -129,6 +125,7 @@ define([
   };
   var stop = function() {
     Preview.stop();
+    Preview.updatePosition();
   };
   return {
     initialize: initialize,
