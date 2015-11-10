@@ -179,6 +179,22 @@
       </div>
     </div>
 </div>
+<div class="ui small basic modal" id="deleteModal">
+	<div class="ui icon header">
+    <i class="trash outline icon"></i>Delete <span id="deleteName">media</span>
+	</div>
+	<div class="content">
+		<p align="center">Are you sure you want to delete this file? This action cannot be undone!</p>
+	</div>
+	<div class="actions">
+		<div class="ui blue cancel inverted button">
+			<i class="remove icon"></i>Cancel
+		</div>
+		<div class="ui red ok inverted button">
+			<i class="trash icon"></i>Delete
+		</div>
+	</div>
+</div>
 
 <form action="/api/assets" method="post" class="dropzone" id="uploadForm"
   style="display: none"></form>

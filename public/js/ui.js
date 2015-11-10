@@ -38,7 +38,7 @@ define([
     })
     .sidebar('attach events', '#previewButton');
 
-    $('.ui.dropdown').dropdown();
+    $('.top.fixed.menu .ui.dropdown').dropdown();
 
     $('#playButton').click(function() {
       if ($('#playButton i:first').hasClass('play')) {
