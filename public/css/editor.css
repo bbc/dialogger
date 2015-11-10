@@ -47,6 +47,7 @@ canvas {
 }
 .sidebar.left, .sidebar.right {
   margin-top: 92px !important;
+  padding-bottom: 92px !important;
 }
 @media print {
   .menu, .sidebar {
