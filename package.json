@@ -24,6 +24,8 @@
     "monk": "^1.0.1",
     "multer": "^1.0.5",
     "node-schedule": "^0.2.9",
+    "nodemailer": "^1.9.0",
+    "nodemailer-smtp-transport": "^1.0.4",
     "passport": "^0.3.0",
     "passport-local": "^1.0.0",
     "request": "^2.64.0",
