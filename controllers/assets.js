@@ -192,7 +192,7 @@ exports.destroy = function(req, res)
 
     // delete file and document
     } else {
-      fs.unlink(doc.path, function(err) {
+      fs.unlink(doc[0].path, function(err) {
         if (err) log.error(err);
       });
       db.assets.remove({_id: req.params.id}, function(err) {
