@@ -49,6 +49,9 @@ canvas {
   margin-top: 92px !important;
   padding-bottom: 92px !important;
 }
+.ui.inverted.top.menu.fixed {
+  z-index: 102;
+}
 @media print {
   .menu, .sidebar {
     display: none !important;
