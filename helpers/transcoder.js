@@ -8,8 +8,8 @@ exports.transcode = function(options, wait, cb)
                 json: options},
       function (err, res, body)
   {
-    if (err && body.jobid) {
-      cb('Transcoding failed at upload stage.', undefined);
+    if (err) {
+      cb('Transcoding failed at upload stage: '+err, undefined);
     } else if (!wait) {
       cb(null, body.jobid);
     } else {
