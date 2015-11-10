@@ -35,7 +35,7 @@ define([
     rename: function(id) {
       var collection = this.collection;
       var name = collection.get(id).attributes.name;
-      var newName = prompt('Please enter a name for the asset', name);
+      var newName = prompt('Please enter a name for this file', name);
       if (newName != null && newName != '' && newName != name) {
         $.ajax({
           url: '/api/assets/'+id,
