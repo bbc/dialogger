@@ -3,8 +3,9 @@ define([
   'ckeditor',
   'utils',
   'preview',
+  'collections/assets',
   'collections/edits'
-], function($, CKEditor, Utils, Preview, EditsCollection)
+], function($, CKEditor, Utils, Preview, AssetsCollection, EditsCollection)
 {
   var editor;
   var loadedAsset;
@@ -54,8 +55,10 @@ define([
         contentType: 'application/json',
         method: method,
         success: function (data) {
-          console.log(data);
           EditsCollection.fetch();
+          AssetsCollection.deselect();
+          EditsCollection.deselect();
+          EditsCollection.set(data._id, 'selected', true);
         }
       });
     }

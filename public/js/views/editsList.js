@@ -21,8 +21,7 @@ define([
       Transcript.loadEdit(id);
       AssetsCollection.deselect();
       EditsCollection.deselect();
-      var model = this.collection.get(id);
-      model.set({selected: true});
+      EditsCollection.set(id, 'selected', true);
       this.render();
     },
     exportEdit: function(e) {
