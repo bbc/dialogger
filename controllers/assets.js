@@ -158,6 +158,9 @@ exports.asset = function(req, res)
 
 exports.update = function(req, res)
 {
+  var fields = {dateModified: new Date()};
+  if (req.body.name) fields.name = req.body.name;
+
   db.assets.find({_id: req.params.id, owner: req.user._id}, function(err, doc)
   {
     if (err) {
@@ -166,10 +169,7 @@ exports.update = function(req, res)
 
     // save update
     } else {
-      db.assets.updateById(req.params.id,
-        { $set: {
-          name: req.body.name,
-          dateModified: new Date()} }, function(err, result) {
+      db.assets.updateById(req.params.id, {$set: fields}, function(err, result) {
         if (err) {
           log.error(err);
           res.status(500);

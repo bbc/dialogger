@@ -76,13 +76,14 @@ exports.save = function(req, res)
 
 exports.update = function(req, res)
 {
+  var fields = {dateModified: new Date()};
+  if (req.body.transcript) fields.transcript = req.body.transcript;
+  if (req.body.html) fields.html = req.body.html;
+  if (req.body.edl) fields.edl = req.body.edl;
+  if (req.body.name) fields.name = req.body.name;
+  if (req.body.description) fields.description = req.body.description;
   db.edits.update({_id: req.params.id, owner: req.user._id},
-      {$set: {
-        transcript: req.body.transcript,
-        html: req.body.html,
-        edl: req.body.edl,
-        dateModified: new Date()
-      }}, function(err, result) {
+      {$set: fields}, function(err, result) {
     if (err) {
       log.error(err);
     } else {
