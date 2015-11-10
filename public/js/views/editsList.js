@@ -17,7 +17,7 @@ define([
       'click .right button': 'exportEdit'
     },
     open: function(e) {
-      var id = $(e.currentTarget).data('id');
+      var id = $(e.currentTarget).closest('.edit').data('id');
       Transcript.loadEdit(id);
       AssetsCollection.deselect();
       EditsCollection.deselect();
@@ -26,7 +26,7 @@ define([
       this.render();
     },
     exportEdit: function(e) {
-      var id = $(e.currentTarget).data('id');
+      var id = $(e.currentTarget).closest('.edit').data('id');
       var model = this.collection.get(id);
       if (model.get('jobid') && model.get('ready')) {
         window.open('/api/edits/export/'+model.get('jobid'), '_blank');
@@ -39,6 +39,35 @@ define([
         $('#exportModal').modal('show');
       }
     },
+    rename: function(id) {
+      var collection = this.collection;
+      var name = collection.get(id).attributes.name;
+      var newName = prompt('Please enter a name for this edit', name);
+      if (newName != null && newName != '' && newName != name) {
+        $.ajax({
+          url: '/api/edits/'+id,
+          method: 'PUT',
+          contentType: 'application/json',
+          data: JSON.stringify({name: newName}),
+          success: function() { collection.fetch(); }
+        });
+      }
+    },
+    destroy: function(id) {
+      var collection = this.collection;
+      var name = collection.get(id).attributes.name;
+      $('#deleteName').html(name);
+			$('#deleteModal').modal({
+        closable: false,
+        onApprove: function() {
+          $.ajax({
+            url: '/api/edits/'+id,
+            method: 'DELETE',
+            success: function() { collection.fetch(); }
+          });
+        }
+			}).modal('show');
+    },
     initialize: function() {
       this.collection = EditsCollection.initialize();
       this.listenTo(this.collection, 'sync change', this.render);
@@ -46,8 +75,17 @@ define([
       this.render();
     },
     render: function() {
+      var view = this;
       this.$el.find('.edit').remove();
       this.$el.prepend(this.template({collection: this.collection.toJSON()}));
+      $('#editsList .ui.dropdown').dropdown({
+        action: function(text, value) {
+          var id = $(this).closest('.edit').data('id');
+          if (text==='Rename') view.rename(id);
+          else if (text==='Delete') view.destroy(id);
+          $(this).dropdown('hide');
+        }
+      });
     }
   });
   var initialize = function() {
