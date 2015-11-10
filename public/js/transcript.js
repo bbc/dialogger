@@ -16,29 +16,45 @@ define([
     var method, url;
     if (editor)
     {
+      // process transcript
       var words = Utils.HTMLtoWords(editor.getData());
       var edit = {
         transcript: {words: words},
         html: editor.getData(),
         edl: Utils.wordsToEDL(words)
       };
-      if (loadedEdit) {
+
+      // if saving existing edit
+      if (loadedEdit)
+      {
+        // set up AJAX
         method = 'PUT';
         url = '/api/edits/'+loadedEdit._id;
-      } else if (loadedAsset) {
+
+      // if saving new edit
+      } else if (loadedAsset)
+      {
+        // ask for description
+        var description = window.prompt('Please enter a description of your edit','');
+        if (description == null || description === '') return;
+
+        // set up AJAX
         method = 'POST';
         url = '/api/edits';
         edit.name = loadedAsset.name;
         edit.assetid = loadedAsset._id;
-        edit.description = window.prompt('Please enter a description of your edit','');
+        edit.description = description;
       } else {
         return;
       }
+
+      // send AJAX request
       $.ajax(url, {
         data: JSON.stringify(edit),
         contentType: 'application/json',
         method: method,
         success: function (data) {
+          console.log(data);
           EditsCollection.fetch();
         }
       });
