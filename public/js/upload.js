@@ -3,8 +3,9 @@ define([
   'dropzone',
   'text!templates/upload.html',
   'collections/assets',
-  'notification'
-], function($, Dropzone, UploadTemplate, AssetsCollection, Notification)
+  'notification',
+  'utils'
+], function($, Dropzone, UploadTemplate, AssetsCollection, Notification, Utils)
 {
   var initialize = function() {
     $('#uploadForm').dropzone({
@@ -21,6 +22,7 @@ define([
         $(file.previewElement).find('i').removeClass('blue').addClass('red');
         $(file.previewElement).find('.description').text('Upload failed');
         Notification.notify('Upload of '+file.name+' failed');
+        Utils.uploadError();
       },
       uploadprogress: function(file, progress, bytesSent) {
         $(file.previewElement).find('.progress').attr('data-percent', progress);

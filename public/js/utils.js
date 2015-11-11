@@ -74,11 +74,15 @@ define([
   var ajaxError = function() {
     alert('Could not communicate with server. Please check your connection.');
   };
+  var uploadError = function() {
+    alert('Upload failed. Please check your connection and ensure that you only upload valid video or audio files.');
+  };
   return {
     transcriptToHTML: transcriptToHTML,
     HTMLtoWords: HTMLtoWords,
     wordsToEDL: wordsToEDL,
     edlToPlaylist: edlToPlaylist,
-    ajaxError: ajaxError
+    ajaxError: ajaxError,
+    uploadError: uploadError
   };
 });
