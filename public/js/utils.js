@@ -71,10 +71,14 @@ define([
     }
     return {tracks: [playlist]};
   };
+  var ajaxError = function() {
+    alert('Could not communicate with server. Please check your connection.');
+  };
   return {
     transcriptToHTML: transcriptToHTML,
     HTMLtoWords: HTMLtoWords,
     wordsToEDL: wordsToEDL,
-    edlToPlaylist: edlToPlaylist
+    edlToPlaylist: edlToPlaylist,
+    ajaxError: ajaxError
   };
 });

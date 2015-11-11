@@ -5,8 +5,9 @@ define([
   'collections/assets',
   'collections/edits',
   'text!templates/editsList.html',
-  'transcript'
-], function($, _, Backbone, AssetsCollection, EditsCollection, EditsListTemplate, Transcript)
+  'transcript',
+  'utils'
+], function($, _, Backbone, AssetsCollection, EditsCollection, EditsListTemplate, Transcript, Utils)
 {
   var instance;
   var EditsListView = Backbone.View.extend({
@@ -48,7 +49,8 @@ define([
           method: 'PUT',
           contentType: 'application/json',
           data: JSON.stringify({name: newName}),
-          success: function() { collection.fetch(); }
+          success: function() { collection.fetch(); },
+          error: Utils.ajaxError
         });
       }
     },
@@ -62,7 +64,8 @@ define([
           $.ajax({
             url: '/api/edits/'+id,
             method: 'DELETE',
-            success: function() { collection.fetch(); }
+            success: function() { collection.fetch(); },
+            error: Utils.ajaxError
           });
         }
 			}).modal('show');

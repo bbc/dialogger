@@ -59,7 +59,8 @@ define([
         method: method,
         success: function (data) {
           EditsCollection.fetch();
-        }
+        },
+        error: Utils.ajaxError
       });
     }
   };
@@ -72,7 +73,8 @@ define([
         editor.resetUndo();
         loadedEdit = data[0];
         loadedAsset = null;
-      });
+      })
+      .fail(Utils.ajaxError);
     }
   };
 
@@ -84,7 +86,8 @@ define([
         editor.resetUndo();
         loadedAsset = data[0];
         loadedEdit = null;
-      });
+      })
+      .fail(Utils.ajaxError);
     }
   }; 
 

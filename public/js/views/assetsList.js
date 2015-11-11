@@ -6,9 +6,10 @@ define([
   'collections/edits',
   'text!templates/assetsList.html',
   'transcript',
-  'notification'
+  'notification',
+  'utils'
 ], function($, _, Backbone, AssetsCollection, EditsCollection, assetsListTemplate, Transcript,
-  Notification)
+  Notification, Utils)
 {
   var instance;
   var AssetsListView = Backbone.View.extend({
@@ -42,7 +43,8 @@ define([
           method: 'PUT',
           contentType: 'application/json',
           data: JSON.stringify({name: newName}),
-          success: function() { collection.fetch(); }
+          success: function() { collection.fetch(); },
+          error: Utils.ajaxError
         });
       }
     },
@@ -56,10 +58,11 @@ define([
           $.ajax({
             url: '/api/assets/'+id,
             method: 'DELETE',
-            success: function() { collection.fetch(); }
+            success: function() { collection.fetch(); },
+            error: Utils.ajaxError
           });
         }
-			}).modal('show');
+      }).modal('show');
     },
     initialize: function() {
       this.collection = AssetsCollection.initialize();

@@ -2,8 +2,9 @@ define([
   'jquery',
   'serialize',
   'semantic',
-  'collections/edits'
-], function($, Serialize, Semantic, EditsCollection)
+  'collections/edits',
+  'utils'
+], function($, Serialize, Semantic, EditsCollection, Utils)
 {
   var initialize = function()
   {
@@ -41,7 +42,7 @@ define([
         return settings;
       },
       onSuccess: formSubmitted,
-      onFailure: formFailed
+      onFailure: Utils.ajaxError
     });
   };
   var formSubmitted = function(response)
@@ -70,9 +71,6 @@ define([
         }
       });
     }, 5000);
-  };
-  var formFailed = function(response) {
-    alert('Error: '+response);
   };
   return {
     initialize: initialize
