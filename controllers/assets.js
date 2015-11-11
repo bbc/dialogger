@@ -100,7 +100,7 @@ exports.save = function(req, res)
   mimovie(req.file.path, function(err, info) {
     if (err) {
       log.error(err, 'Mediainfo failed');
-      res.status(500);
+      res.sendStatus(500);
     } else {
 
       // save to database
@@ -118,7 +118,7 @@ exports.save = function(req, res)
       }, function(err, doc) {
         if (err) {
           log.error(err);
-          res.status(500);
+          res.sendStatus(500);
         } else {
 
           // Process asset
@@ -165,14 +165,14 @@ exports.update = function(req, res)
   {
     if (err) {
       log.error(err);
-      res.status(500);
+      res.sendStatus(500);
 
     // save update
     } else {
       db.assets.updateById(req.params.id, {$set: fields}, function(err, result) {
         if (err) {
           log.error(err);
-          res.status(500);
+          res.sendStatus(500);
         } else {
           log.info({asset: req.body, username: req.user.username}, 'Asset renamed');
           res.json(result);
@@ -188,7 +188,7 @@ exports.destroy = function(req, res)
   {
     if (err) {
       log.error(err);
-      res.status(500);
+      res.sendStatus(500);
 
     // delete file and document
     } else {
@@ -198,7 +198,7 @@ exports.destroy = function(req, res)
       db.assets.remove({_id: req.params.id}, function(err) {
         if (err) {
           log.error(err);
-          res.status(500);
+          res.sendStatus(500);
         } else {
           log.info({asset: req.params.id, username: req.user.username}, 'Deleted asset');
           res.json({success: true});

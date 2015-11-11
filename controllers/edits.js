@@ -24,14 +24,14 @@ exports.transcode = function(req, res)
 {
   db.edits.find({_id: req.params.id, owner: req.user._id}, function (err, docs) {
     if (err) log.error(err);
-    else if (!docs.length) res.status(500);
+    else if (!docs.length) res.sendStatus(500);
     else {
       db.assets.find({_id: docs[0].asset, owner: req.user._id}, function (err, assets) {
         if (err) {
           log.error(err);
-          res.status(500);
+          res.sendStatus(500);
         } else if (!assets.length) {
-          res.status(500);
+          res.sendStatus(500);
         } else {
           var options = req.body;
           options.path = assets[0].path;
@@ -40,7 +40,7 @@ exports.transcode = function(req, res)
           transcoder.transcode(options, false, function(err, jobid) {
             if (err) {
               log.error(err);
-              res.status(500);
+              res.sendStatus(500);
             } else {
               log.info({options: options, username: req.user.username}, 'Transcoding started');
               res.json({success: true, jobid: jobid});
