@@ -19,7 +19,6 @@ define([
     Transcript.initialize();
     UI.initialize();
     Preview.initialize();
-    setInterval(AssetsListView.fetch, 5000);
   }
   return {
     initialize: initialize
