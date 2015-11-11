@@ -67,14 +67,14 @@ define([
         }
 			}).modal('show');
     },
-    newEdit = function(model) {
+    newEdit: function(model) {
       model.set('selected', true);
     },
     initialize: function() {
       this.collection = EditsCollection.initialize();
       this.listenTo(this.collection, 'sync change', this.render);
       this.listenTo(this.collection, 'add', this.newEdit);
-      this.collection.fetch();
+      this.collection.fetch({reset: true});
       this.render();
     },
     render: function() {
