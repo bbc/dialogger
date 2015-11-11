@@ -49,6 +49,9 @@ define([
         return;
       }
 
+      // deselect current asset
+      AssetsCollection.deselect();
+
       // send AJAX request
       $.ajax(url, {
         data: JSON.stringify(edit),
@@ -56,9 +59,6 @@ define([
         method: method,
         success: function (data) {
           EditsCollection.fetch();
-          AssetsCollection.deselect();
-          EditsCollection.deselect();
-          EditsCollection.set(data._id, 'selected', true);
         }
       });
     }
