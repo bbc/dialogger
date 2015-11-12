@@ -43,7 +43,10 @@ define([
           method: 'PUT',
           contentType: 'application/json',
           data: JSON.stringify({name: newName}),
-          success: function() { collection.fetch(); },
+          success: function() {
+            collection.fetch();
+            EditsCollection.fetch();
+          },
           error: Utils.ajaxError
         });
       }
@@ -58,7 +61,10 @@ define([
           $.ajax({
             url: '/api/assets/'+id,
             method: 'DELETE',
-            success: function() { collection.fetch(); },
+            success: function() {
+              collection.fetch();
+              EditsCollection.fetch();
+            },
             error: Utils.ajaxError
           });
         }
