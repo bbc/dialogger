@@ -39,16 +39,16 @@ define([
         $('#exportModal').modal('show');
       }
     },
-    rename: function(id) {
+    editDescription: function(id) {
       var collection = this.collection;
-      var name = collection.get(id).attributes.name;
-      var newName = prompt('Please enter a name for this edit', name);
-      if (newName != null && newName != '' && newName != name) {
+      var desc = collection.get(id).attributes.description;
+      var newDesc = prompt('Please enter a description for this edit', desc);
+      if (newDesc != null && newDesc != '' && newDesc != desc) {
         $.ajax({
           url: '/api/edits/'+id,
           method: 'PUT',
           contentType: 'application/json',
-          data: JSON.stringify({name: newName}),
+          data: JSON.stringify({description: newDesc}),
           success: function() { collection.fetch(); },
           error: Utils.ajaxError
         });
@@ -57,8 +57,9 @@ define([
     destroy: function(id) {
       var collection = this.collection;
       var name = collection.get(id).attributes.name;
-      $('#deleteName').html(name);
-			$('#deleteModal').modal({
+      var desc = collection.get(id).attributes.description;
+      $('#deleteName').html(name+' ('+desc+')');
+      $('#deleteModal').modal({
         closable: false,
         onApprove: function() {
           $.ajax({
@@ -81,13 +82,16 @@ define([
       this.render();
     },
     render: function() {
+      this.collection.each(function(model) {
+        model.set('name', AssetsCollection.get(model.attributes.asset, 'name'));
+      });
       var view = this;
       this.$el.find('.edit').remove();
       this.$el.prepend(this.template({collection: this.collection.toJSON()}));
       $('#editsList .ui.dropdown').dropdown({
         action: function(text, value) {
           var id = $(this).closest('.edit').data('id');
-          if (text==='Rename') view.rename(id);
+          if (text==='Edit description') view.editDescription(id);
           else if (text==='Delete') view.destroy(id);
           $(this).dropdown('hide');
         }

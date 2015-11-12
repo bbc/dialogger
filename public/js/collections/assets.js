@@ -12,6 +12,9 @@ define([
     instance = new AssetsCollection();
     return instance;
   };
+  var get = function(id, field) {
+    return instance.get(id).get(field);
+  };
   var fetch = function() {
     instance.fetch();
   };
@@ -21,7 +24,8 @@ define([
   return {
     initialize: initialize,
     fetch: fetch,
-    deselect: deselect
+    deselect: deselect,
+    get: get
   };
 });
 
