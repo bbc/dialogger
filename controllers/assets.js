@@ -21,26 +21,26 @@ function transcode(doc, destFolder, cb)
 
   // Start transcoding job
   transcoder.transcode(options, true, function(err, jobid) {
-    if (err) cb(err, doc);
+    if (err) cb(err, doc, undefined);
     else {
 
       // Make sure preview folder exists
       mkdirp(destFolder, function(err) {
-        if (err) cb(err, doc);
+        if (err) cb(err, doc, undefined);
         else
 
           // Move preview file
           fs.rename(consts.transcoder.output+jobid,
                     destFolder+'/'+doc._id, function(err) {
-            if (err) cb(err, doc);
-            else cb(null, doc);
+            if (err) cb(err, doc, undefined);
+            else cb(null, doc, destFolder+'/'+doc._id);
           });
       });
     }
   });
 };
 
-function transcodeResponse(err, doc)
+function transcodeResponse(err, doc, path)
 {
   if (err) {
     log.error(err);
@@ -56,6 +56,7 @@ function transcodeResponse(err, doc)
     log.info({asset: doc}, 'Preview file generated');
     db.assets.updateById(doc._id, {
       $set: {
+        previewPath: path,
         transcoded: true
       }
     }, function(err, result) {
@@ -190,18 +191,37 @@ exports.destroy = function(req, res)
       log.error(err);
       res.sendStatus(500);
 
-    // delete file and document
     } else {
+
+      // delete original file
       fs.unlink(doc[0].path, function(err) {
         if (err) log.error(err);
       });
-      db.assets.remove({_id: req.params.id}, function(err) {
+
+      // delete preview file
+      if (doc[0].transcoded) {
+        fs.unlink(doc[0].previewPath, function(err) {
+          if (err) log.error(err);
+        });
+      }
+
+      // remove edits from database
+      db.edits.remove({asset: req.params.id}, function(err) {
         if (err) {
           log.error(err);
           res.sendStatus(500);
         } else {
-          log.info({asset: req.params.id, username: req.user.username}, 'Deleted asset');
-          res.json({success: true});
+
+          // remove asset from database
+          db.assets.remove({_id: req.params.id}, function(err) {
+            if (err) {
+              log.error(err);
+              res.sendStatus(500);
+            } else {
+              log.info({asset: req.params.id, username: req.user.username}, 'Deleted asset');
+              res.json({success: true});
+            }
+          });
         }
       });
     }
