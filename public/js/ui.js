@@ -50,13 +50,8 @@ define([
       }
     });
     $('#forwardButton').click(function() {
-      if ($('#playButton i:first').hasClass('play')) {
-        Transcript.play(2);
-        $('#playButton i:first').removeClass('play').addClass('pause');
-      } else {
-        Transcript.pause();
-        $('#playButton i:first').removeClass('pause').addClass('play');
-      }
+      Transcript.play(2);
+      $('#playButton i:first').removeClass('play').addClass('pause');
     });
     $('#stopButton').click(function() {
       Transcript.stop();
