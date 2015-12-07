@@ -132,7 +132,7 @@ define([
       }
     });
   };
-  var play = function() {
+  var play = function(rate) {
     if (loadedAsset) {
       Preview.updateHTML(editor.getData(), loadedAsset._id);
     } else if (loadedEdit) {
@@ -140,7 +140,7 @@ define([
     } else {
       return;
     }
-    Preview.play();
+    Preview.play(rate);
   };
   var pause = function() {
     Preview.pause();

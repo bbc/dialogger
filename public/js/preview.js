@@ -23,7 +23,8 @@ define([
                  Utils.wordsToEDL(words), '/api/assets/preview/'+id);
     instance.playlist = playlist;
   };
-  var play = function() {
+  var play = function(rate) {
+    instance.playbackRate = rate;
     instance.play();
   };
   var pause = function() {

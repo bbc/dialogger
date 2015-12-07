@@ -42,7 +42,16 @@ define([
 
     $('#playButton').click(function() {
       if ($('#playButton i:first').hasClass('play')) {
-        Transcript.play();
+        Transcript.play(1);
+        $('#playButton i:first').removeClass('play').addClass('pause');
+      } else {
+        Transcript.pause();
+        $('#playButton i:first').removeClass('pause').addClass('play');
+      }
+    });
+    $('#forwardButton').click(function() {
+      if ($('#playButton i:first').hasClass('play')) {
+        Transcript.play(2);
         $('#playButton i:first').removeClass('play').addClass('pause');
       } else {
         Transcript.pause();
