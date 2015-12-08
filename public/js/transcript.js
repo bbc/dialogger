@@ -102,11 +102,14 @@ define([
       e.cancel();
       var html = editor.getSelectedHtml(true);
       if ($(html).length > 0) {
+        $(html).find('a').each(function() {
+          $(this).removeClass('played');
+        });
         editor.insertHtml('<span class="hidden">'+html+'</span>');
         editor.getSelection().removeAllRanges();
         if (Preview.isPlaying()) {
           pause();
-          play();
+          play(Preview.getRate());
         } else {
           stop();
         }

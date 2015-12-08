@@ -53,6 +53,9 @@ define([
     }
     return -1;
   };
+  var getRate = function() {
+    return instance.playbackRate;
+  };
   var playHandler = function() {
     playing = true;
     refresh = setInterval(updatePosition, 100);
@@ -81,6 +84,7 @@ define([
     seek: seek,
     seekOrig: seekOrig,
     updatePosition: updatePosition,
+    getRate: getRate,
     isPlaying: isPlaying
   };
 });
