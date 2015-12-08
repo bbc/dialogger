@@ -53,10 +53,10 @@ define([
       Transcript.play(2);
       $('#playButton i:first').removeClass('play').addClass('pause');
     });
-    $('#stopButton').click(function() {
-      Transcript.stop();
-      $('#playButton i:first').removeClass('pause').addClass('play');
-    });
+    //$('#stopButton').click(function() {
+    //  Transcript.stop();
+    //  $('#playButton i:first').removeClass('pause').addClass('play');
+    //});
     $('#boldButton').click(function() {
       Transcript.bold();
     });
@@ -66,6 +66,8 @@ define([
     $('#saveButton').click(function() {
       Transcript.save();
     });
+
+    // TODO Remove the need for regular polling
     setInterval(AssetsCollection.fetch, 5000);
   };
   return {
