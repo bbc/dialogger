@@ -23,9 +23,13 @@ define([
         var nextTime = startTime+endTime;
       else
         var nextTime = words[i+1].start * 1000;
+      var confidence = '';
+      if (words[i].confidence && words[i].confidence < 0.8)
+          confidence = ' class="unsure"';
       html += '<a data-start="'+startTime+
                '" data-end="'+endTime+
-               '" data-next="'+nextTime+'">'+word+' </a>';
+               '" data-next="'+nextTime+'"'+
+               confidence+'>'+word+' </a>';
     }
     html += '</p>';
     return html;
