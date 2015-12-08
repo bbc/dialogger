@@ -5,6 +5,9 @@ define([
   'collections/assets'
 ], function($, Semantic, Transcript, AssetsCollection)
 {
+  var playbackEnd = function() {
+    $('#playButton i:first').removeClass('pause').addClass('play');
+  };
   var initialize = function() {
     var leftSidebar = $('.left.sidebar')
     .sidebar({
@@ -46,7 +49,7 @@ define([
         $('#playButton i:first').removeClass('play').addClass('pause');
       } else {
         Transcript.pause();
-        $('#playButton i:first').removeClass('pause').addClass('play');
+        playbackEnd();
       }
     });
     $('#forwardButton').click(function() {
@@ -71,6 +74,7 @@ define([
     setInterval(AssetsCollection.fetch, 5000);
   };
   return {
+    playbackEnd: playbackEnd,
     initialize: initialize
   };
 });

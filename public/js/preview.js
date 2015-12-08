@@ -1,8 +1,9 @@
 define([
   'jquery',
   'videocompositor',
+  'ui',
   'utils'
-], function($, VideoCompositor, Utils)
+], function($, VideoCompositor, UI, Utils)
 {
   var instance;
   var refresh;
@@ -11,6 +12,7 @@ define([
     instance = new VideoCompositor($('#preview')[0]); 
     instance.addEventListener('play', playHandler);
     instance.addEventListener('pause', pauseHandler);
+    instance.addEventListener('ended', endHandler);
   };
   var updateHTML = function(html, id) {
     var playlist = Utils.edlToPlaylist(
@@ -64,6 +66,9 @@ define([
     playing = false;
     clearInterval(refresh);
     updatePosition();
+  };
+  var endHandler = function() {
+    UI.playbackEnd();
   };
   var updatePosition = function() {
     var time = instance.currentTime;
