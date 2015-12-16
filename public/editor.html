@@ -100,77 +100,86 @@
           <label>Filename</label>
           <input type="text" name="name" id="exportName">
         </div>
-        <div class="fields">
-          <div class="six wide field">
-            <label>Video format</label>
-            <select class="ui search dropdown" name="ffmpeg[vcodec]">
-              <option value="">(no video)</option>
-              <option value="libschroedinger">Dirac</option>
-              <option value="flv">FLV</option>
-              <option value="h261">H.261</option>
-              <option value="h263">H.263</option>
-              <option value="libx264">H.264</option>
-              <option value="mpeg1video">MPEG1</option>
-              <option value="mpeg2video">MPEG2</option>
-              <option value="mpeg4">MPEG4</option>
-              <option value="libtheora">Theora</option>
-              <option value="libvpx">VP8</option>
-              <option value="libxvid">Xvid</option>
-            </select>
-          </div>
-          <div class="four wide field">
-            <label>Bitrate</label>
-            <div class="ui right labeled input">
-              <input type="text" name="ffmpeg[vb]">
-              <div class="ui basic label">kb/s</div>
-            </div>
-          </div>
-          <div class="three wide field">
-            <label>Width</label>
-            <div class="ui right labeled input">
-              <input type="text" name="ffmpeg[width]">
-              <div class="ui basic label">px</div>
-            </div>
-          </div>
-          <div class="three wide field">
-            <label>Height</label>
-            <div class="ui right labeled input">
-              <input type="text" name="ffmpeg[height]">
-              <div class="ui basic label">px</div>
-            </div>
-          </div>
+        <div class="ui top attached tabular menu">
+          <a class="active item" data-tab="media">Media</a>
+          <a class="item" data-tab="edl">EDL</a>
         </div>
-        <div class="fields">
-          <div class="six wide field">
-            <label>Audio format</label>
-            <select class="ui search dropdown" name="ffmpeg[acodec]">
-              <option value="">(no audio)</option>
-              <option value="aac">AAC</option>
-              <option value="ac3">AC3</option>
-              <option value="flac">FLAC</option>
-              <option value="mp2">MP2</option>
-              <option value="libmp3lame">MP3</option>
-              <option value="libopus">Opus</option>
-              <option value="libspeex">Speex</option>
-              <option value="libvorbis">Vorbis</option>
-              <option value="pcm_s16le">WAV (16-bit)</option>
-              <option value="pcm_s24le">WAV (24-bit)</option>
-            </select>
-          </div>
-          <div class="four wide field">
-            <label>Bitrate</label>
-            <div class="ui right labeled input">
-              <input type="text" name="ffmpeg[ab]">
-              <div class="ui basic label">kb/s</div>
+        <div class="ui bottom attached active tabular segment" data-tab="media">
+          <div class="fields">
+            <div class="six wide field">
+              <label>Video format</label>
+              <select class="ui search dropdown" name="ffmpeg[vcodec]">
+                <option value="">(no video)</option>
+                <option value="libschroedinger">Dirac</option>
+                <option value="flv">FLV</option>
+                <option value="h261">H.261</option>
+                <option value="h263">H.263</option>
+                <option value="libx264">H.264</option>
+                <option value="mpeg1video">MPEG1</option>
+                <option value="mpeg2video">MPEG2</option>
+                <option value="mpeg4">MPEG4</option>
+                <option value="libtheora">Theora</option>
+                <option value="libvpx">VP8</option>
+                <option value="libxvid">Xvid</option>
+              </select>
+            </div>
+            <div class="four wide field">
+              <label>Bitrate</label>
+              <div class="ui right labeled input">
+                <input type="text" name="ffmpeg[vb]">
+                <div class="ui basic label">kb/s</div>
+              </div>
+            </div>
+            <div class="three wide field">
+              <label>Width</label>
+              <div class="ui right labeled input">
+                <input type="text" name="ffmpeg[width]">
+                <div class="ui basic label">px</div>
+              </div>
+            </div>
+            <div class="three wide field">
+              <label>Height</label>
+              <div class="ui right labeled input">
+                <input type="text" name="ffmpeg[height]">
+                <div class="ui basic label">px</div>
+              </div>
             </div>
           </div>
-          <div class="six wide field">
+          <div class="fields">
+            <div class="six wide field">
+              <label>Audio format</label>
+              <select class="ui search dropdown" name="ffmpeg[acodec]">
+                <option value="">(no audio)</option>
+                <option value="aac">AAC</option>
+                <option value="ac3">AC3</option>
+                <option value="flac">FLAC</option>
+                <option value="mp2">MP2</option>
+                <option value="libmp3lame">MP3</option>
+                <option value="libopus">Opus</option>
+                <option value="libspeex">Speex</option>
+                <option value="libvorbis">Vorbis</option>
+                <option value="pcm_s16le">WAV (16-bit)</option>
+                <option value="pcm_s24le">WAV (24-bit)</option>
+              </select>
+            </div>
+            <div class="four wide field">
+              <label>Bitrate</label>
+              <div class="ui right labeled input">
+                <input type="text" name="ffmpeg[ab]">
+                <div class="ui basic label">kb/s</div>
+              </div>
+            </div>
+            <div class="six wide field">
+            </div>
           </div>
-        </div>
-        <div class="ui error message"></div>
-        <div class="submit"></div>
-        <input type="hidden" name="id" id="exportID">
-      </form>
+          <div class="ui error message"></div>
+          <div class="submit"></div>
+          <input type="hidden" name="id" id="exportID">
+        </form>
+      </div>
+    </div>
+    <div class="ui bottom attached tab segment" data-tab="edl">
+      <p>EDL</p>
     </div>
     <div class="actions">
       <div class="ui deny button">Cancel</div>

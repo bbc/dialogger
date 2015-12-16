@@ -8,6 +8,8 @@ define([
 {
   var initialize = function()
   {
+    $('#exportForm .menu .item').tab();
+
     $('#exportSubmit').click(function() {
       $('#exportForm .submit').click();
     });
