@@ -33,9 +33,9 @@ define([
         model.unset('jobid');
         model.unset('ready');
       } else if (!model.get('jobid')) {
-        var name = this.collection.get(id).get('name');
+        var description = this.collection.get(id).get('description');
         $('#exportForm').data('id', id);
-        $('#exportName').val(name);
+        $('#exportName').val(description);
         $('#exportModal').modal('show');
       }
     },

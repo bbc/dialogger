@@ -6,9 +6,26 @@ define([
   'utils'
 ], function($, Serialize, Semantic, EditsCollection, Utils)
 {
+  var formatExt = {
+    'video': 'mp4',
+    'audio': 'wav',
+    'aes31': 'adl',
+    'aes31zip': 'zip',
+    'startrack': 'dat'
+  };
   var initialize = function()
   {
-    $('#exportForm .menu .item').tab();
+    $('#exportFormat').dropdown({
+      onChange: function(val) {
+        $('#exportAudio').hide();
+        $('#exportVideo').hide();
+        if (val == 'video') $('#exportVideo').show();
+        if (val == 'audio') $('#exportAudio').show();
+        $('#exportExt').html('.'+formatExt[val]);
+      }
+    });
+    $('#exportVideo .dropdown').dropdown();
+    $('#exportAudio .dropdown').dropdown();
 
     $('#exportSubmit').click(function() {
       $('#exportForm .submit').click();
@@ -39,8 +56,10 @@ define([
       serializeForm: true,
       // add 'k' to bitrate submission
       beforeSend: function(settings) {
-        if (settings.data.ffmpeg.vb) settings.data.ffmpeg.vb += 'k';
-        if (settings.data.ffmpeg.ab) settings.data.ffmpeg.ab += 'k';
+        if (settings.data.video.vb) settings.data.video.vb += 'k';
+        if (settings.data.video.ab) settings.data.video.ab += 'k';
+        if (settings.data.audio.ab) settings.data.audio.ab += 'k';
+        settings.data.name += $('#exportExt').html();
         return settings;
       },
       onSuccess: formSubmitted,

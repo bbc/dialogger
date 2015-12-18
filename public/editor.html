@@ -97,84 +97,91 @@
     <div class="content">
       <form class="ui form" id="exportForm">
         <div class="field">
-          <label>Filename</label>
-          <input type="text" name="name" id="exportName">
+          <label>Output</label>
+          <select class="ui dropdown" name="format" id="exportFormat">
+            <option value="video">Video file</option>
+            <option value="audio">Audio file</option>
+            <option value="aes31">AES31 EDL</option>
+            <option value="aes31zip">AES31 EDL + audio</option>
+            <option value="startrack">StarTrack</option>
+          </select>
         </div>
-        <div class="ui top attached tabular menu">
-          <a class="active item" data-tab="media">Media</a>
-          <a class="item" data-tab="edl">EDL</a>
-        </div>
-        <div class="ui bottom attached active tab segment" data-tab="media">
+        <div class="ui basic segment" id="exportVideo">
           <div class="fields">
             <div class="six wide field">
               <label>Video format</label>
-              <select class="ui search dropdown" name="ffmpeg[vcodec]">
-                <option value="">(no video)</option>
-                <option value="libschroedinger">Dirac</option>
-                <option value="flv">FLV</option>
-                <option value="h261">H.261</option>
-                <option value="h263">H.263</option>
-                <option value="libx264">H.264</option>
-                <option value="mpeg1video">MPEG1</option>
-                <option value="mpeg2video">MPEG2</option>
-                <option value="mpeg4">MPEG4</option>
-                <option value="libtheora">Theora</option>
-                <option value="libvpx">VP8</option>
-                <option value="libxvid">Xvid</option>
+              <select class="ui dropdown" name="video[f]">
+                <option value="mp4">MP4</option>
               </select>
             </div>
-            <div class="four wide field">
-              <label>Bitrate</label>
-              <div class="ui right labeled input">
-                <input type="text" name="ffmpeg[vb]">
-                <div class="ui basic label">kb/s</div>
-              </div>
+            <div class="five wide field">
+              <label>Video codec</label>
+              <select class="ui dropdown" name="video[vcodec]">
+                <option value="libx264">H.264</option>
+              </select>
             </div>
-            <div class="three wide field">
-              <label>Width</label>
-              <div class="ui right labeled input">
-                <input type="text" name="ffmpeg[width]">
-                <div class="ui basic label">px</div>
-              </div>
-            </div>
-            <div class="three wide field">
-              <label>Height</label>
-              <div class="ui right labeled input">
-                <input type="text" name="ffmpeg[height]">
-                <div class="ui basic label">px</div>
-              </div>
+            <div class="five wide field">
+              <label>Audio codec</label>
+              <select class="ui dropdown" name="video[acodec]">
+                <option value="aac">AAC</option>
+              </select>
             </div>
           </div>
           <div class="fields">
-            <div class="six wide field">
-              <label>Audio format</label>
-              <select class="ui search dropdown" name="ffmpeg[acodec]">
-                <option value="">(no audio)</option>
-                <option value="aac">AAC</option>
-                <option value="ac3">AC3</option>
-                <option value="flac">FLAC</option>
-                <option value="mp2">MP2</option>
-                <option value="libmp3lame">MP3</option>
-                <option value="libopus">Opus</option>
-                <option value="libspeex">Speex</option>
-                <option value="libvorbis">Vorbis</option>
-                <option value="pcm_s16le">WAV (16-bit)</option>
-                <option value="pcm_s24le">WAV (24-bit)</option>
-              </select>
-            </div>
             <div class="four wide field">
-              <label>Bitrate</label>
+              <label>Video bitrate</label>
               <div class="ui right labeled input">
-                <input type="text" name="ffmpeg[ab]">
+                <input type="text" name="video[vb]">
                 <div class="ui basic label">kb/s</div>
               </div>
             </div>
-            <div class="six wide field">
+            <div class="four wide field">
+              <label>Audio bitrate</label>
+              <div class="ui right labeled input">
+                <input type="text" name="video[ab]">
+                <div class="ui basic label">kb/s</div>
+              </div>
+            </div>
+            <div class="four wide field">
+              <label>Width</label>
+              <div class="ui right labeled input">
+                <input type="text" name="video[width]">
+                <div class="ui basic label">px</div>
+              </div>
+            </div>
+            <div class="four wide field">
+              <label>Height</label>
+              <div class="ui right labeled input">
+                <input type="text" name="video[height]">
+                <div class="ui basic label">px</div>
+              </div>
             </div>
           </div>
         </div>
-        <div class="ui bottom attached tab segment" data-tab="edl">
-          <p>EDL</p>
+        <div class="ui basic segment" id="exportAudio" style="display: none;">
+          <div class="fields">
+            <div class="six wide field">
+              <label>Audio format</label>
+              <select class="ui dropdown" name="audio[acodec]">
+                <option value="pcm_s16le">WAV</option>
+              </select>
+            </div>
+            <div class="four wide field">
+              <label>Audio bitrate</label>
+              <div class="ui right labeled input">
+                <input type="text" name="audio[ab]">
+                <div class="ui basic label">kb/s</div>
+              </div>
+            </div>
+            <div class="six wide field"></div>
+          </div>
+        </div>
+        <div class="field">
+          <label>Filename</label>
+          <div class="ui right labeled input">
+            <input type="text" name="name" id="exportName">
+            <div class="ui basic label" id="exportExt">.wav</div>
+          </div>
         </div>
         <div class="ui error message"></div>
         <div class="submit"></div>
