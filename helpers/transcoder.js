@@ -36,11 +36,11 @@ exports.download = function(job, cb) {
   request({url: consts.transcoder.status+job, json: true}, function(err, res, status)
   {
     if (err) {
-      cb('Could not find status of transcoding job', undefined);
+      cb('Could not find status of transcoding job', undefined, undefined);
     } else if (status.error) {
-      cb('Transcoding failed', undefined);
+      cb('Transcoding failed', undefined, undefined);
     } else {
-      cb(null, status.ready);
+      cb(null, status.ready, status.result);
     }
   });
 };

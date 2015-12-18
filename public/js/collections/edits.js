@@ -18,6 +18,9 @@ define([
   var set = function(id, field, value) {
     instance.get(id).set(field, value);
   };
+  var unset = function(id, field) {
+    instance.get(id).unset(field);
+  };
   var deselect = function() {
     instance.invoke('set', {'selected': false});
   };
@@ -25,6 +28,7 @@ define([
     initialize: initialize,
     fetch: fetch,
     set: set,
+    unset: unset,
     deselect: deselect
   };
 });

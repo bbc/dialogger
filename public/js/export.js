@@ -6,27 +6,66 @@ define([
   'utils'
 ], function($, Serialize, Semantic, EditsCollection, Utils)
 {
-  var formatExt = {
-    'video': 'mp4',
-    'audio': 'wav',
+  // map field values to file extension
+  var extMap = {
+    'mp4': 'mp4',
+    'pcm_s16le': 'wav',
     'aes31': 'adl',
-    'aes31zip': 'zip',
-    'startrack': 'dat'
+    'aes31incl': 'zip',
+    'dira': 'dat',
+    'diraincl': 'dat'
   };
+
+  // update file extension
+  var updateExtension = function()
+  {
+    var ext='';
+    // video extensions
+    if ($('select[name=format]').val() == 'video') {
+      ext=extMap[$("select[name='video[f]']").val()];
+    // audio extensions
+    } else if ($('select[name=format]').val() == 'audio') {
+      ext=extMap[$("select[name='audio[acodec]']").val()];
+    // EDL extensions (+included media)
+    } else {
+      var include='';
+      if ($("input[name='edlconfig[include]']").is(':checked')) include='incl';
+      ext=extMap[$("select[name='edlconfig[format]']").val()+include];
+    }
+    $('#exportExt').html('.'+ext);
+  };
+
   var initialize = function()
   {
+    // logic for showing/hiding different settings
     $('#exportFormat').dropdown({
       onChange: function(val) {
         $('#exportAudio').hide();
         $('#exportVideo').hide();
+        $('#exportEDL').hide();
         if (val == 'video') $('#exportVideo').show();
         if (val == 'audio') $('#exportAudio').show();
-        $('#exportExt').html('.'+formatExt[val]);
+        if (val == 'edl') $('#exportEDL').show();
+        updateExtension();
       }
     });
-    $('#exportVideo .dropdown').dropdown();
-    $('#exportAudio .dropdown').dropdown();
 
+    // update filename extension on each change
+    $('#exportVideo,#exportAudio,#exportEDL .dropdown').dropdown({
+      onChange: function() {
+        updateExtension();
+      }
+    });
+    $('#exportEDL .checkbox').checkbox({
+      onChange: function() {
+        updateExtension();
+      }
+    });
+    $('#exportModal').modal({
+      onShow: updateExtension
+    });
+
+    // send the form when submit is clicked
     $('#exportSubmit').click(function() {
       $('#exportForm .submit').click();
     });
@@ -54,11 +93,12 @@ define([
       action: 'export',
       method: 'POST',
       serializeForm: true,
-      // add 'k' to bitrate submission
       beforeSend: function(settings) {
+        // add 'k' to bitrate submission
         if (settings.data.video.vb) settings.data.video.vb += 'k';
         if (settings.data.video.ab) settings.data.video.ab += 'k';
         if (settings.data.audio.ab) settings.data.audio.ab += 'k';
+        // add extension to filename
         settings.data.name += $('#exportExt').html();
         return settings;
       },
@@ -66,6 +106,7 @@ define([
       onFailure: Utils.ajaxError
     });
   };
+
   var formSubmitted = function(response)
   {
     // reset and hide form
@@ -87,6 +128,8 @@ define([
           },
           500: function() {
             clearInterval(checker);
+            EditsCollection.unset($('#exportForm').data('id'), 'ready');
+            EditsCollection.unset($('#exportForm').data('id'), 'jobid');
             alert('An error occured with the export process.');
           }
         }
@@ -94,7 +137,8 @@ define([
     }, 5000);
   };
   return {
-    initialize: initialize
+    initialize: initialize,
+    updateExtension: updateExtension
   };
 });
 

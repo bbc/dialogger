@@ -5,7 +5,7 @@ var log = module.parent.exports.log;
 
 exports.download = function(req, res)
 {
-  transcoder.download(req.params.jobid, function(err, ready) {
+  transcoder.download(req.params.jobid, function(err, ready, result) {
     var returnStatus = req.path.indexOf('status') > -1 ? true : false;
     if (err) {
       log.error(err);
@@ -15,7 +15,7 @@ exports.download = function(req, res)
     } else if (returnStatus) {
       res.json({ready: true});
     } else {
-      res.sendFile(consts.transcoder.output+req.params.jobid);
+      res.download(consts.transcoder.output+req.params.jobid, result);
     }
   });
 };
@@ -35,7 +35,10 @@ exports.transcode = function(req, res)
         } else {
           var options = req.body;
           options.path = assets[0].path;
+          options.info = assets[0].info;
           options.edl = docs[0].edl;
+          options.filename = docs[0].name;
+          options.description = docs[0].description;
 
           transcoder.transcode(options, false, function(err, jobid) {
             if (err) {

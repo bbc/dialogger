@@ -101,28 +101,26 @@
           <select class="ui dropdown" name="format" id="exportFormat">
             <option value="video">Video file</option>
             <option value="audio">Audio file</option>
-            <option value="aes31">AES31 EDL</option>
-            <option value="aes31zip">AES31 EDL + audio</option>
-            <option value="startrack">StarTrack</option>
+            <option value="edl">EDL</option>
           </select>
         </div>
         <div class="ui basic segment" id="exportVideo">
           <div class="fields">
             <div class="six wide field">
               <label>Video format</label>
-              <select class="ui dropdown" name="video[f]">
+              <select class="ui compact dropdown" name="video[f]">
                 <option value="mp4">MP4</option>
               </select>
             </div>
             <div class="five wide field">
               <label>Video codec</label>
-              <select class="ui dropdown" name="video[vcodec]">
+              <select class="ui compact dropdown" name="video[vcodec]">
                 <option value="libx264">H.264</option>
               </select>
             </div>
             <div class="five wide field">
               <label>Audio codec</label>
-              <select class="ui dropdown" name="video[acodec]">
+              <select class="ui compact dropdown" name="video[acodec]">
                 <option value="aac">AAC</option>
               </select>
             </div>
@@ -162,7 +160,7 @@
           <div class="fields">
             <div class="six wide field">
               <label>Audio format</label>
-              <select class="ui dropdown" name="audio[acodec]">
+              <select class="ui compact dropdown" name="audio[acodec]">
                 <option value="pcm_s16le">WAV</option>
               </select>
             </div>
@@ -174,6 +172,25 @@
               </div>
             </div>
             <div class="six wide field"></div>
+          </div>
+        </div>
+        <div class="ui basic segment" id="exportEDL" style="display: none;">
+          <div class="fields">
+            <div class="field">
+              <label>EDL format</label>
+              <select class="ui dropdown" name="edlconfig[format]">
+                <option value="aes31">AES31</option>
+                <option value="dira">dira!</option>
+              </select>
+            </div>
+          </div>
+          <div class="fields">
+            <div class="field">
+              <div class="ui toggle checkbox">
+                <input type="checkbox" name="edlconfig[include]" tabindex="0" class="hidden">
+                <label>Include media in download</label>
+              </div>
+            </div>
           </div>
         </div>
         <div class="field">
