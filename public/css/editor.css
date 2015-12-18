@@ -8,7 +8,7 @@ a.played {
   text-decoration: underline;
 }
 a.unsure {
-  color: #cccccc;
+  color: #cccccc!important;
 }
 span.hidden {
   font-size: 0px;
