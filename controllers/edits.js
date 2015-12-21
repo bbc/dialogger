@@ -35,10 +35,16 @@ exports.transcode = function(req, res)
         } else {
           var options = req.body;
           options.path = assets[0].path;
-          options.info = assets[0].info;
           options.edl = docs[0].edl;
-          options.filename = docs[0].name;
-          options.description = docs[0].description;
+
+          // extra metadata for EDL
+          if (assets[0].info.audio_tracks.length) {
+            var audioTrack = assets[0].info.audio_tracks[0];
+            options.edlconfig.sampleRate = audioTrack.sample_rate;
+            options.edlconfig.channels = audioTrack.ch;
+          }
+          options.edlconfig.description = docs[0].description;
+          options.edlconfig.filename = docs[0].name;
 
           transcoder.transcode(options, false, function(err, jobid) {
             if (err) {

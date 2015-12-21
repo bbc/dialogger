@@ -42,10 +42,10 @@ consts.stt.errStatus = 'Transcription failed';
 
 // TRANSCODER
 consts.transcoder = {};
-consts.transcoder.root = 'http://172.29.94.117/api/v0.1';
+consts.transcoder.root = 'http://stt.rd.bbc.co.uk/api/v0.1/edit';
 consts.transcoder.upload = consts.transcoder.root;
 consts.transcoder.status = consts.transcoder.root+'/status/';
-consts.transcoder.output = '/data/melt/output/';
+consts.transcoder.output = '/data/stt/output/';
 consts.transcoder.videoPreview = {vcodec: 'libx264',
                                   vb: '500k',
                                   width: 300,
