@@ -128,6 +128,7 @@ define([
       removePlugins: 'toolbar,contextmenu,liststyle,tabletools,elementspath,link',
       resize_enabled: false,
       allowedContent: true,
+      title: false,
       on: {
         selectionChange: wordClick,
         change: change,
