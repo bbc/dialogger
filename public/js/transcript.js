@@ -100,6 +100,10 @@ define([
   {
     if (e.data.keyCode == 46) {
       e.cancel();
+      //editor.applyStyle(new CKEditor.style({
+      //  element: 'span',
+      //  attributes: {class: 'hidden'}
+      //}));
       var html = editor.getSelectedHtml(true);
       if ($(html).length > 0) {
         $(html).find('a').each(function() {
@@ -128,6 +132,7 @@ define([
       removePlugins: 'toolbar,contextmenu,liststyle,tabletools,elementspath,link',
       resize_enabled: false,
       allowedContent: true,
+      //allowedContent: 'a p span[*](*); strong',
       title: false,
       on: {
         selectionChange: wordClick,
