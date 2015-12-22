@@ -15,8 +15,13 @@ function transcode(doc, destFolder, cb)
     name: 'preview.mp4',
     path: doc.path
   };
-  if (doc.info.video_tracks) options.ffmpeg = consts.transcoder.videoPreview;
-  else options.ffmpeg = consts.transcoder.audioPreview;
+  if (doc.info.video_tracks) {
+    options.format = 'video';
+    options.video = consts.transcoder.videoPreview;
+  } else {
+    options.format = 'audio';
+    options.audio = consts.transcoder.audioPreview;
+  }
   log.info(options);
 
   // Start transcoding job
