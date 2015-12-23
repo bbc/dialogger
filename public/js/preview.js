@@ -40,10 +40,11 @@ define([
     return playing;
   };
   var seek = function(time) {
-    instance.currentTime = time;
+    if (time) instance.currentTime = time;
   };
   var seekOrig = function(origTime) {
     seek(getPlaylistTime(origTime));
+    updatePosition();
   };
   var getPlaylistTime = function(origTime) {
     var edits = instance.playlist.tracks[0];
@@ -53,7 +54,7 @@ define([
         return origTime - edits[i].sourceStart + edits[i].start;
       }
     }
-    return -1;
+    return null;
   };
   var getRate = function() {
     return instance.playbackRate;
@@ -73,7 +74,8 @@ define([
   var updatePosition = function() {
     var time = instance.currentTime;
     $('#transcript a').each(function() {
-      if (getPlaylistTime($(this).data('start')/1000) < time)
+      var playlistTime = getPlaylistTime($(this).data('start')/1000);
+      if (playlistTime && playlistTime < time)
         $(this).addClass('played');
       else
         $(this).removeClass('played');
