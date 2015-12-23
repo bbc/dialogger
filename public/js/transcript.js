@@ -98,28 +98,32 @@ define([
 
   var keyHandler = function(e)
   {
+    // if delete key is pressed
     if (e.data.keyCode == 46) {
       e.cancel();
+
+      // wrap selection in <span class="hidden">
       editor.applyStyle(new CKEditor.style({
         element: 'span',
         attributes: {'class': 'hidden'},
         parentRule: function(e) { return e.is('p'); },
         childRule: function(e) { return e.is('a'); }
       }));
-      if (Preview.isPlaying()) {
-        pause();
-        play(Preview.getRate());
-      } else {
-        stop();
-      }
+
+      // add double-click handler to undo
+      $('#transcript span.hidden').dblclick(function() {
+        $(this).replaceWith($(this).html());
+        refresh();
+      });
+
+      // update playlist
+      refresh();
     }
   };
 
-  var change = function(e) {
-    $('#transcript span.hidden').dblclick(function() {
-      $(this).replaceWith($(this).html());
-      refresh();
-    });
+  var change = function() {
+    // if the transcript is editied, update the playlist
+    refresh();
   };
 
   var initialize = function() {
@@ -151,8 +155,8 @@ define([
     }
     return true;
   };
-  var play = function(rate) {
-    if (refresh()) Preview.play(rate);
+  var play = function(rate, onEnd) {
+    if (refresh()) Preview.play(rate, onEnd);
   };
   var pause = function() {
     Preview.pause();

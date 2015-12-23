@@ -45,7 +45,7 @@ define([
 
     $('#playButton').click(function() {
       if ($('#playButton i:first').hasClass('play')) {
-        Transcript.play(1);
+        Transcript.play(1, playbackEnd);
         $('#playButton i:first').removeClass('play').addClass('pause');
       } else {
         Transcript.pause();
@@ -53,7 +53,7 @@ define([
       }
     });
     $('#forwardButton').click(function() {
-      Transcript.play(2);
+      Transcript.play(2, playbackEnd);
       $('#playButton i:first').removeClass('play').addClass('pause');
     });
     //$('#stopButton').click(function() {
@@ -74,7 +74,6 @@ define([
     setInterval(AssetsCollection.fetch, 5000);
   };
   return {
-    playbackEnd: playbackEnd,
     initialize: initialize
   };
 });

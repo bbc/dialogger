@@ -1,12 +1,12 @@
 define([
   'jquery',
   'videocompositor',
-  'ui',
   'utils'
-], function($, VideoCompositor, UI, Utils)
+], function($, VideoCompositor, Utils)
 {
   var instance;
   var refresh;
+  var endHandler;
   var playing = false;
   var initialize = function() {
     instance = new VideoCompositor($('#preview')[0]); 
@@ -25,7 +25,10 @@ define([
                  Utils.wordsToEDL(words), '/api/assets/preview/'+id);
     instance.playlist = playlist;
   };
-  var play = function(rate) {
+  var play = function(rate, onEnd) {
+    instance.removeEventListener('ended', endHandler);
+    endHandler = onEnd;
+    instance.addEventListener('ended', endHandler);
     instance.playbackRate = rate;
     instance.play();
   };
@@ -40,7 +43,7 @@ define([
     return playing;
   };
   var seek = function(time) {
-    if (time) instance.currentTime = time;
+    if (time > -1) instance.currentTime = time;
   };
   var seekOrig = function(origTime) {
     seek(getPlaylistTime(origTime));
@@ -54,7 +57,7 @@ define([
         return origTime - edits[i].sourceStart + edits[i].start;
       }
     }
-    return null;
+    return -1;
   };
   var getRate = function() {
     return instance.playbackRate;
@@ -68,14 +71,11 @@ define([
     clearInterval(refresh);
     updatePosition();
   };
-  var endHandler = function() {
-    UI.playbackEnd();
-  };
   var updatePosition = function() {
     var time = instance.currentTime;
     $('#transcript a').each(function() {
       var playlistTime = getPlaylistTime($(this).data('start')/1000);
-      if (playlistTime && playlistTime < time)
+      if (playlistTime > -1 && playlistTime < time)
         $(this).addClass('played');
       else
         $(this).removeClass('played');
