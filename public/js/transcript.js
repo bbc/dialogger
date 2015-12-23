@@ -68,11 +68,11 @@ define([
   var loadEdit = function(id) {
     if (editor) {
       $.getJSON('/api/edits/'+id, function(data) {
-        editor.setData(data[0].html);
-        Preview.updateHTML(data[0].html, data[0].asset);
-        editor.resetUndo();
         loadedEdit = data[0];
         loadedAsset = null;
+        editor.setData(data[0].html);
+        refresh();
+        editor.resetUndo();
       })
       .fail(Utils.ajaxError);
     }
@@ -81,11 +81,11 @@ define([
   var loadAsset = function(id) {
     if (editor) {
       $.getJSON('/api/assets/'+id, function(data) {
-        editor.setData(Utils.transcriptToHTML(data[0]));
-        Preview.updateHTML(editor.getData(), id);
-        editor.resetUndo();
         loadedAsset = data[0];
         loadedEdit = null;
+        editor.setData(Utils.transcriptToHTML(data[0]));
+        refresh();
+        editor.resetUndo();
       })
       .fail(Utils.ajaxError);
     }
@@ -100,23 +100,17 @@ define([
   {
     if (e.data.keyCode == 46) {
       e.cancel();
-      //editor.applyStyle(new CKEditor.style({
-      //  element: 'span',
-      //  attributes: {class: 'hidden'}
-      //}));
-      var html = editor.getSelectedHtml(true);
-      if ($(html).length > 0) {
-        $(html).find('a').each(function() {
-          $(this).removeClass('played');
-        });
-        editor.insertHtml('<span class="hidden">'+html+'</span>');
-        editor.getSelection().removeAllRanges();
-        if (Preview.isPlaying()) {
-          pause();
-          play(Preview.getRate());
-        } else {
-          stop();
-        }
+      editor.applyStyle(new CKEditor.style({
+        element: 'span',
+        attributes: {'class': 'hidden'},
+        parentRule: function(e) { return e.is('p'); },
+        childRule: function(e) { return e.is('a'); }
+      }));
+      if (Preview.isPlaying()) {
+        pause();
+        play(Preview.getRate());
+      } else {
+        stop();
       }
     }
   };
@@ -124,6 +118,7 @@ define([
   var change = function(e) {
     $('#transcript span.hidden').dblclick(function() {
       $(this).replaceWith($(this).html());
+      refresh();
     });
   };
 
@@ -134,6 +129,11 @@ define([
       allowedContent: true,
       //allowedContent: 'a p span[*](*); strong',
       title: false,
+      coreStyles_bold: {
+        element: 'strong',
+        overrides: 'b',
+        childRule: function(e) { return !e.is('a'); }
+      },
       on: {
         selectionChange: wordClick,
         change: change,
@@ -141,15 +141,18 @@ define([
       }
     });
   };
-  var play = function(rate) {
+  var refresh = function() {
     if (loadedAsset) {
       Preview.updateHTML(editor.getData(), loadedAsset._id);
     } else if (loadedEdit) {
       Preview.updateHTML(editor.getData(), loadedEdit.asset);
     } else {
-      return;
+      return false;
     }
-    Preview.play(rate);
+    return true;
+  };
+  var play = function(rate) {
+    if (refresh()) Preview.play(rate);
   };
   var pause = function() {
     Preview.pause();
