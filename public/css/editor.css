@@ -20,7 +20,6 @@ span.hidden::after {
   cursor: col-resize;
 }
 span.speaker {
-  display: none;
   font-weight: bold;
 }
 span.speaker.M {
