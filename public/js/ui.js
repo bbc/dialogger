@@ -2,8 +2,9 @@ define([
   'jquery',
   'semantic',
   'transcript',
-  'collections/assets'
-], function($, Semantic, Transcript, AssetsCollection)
+  'collections/assets',
+  'collections/edits'
+], function($, Semantic, Transcript, AssetsCollection, EditsCollection)
 {
   var playbackEnd = function() {
     $('#playButton i:first').removeClass('pause').addClass('play');
@@ -67,7 +68,7 @@ define([
       Transcript.italic();
     });
     $('#saveButton').click(function() {
-      Transcript.save();
+      EditsCollection.save(Transcript.save());
     });
 
     // TODO Remove the need for regular polling

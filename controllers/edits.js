@@ -65,7 +65,7 @@ exports.save = function(req, res)
 {
   db.edits.insert({
     owner: req.user._id,
-    asset: req.body.assetid,
+    asset: req.body.asset,
     name: req.body.name,
     description: req.body.description,
     transcript: req.body.transcript,

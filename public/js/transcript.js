@@ -9,12 +9,11 @@ define([
 {
   var editor;
   var loadedAsset;
-  var loadedEdit;
   var bold = function() { editor.execCommand('bold'); };
   var italic = function() { editor.execCommand('italic'); };
+  var defaultData = '<p>&nbsp;</p><p align="center">Please open a media asset or edit to start.</p>';
   
   var save = function() {
-    var method, url;
     if (editor)
     {
       // process transcript
@@ -24,72 +23,34 @@ define([
         html: editor.getData(),
         edl: Utils.wordsToEDL(words)
       };
+      return edit;
+    }
+  };
 
-      // if saving existing edit
-      if (loadedEdit)
-      {
-        // set up AJAX
-        method = 'PUT';
-        url = '/api/edits/'+loadedEdit._id;
+  var load = function(transcript, format, assetUrl) {
+    if (editor) {
+      loadedAsset = assetUrl;
 
-      // if saving new edit
-      } else if (loadedAsset)
-      {
-        // ask for description
-        var description = window.prompt('Please enter a description of your edit','');
-        if (description == null || description === '') return;
-
-        // set up AJAX
-        method = 'POST';
-        url = '/api/edits';
-        edit.name = loadedAsset.name;
-        edit.assetid = loadedAsset._id;
-        edit.description = description;
+      // load new transcript
+      if (format == 'json') {
+        editor.setData(Utils.transcriptToHTML(transcript));
+      } else if (format == 'html') {
+        editor.setData(transcript);
       } else {
-        return;
+        return -1;
       }
+      refresh();
+      editor.resetUndo();
 
-      // deselect current asset
-      AssetsCollection.deselect();
-
-      // send AJAX request
-      $.ajax(url, {
-        data: JSON.stringify(edit),
-        contentType: 'application/json',
-        method: method,
-        success: function (data) {
-          EditsCollection.fetch();
-        },
-        error: Utils.ajaxError
-      });
+      // stop playback
+      Preview.pause();
+      Preview.seek(0);
     }
   };
 
-  var loadEdit = function(id) {
-    if (editor) {
-      $.getJSON('/api/edits/'+id, function(data) {
-        loadedEdit = data[0];
-        loadedAsset = null;
-        editor.setData(data[0].html);
-        refresh();
-        editor.resetUndo();
-      })
-      .fail(Utils.ajaxError);
-    }
+  var unload = function() {
+    load(defaultData, 'html', null);
   };
-
-  var loadAsset = function(id) {
-    if (editor) {
-      $.getJSON('/api/assets/'+id, function(data) {
-        loadedAsset = data[0];
-        loadedEdit = null;
-        editor.setData(Utils.transcriptToHTML(data[0]));
-        refresh();
-        editor.resetUndo();
-      })
-      .fail(Utils.ajaxError);
-    }
-  }; 
 
   var wordClick = function(e) {
     var start = $(e.data.selection.getStartElement())[0].data('start');
@@ -130,8 +91,7 @@ define([
     editor = CKEditor.inline('transcript', {
       removePlugins: 'toolbar,contextmenu,liststyle,tabletools,elementspath,link',
       resize_enabled: false,
-      allowedContent: true,
-      //allowedContent: 'a p span[*](*); strong',
+      allowedContent: 'a p span[*](*); strong',
       title: false,
       coreStyles_bold: {
         element: 'strong',
@@ -147,9 +107,7 @@ define([
   };
   var refresh = function() {
     if (loadedAsset) {
-      Preview.updateHTML(editor.getData(), loadedAsset._id);
-    } else if (loadedEdit) {
-      Preview.updateHTML(editor.getData(), loadedEdit.asset);
+      Preview.updateHTML(editor.getData(), loadedAsset);
     } else {
       return false;
     }
@@ -167,8 +125,8 @@ define([
   };
   return {
     initialize: initialize,
-    loadAsset: loadAsset,
-    loadEdit: loadEdit,
+    load: load,
+    unload: unload,
     save: save,
     bold: bold,
     italic: italic,

@@ -20,11 +20,15 @@ define([
     },
     open: function(e) {
       var id = $(e.currentTarget).closest('.asset').data('id');
-      Transcript.loadAsset(id);
-      AssetsCollection.deselect();
-      EditsCollection.deselect();
       var model = this.collection.get(id);
-      model.set({selected: true});
+      model.fetch({
+        success: function(model, response, options) {
+          Transcript.load(response[0], 'json', '/api/assets/preview/'+id);
+          AssetsCollection.deselect();
+          EditsCollection.deselect();
+          model.set({selected: true});
+        }
+      });
       this.render();
     },
     assetReady: function(model) {
@@ -55,7 +59,7 @@ define([
       var collection = this.collection;
       var name = collection.get(id).attributes.name;
       $('#deleteName').html(name);
-			$('#deleteModal').modal({
+      $('#deleteModal').modal({
         closable: false,
         onApprove: function() {
           $.ajax({
@@ -64,6 +68,7 @@ define([
             success: function() {
               collection.fetch();
               EditsCollection.fetch();
+              Transcript.unload();
             },
             error: Utils.ajaxError
           });

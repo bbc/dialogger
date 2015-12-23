@@ -14,15 +14,15 @@ define([
     instance.addEventListener('pause', pauseHandler);
     instance.addEventListener('ended', endHandler);
   };
-  var updateHTML = function(html, id) {
+  var updateHTML = function(html, assetUrl) {
     var playlist = Utils.edlToPlaylist(
                      Utils.wordsToEDL(
-                       Utils.HTMLtoWords(html)), '/api/assets/preview/'+id);
+                       Utils.HTMLtoWords(html)), assetUrl);
     instance.playlist = playlist;
   };
-  var updateWords = function(words, id) {
+  var updateWords = function(words, assetUrl) {
     playlist = Utils.edlToPlaylist(
-                 Utils.wordsToEDL(words), '/api/assets/preview/'+id);
+                 Utils.wordsToEDL(words), assetUrl);
     instance.playlist = playlist;
   };
   var play = function(rate, onEnd) {

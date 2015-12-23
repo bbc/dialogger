@@ -3,11 +3,11 @@ define([
 ], function($)
 {
   // convert a transcript to HTML
-  var transcriptToHTML = function(asset)
+  var transcriptToHTML = function(model)
   {
     var html = '';
-    var words = asset.transcript.words; 
-    var segments = asset.segments.segments;
+    var words = model.transcript.words;
+    var segments = model.segments.segments;
     var currentSegment = 0;
 
     // for each word

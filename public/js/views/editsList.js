@@ -19,10 +19,15 @@ define([
     },
     open: function(e) {
       var id = $(e.currentTarget).closest('.edit').data('id');
-      Transcript.loadEdit(id);
-      AssetsCollection.deselect();
-      EditsCollection.deselect();
-      EditsCollection.set(id, 'selected', true);
+      var model = this.collection.get(id);
+      model.fetch({
+        success: function(model, response, options) {
+          Transcript.load(response[0].html, 'html', '/api/assets/preview/'+model.get('asset'));
+          AssetsCollection.deselect();
+          EditsCollection.deselect();
+          model.set({selected: true});
+        }
+      });
       this.render();
     },
     exportEdit: function(e) {
@@ -65,11 +70,14 @@ define([
           $.ajax({
             url: '/api/edits/'+id,
             method: 'DELETE',
-            success: function() { collection.fetch(); },
+            success: function() {
+              collection.fetch();
+              Transcript.unload();
+            },
             error: Utils.ajaxError
           });
         }
-			}).modal('show');
+      }).modal('show');
     },
     newEdit: function(model) {
       model.set('selected', true);

@@ -15,6 +15,9 @@ define([
   var get = function(id, field) {
     return instance.get(id).get(field);
   };
+  var getSelected = function() {
+    return instance.findWhere({selected: true});
+  };
   var fetch = function() {
     instance.fetch();
   };
@@ -25,7 +28,8 @@ define([
     initialize: initialize,
     fetch: fetch,
     deselect: deselect,
-    get: get
+    get: get,
+    getSelected: getSelected
   };
 });
 
