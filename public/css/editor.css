@@ -65,3 +65,6 @@ canvas {
     padding-bottom: 0;
   }
 }
+.cke_focus {
+  outline: none;
+}
