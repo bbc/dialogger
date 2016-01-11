@@ -8,9 +8,11 @@ define([
 ], function($, Dropzone, UploadTemplate, AssetsCollection, Notification, Utils)
 {
   var initialize = function() {
+    Dropzone.autoDiscover = false;
     $('#uploadForm').dropzone({
       clickable: '#uploadButton',
       previewTemplate: UploadTemplate,
+      maxFilesize: 2000,
       addedfile: function(file) {
         file.previewElement = $(this.options.previewTemplate);
         $(file.previewElement).find('.header').text(file.name);
