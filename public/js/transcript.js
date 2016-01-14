@@ -71,12 +71,6 @@ define([
         childRule: function(e) { return e.is('a'); }
       }));
 
-      // add double-click handler to undo
-      $('#transcript span.hidden').dblclick(function() {
-        $(this).replaceWith($(this).html());
-        refresh();
-      });
-
       // update playlist
       refresh();
     }
@@ -106,9 +100,16 @@ define([
     });
   };
   var refresh = function() {
-    if (loadedAsset) {
+    if (loadedAsset)
+    {
+      // add double-click handler to undo
+      $('#transcript span.hidden').dblclick(function() {
+        $(this).replaceWith($(this).html());
+        refresh();
+      });
       Preview.updateHTML(editor.getData(), loadedAsset);
-    } else {
+    }
+    else {
       return false;
     }
     return true;
