@@ -12,6 +12,7 @@ define([
   var bold = function() { editor.execCommand('bold'); };
   var italic = function() { editor.execCommand('italic'); };
   var defaultData = '<p>&nbsp;</p><p align="center">Please open a media asset or edit to start.</p>';
+  var keyWhitelist = /^[a-zA-Z0-9]+$/;
   
   var save = function() {
     if (editor)
@@ -90,7 +91,7 @@ define([
         refresh();
         return false;
       }
-      else
+      else if (keyWhitelist.test(String.fromCharCode(e.data.keyCode)))
       {
         // get start and end of selection
         var startElement = $(nodes.baseNode.parentElement);
