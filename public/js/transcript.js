@@ -59,20 +59,67 @@ define([
 
   var keyHandler = function(e)
   {
-    // if delete key is pressed
-    if (e.data.keyCode == 46) {
-      e.cancel();
+    var selection = editor.getSelection();
+    var range = selection.getRanges();
+    var nodes = selection.getNative();
 
-      // wrap selection in <span class="hidden">
-      editor.applyStyle(new CKEditor.style({
-        element: 'span',
-        attributes: {'class': 'hidden'},
-        parentRule: function(e) { return e.is('p'); },
-        childRule: function(e) { return e.is('a'); }
-      }));
+    // if space key is pressed in an <a>, jump to end instead of splitting
+    if (e.data.keyCode == 32)
+    {
+      var word = selection.getStartElement();
+      if (word.is('a')) {
+        range[0].moveToPosition(word, CKEditor.POSITION_AFTER_END);
+        selection.selectRanges(range);
+        return false;
+      }
+      return true;
+    }
 
-      // update playlist
-      refresh();
+    // if text is selected
+    if (selection.getSelectedText().length > 0)
+    {
+      // if delete or backspace key is pressed, wrap in <span class="hidden">
+      if (e.data.keyCode == 46 || e.data.keyCode == 8)
+      {
+        editor.applyStyle(new CKEditor.style({
+          element: 'span',
+          attributes: {'class': 'hidden'},
+          parentRule: function(e) { return e.is('p'); },
+          childRule: function(e) { return e.is('a'); }
+        }));
+        refresh();
+        return false;
+      }
+      else
+      {
+        // get start and end of selection
+        var startElement = $(nodes.baseNode.parentElement);
+        var endElement = $(nodes.focusNode.parentElement);
+        if (!endElement.is('a')) endElement = $(nodes.extentNode.parentElement);
+
+        // if only one thing selected, continue as normal
+        if (startElement.is(endElement)) return true;
+
+        // if selection is not <a>, continue as normal
+        if (!startElement.is('a') && !endElement.is('a')) return true;
+
+        // if start and end are different types, stop
+        if (startElement.prop('tagName') != endElement.prop('tagName'))
+          return false;
+
+        // otherwise, overwrite multiple words with one, retaining the correct
+        // timestamps
+        var start = startElement.data('start');
+        var end = endElement.data('end');
+        var next = endElement.data('next');
+        editor.insertHtml('<a data-start="'+start+
+                          '" data-end="'+end+
+                          '" data-next="'+next+'">'+
+                          '</a>', 'unfiltered_html');
+        startElement.remove();
+        endElement.replaceWith(' ');
+        return true;
+      }
     }
   };
 
