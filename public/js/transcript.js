@@ -97,11 +97,14 @@ define([
         var endElement = $(nodes.focusNode.parentElement);
         if (!endElement.is('a')) endElement = $(nodes.extentNode.parentElement);
 
-        // if only one thing selected, continue as normal
-        if (startElement.is(endElement)) return true;
-
         // if selection is not <a>, continue as normal
         if (!startElement.is('a') && !endElement.is('a')) return true;
+
+        // if only one thing selected, continue as normal
+        if (startElement.is(endElement)) {
+          startElement.removeClass('unsure');
+          return true;
+        }
 
         // if start and end are different types, stop
         if (startElement.prop('tagName') != endElement.prop('tagName'))
@@ -120,6 +123,10 @@ define([
         endElement.replaceWith(' ');
         return true;
       }
+    }
+    else
+    {
+      selection.getStartElement().removeClass('unsure');
     }
   };
 
