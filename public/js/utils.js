@@ -27,8 +27,8 @@ define([
 
       // note word and its start and end times (in millisecs)
       var word = words[i].word;
-      var startTime = words[i].start * 1000;
-      var endTime = words[i].end * 1000;
+      var startTime = Math.round(words[i].start * 1000);
+      var endTime = Math.round(words[i].end * 1000);
 
       // note start time of next word (for detecting cuts)
       if (i+1 >= words.length)
