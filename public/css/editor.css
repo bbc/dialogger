@@ -1,5 +1,8 @@
-body {
+#transcript {
   color: blue;
+}
+.black {
+  color: black;
 }
 #transcript a {
   color: black;

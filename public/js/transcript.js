@@ -11,7 +11,7 @@ define([
   var loadedAsset;
   var bold = function() { editor.execCommand('bold'); };
   var italic = function() { editor.execCommand('italic'); };
-  var defaultData = '<p>&nbsp;</p><p align="center">Please open a media asset or edit to start.</p>';
+  var defaultData = '<p>&nbsp;</p><p align="center" class="black">Please open a media asset or edit to start.</p>';
   var keyWhitelist = /^[a-zA-Z0-9]+$/;
   
   var save = function() {
