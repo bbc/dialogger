@@ -55,6 +55,9 @@ define([
         });
       }
     },
+    print: function(id) {
+      $('#printModal').modal('show');
+    },
     destroy: function(id) {
       var collection = this.collection;
       var name = collection.get(id).attributes.name;
@@ -92,6 +95,7 @@ define([
           var id = $(this).closest('.asset').data('id');
           if (text==='Rename') view.rename(id);
           else if (text==='Delete') view.destroy(id);
+          else if (text==='Send to digital pen system') view.print(id);
           $(this).dropdown('hide');
         }
       });

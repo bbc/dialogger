@@ -2,13 +2,14 @@ define([
   'jquery',
   'upload',
   'export',
+  'print',
   'ui',
   'transcript',
   'preview',
   'views/assetsList',
   'views/editsList',
   'views/user'
-], function($, Upload, Export, UI, Transcript, Preview, AssetsListView, EditsListView, UserView)
+], function($, Upload, Export, Print, UI, Transcript, Preview, AssetsListView, EditsListView, UserView)
 {
   var initialize = function(){
     AssetsListView.initialize();
@@ -16,6 +17,7 @@ define([
     UserView.initialize();
     Upload.initialize();
     Export.initialize();
+    Print.initialize();
     Transcript.initialize();
     UI.initialize();
     Preview.initialize();
