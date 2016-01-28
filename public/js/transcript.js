@@ -12,6 +12,7 @@ define([
   var bold = function() { editor.execCommand('bold'); };
   var italic = function() { editor.execCommand('italic'); };
   var defaultData = '<p>&nbsp;</p><p align="center">Please open a media asset or edit to start.</p>';
+  var keyWhitelist = /^[a-zA-Z0-9]+$/;
   
   var save = function() {
     if (editor)
@@ -59,26 +60,74 @@ define([
 
   var keyHandler = function(e)
   {
-    // if delete key is pressed
-    if (e.data.keyCode == 46) {
-      e.cancel();
+    var selection = editor.getSelection();
+    var range = selection.getRanges();
+    var nodes = selection.getNative();
 
-      // wrap selection in <span class="hidden">
-      editor.applyStyle(new CKEditor.style({
-        element: 'span',
-        attributes: {'class': 'hidden'},
-        parentRule: function(e) { return e.is('p'); },
-        childRule: function(e) { return e.is('a'); }
-      }));
+    // if space key is pressed in an <a>, jump to end instead of splitting
+    if (e.data.keyCode == 32)
+    {
+      var word = selection.getStartElement();
+      if (word.is('a')) {
+        range[0].moveToPosition(word, CKEditor.POSITION_AFTER_END);
+        selection.selectRanges(range);
+        return false;
+      }
+      return true;
+    }
 
-      // add double-click handler to undo
-      $('#transcript span.hidden').dblclick(function() {
-        $(this).replaceWith($(this).html());
+    // if text is selected
+    if (selection.getSelectedText().length > 0)
+    {
+      // if delete or backspace key is pressed, wrap in <span class="hidden">
+      if (e.data.keyCode == 46 || e.data.keyCode == 8)
+      {
+        editor.applyStyle(new CKEditor.style({
+          element: 'span',
+          attributes: {'class': 'hidden'},
+          parentRule: function(e) { return e.is('p'); },
+          childRule: function(e) { return e.is('a'); }
+        }));
         refresh();
-      });
+        return false;
+      }
+      else if (keyWhitelist.test(String.fromCharCode(e.data.keyCode)))
+      {
+        // get start and end of selection
+        var startElement = $(nodes.baseNode.parentElement);
+        var endElement = $(nodes.focusNode.parentElement);
+        if (!endElement.is('a')) endElement = $(nodes.extentNode.parentElement);
 
-      // update playlist
-      refresh();
+        // if selection is not <a>, continue as normal
+        if (!startElement.is('a') && !endElement.is('a')) return true;
+
+        // if only one thing selected, continue as normal
+        if (startElement.is(endElement)) {
+          startElement.removeClass('unsure');
+          return true;
+        }
+
+        // if start and end are different types, stop
+        if (startElement.prop('tagName') != endElement.prop('tagName'))
+          return false;
+
+        // otherwise, overwrite multiple words with one, retaining the correct
+        // timestamps
+        var start = startElement.data('start');
+        var end = endElement.data('end');
+        var next = endElement.data('next');
+        editor.insertHtml('<a data-start="'+start+
+                          '" data-end="'+end+
+                          '" data-next="'+next+'">'+
+                          '</a>', 'unfiltered_html');
+        startElement.remove();
+        endElement.replaceWith(' ');
+        return true;
+      }
+    }
+    else
+    {
+      selection.getStartElement().removeClass('unsure');
     }
   };
 
@@ -106,9 +155,16 @@ define([
     });
   };
   var refresh = function() {
-    if (loadedAsset) {
+    if (loadedAsset)
+    {
+      // add double-click handler to undo
+      $('#transcript span.hidden').dblclick(function() {
+        $(this).replaceWith($(this).html());
+        refresh();
+      });
       Preview.updateHTML(editor.getData(), loadedAsset);
-    } else {
+    }
+    else {
       return false;
     }
     return true;
