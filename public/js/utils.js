@@ -9,6 +9,7 @@ define([
     var words = model.transcript.words;
     var segments = model.segments.segments;
     var currentSegment = 0;
+    var prevSpeaker;
 
     // for each word
     for (var i=0; i<words.length; i++) {
@@ -19,9 +20,12 @@ define([
 
         // start a new paragraph
         var speaker = segments[currentSegment].speaker['@id'];
-        var gender = segments[currentSegment].speaker.gender;
-        if (currentSegment>0) html += '</p>';
-        html += '<p><span class="speaker '+gender+'">['+speaker+']</span> ';
+        if (prevSpeaker != speaker) {
+          var gender = segments[currentSegment].speaker.gender;
+          if (currentSegment>0) html += '</p>';
+          html += '<p><span class="speaker '+gender+'">['+speaker+']</span> ';
+          prevSpeaker = speaker;
+        }
         currentSegment += 1;
       }
 
