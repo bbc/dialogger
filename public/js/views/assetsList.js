@@ -95,7 +95,7 @@ define([
           var id = $(this).closest('.asset').data('id');
           if (text==='Rename') view.rename(id);
           else if (text==='Delete') view.destroy(id);
-          else if (text==='Send to digital pen system') view.print(id);
+          else if (text==='Edit with digital pen') view.print(id);
           $(this).dropdown('hide');
         }
       });
