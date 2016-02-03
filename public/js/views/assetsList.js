@@ -59,6 +59,7 @@ define([
       }
     },
     print: function(id) {
+      $('#printForm').data('id', id);
       $('#printModal').modal('show');
     },
     destroy: function(id) {

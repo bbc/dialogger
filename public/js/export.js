@@ -76,11 +76,6 @@ define([
       return false;
     };
 
-    // configure API endpoint
-    $.fn.api.settings.api = {
-      'export': '/api/edits/export/{id}'
-    };
-
     // configure form validation
     $('#exportForm')
     .form({
@@ -91,6 +86,7 @@ define([
     // configure form submission
     .api({
       action: 'export',
+      url: '/api/edits/export/{id}',
       method: 'POST',
       serializeForm: true,
       beforeSend: function(settings) {
