@@ -28,20 +28,6 @@ define([
     .sidebar('attach events', '#rightButton')
     .sidebar('attach events', '#saveButton', 'show');
 
-    var bottomSidebar = $('.bottom.sidebar')
-    .sidebar({
-        exclusive: false,
-        closable: false,
-        dimPage: false,
-        onVisible: function() {
-          $('.pusher').addClass('preview');
-        },
-        onHide: function() {
-          $('.pusher').removeClass('preview');
-        }
-    })
-    .sidebar('attach events', '#previewButton');
-
     $('.top.fixed.menu .ui.dropdown').dropdown();
 
     $('#playButton').click(function() {
@@ -57,16 +43,6 @@ define([
       Transcript.play(2, playbackEnd);
       $('#playButton i:first').removeClass('play').addClass('pause');
     });
-    //$('#stopButton').click(function() {
-    //  Transcript.stop();
-    //  $('#playButton i:first').removeClass('pause').addClass('play');
-    //});
-    $('#boldButton').click(function() {
-      Transcript.bold();
-    });
-    $('#italicButton').click(function() {
-      Transcript.italic();
-    });
     $('#saveButton').click(function() {
       EditsCollection.save(Transcript.save());
     });
@@ -74,7 +50,15 @@ define([
     // TODO Remove the need for regular polling
     setInterval(AssetsCollection.fetch, 5000);
   };
+  var showVideo = function() {
+    $('#preview').addClass('visible');
+  };
+  var hideVideo = function() {
+    $('#preview').removeClass('visible');
+  };
   return {
-    initialize: initialize
+    initialize: initialize,
+    showVideo: showVideo,
+    hideVideo: hideVideo
   };
 });

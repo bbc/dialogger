@@ -10,9 +10,6 @@
   <script data-main="public/js/main" src="public/bower_components/requirejs/require.js"></script>
 </head>
 <body>
-<div class="ui bottom sidebar">
-  <canvas id="preview"></canvas>
-</div>
 <div class="ui left vertical sidebar">
   <div class="ui celled list" id="assetsList"></div>
 </div>
@@ -56,9 +53,6 @@
 <!--  <a class="item" id="stopButton">
     <i class="stop icon"></i>
   </a> -->
-  <a class="item" id="previewButton">
-    <i class="film icon"></i> Show/Hide
-  </a>
 <!--  <a class="item" id="boldButton">
     <i class="bold icon"></i>
   </a>
@@ -88,6 +82,7 @@
     <p>&nbsp;</p>
     <p align="center">Please open a media asset or edit to start.</p>
   </div>
+  <canvas id="preview"></canvas>
 </div>
 <div class="ui small modal" id="exportModal">
     <div class="content">

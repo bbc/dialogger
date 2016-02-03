@@ -7,9 +7,10 @@ define([
   'text!templates/assetsList.html',
   'transcript',
   'notification',
+  'ui',
   'utils'
 ], function($, _, Backbone, AssetsCollection, EditsCollection, assetsListTemplate, Transcript,
-  Notification, Utils)
+  Notification, UI, Utils)
 {
   var instance;
   var AssetsListView = Backbone.View.extend({
@@ -23,6 +24,8 @@ define([
       var model = this.collection.get(id);
       model.fetch({
         success: function(model, response, options) {
+          if (response[0].info.video_tracks) UI.showVideo();
+          else UI.hideVideo();
           Transcript.load(response[0], 'json', '/api/assets/preview/'+id);
           AssetsCollection.deselect();
           EditsCollection.deselect();
