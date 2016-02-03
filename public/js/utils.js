@@ -31,6 +31,7 @@ define([
 
       // note word and its start and end times (in millisecs)
       var word = words[i].word;
+      if ("punct" in words[i]) word = words[i].punct;
       var startTime = Math.round(words[i].start * 1000);
       var endTime = Math.round(words[i].end * 1000);
 
