@@ -16,7 +16,7 @@ define([
       addedfile: function(file) {
         file.previewElement = $(this.options.previewTemplate);
         $(file.previewElement).find('.header').text(file.name);
-        $('#assetsList').append(file.previewElement);
+        $('#assetsList').prepend(file.previewElement);
         Notification.getPermission();
       },
       error: function(file) {
