@@ -1,4 +1,4 @@
-<% _.each(collection, function(model) { %>
+<% _.each(collection.reverse(), function(model) { %>
     <div class="item edit <%= model.selected ? 'selected' : '' %>" data-id="<%= model._id %>">
       <div class="right floated content">
         <button class="mini ui button <%= (model.jobid && !model.ready) ? 'loading' : '' %>" data-id="<%= model._id %>">

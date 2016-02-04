@@ -1,4 +1,4 @@
-<% _.each(collection, function(model) { %>
+<% _.each(collection.reverse(), function(model) { %>
     <div class="item asset <%= model.selected ? 'selected' : '' %>" data-id="<%= model._id %>">
 <% if (model.ready || model.error) { %>
       <div class="right floated content">
