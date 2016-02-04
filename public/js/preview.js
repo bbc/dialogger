@@ -7,8 +7,10 @@ define([
   var instance;
   var refresh;
   var endHandler;
+  var updateDuration;
   var playing = false;
-  var initialize = function() {
+  var initialize = function(options) {
+    updateDuration = options.duration;
     instance = new VideoCompositor($('#preview')[0]); 
     instance.addEventListener('play', playHandler);
     instance.addEventListener('pause', pauseHandler);
@@ -17,6 +19,7 @@ define([
   var updateEDL = function(edl, assetUrl) {
     var playlist = Utils.edlToPlaylist(edl, assetUrl);
     instance.playlist = playlist;
+    updateDuration(VideoCompositor.calculatePlaylistDuration(playlist));
   };
   var updateHTML = function(html, assetUrl) {
     var playlist = Utils.edlToPlaylist(

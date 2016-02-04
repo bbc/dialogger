@@ -56,17 +56,23 @@ define([
     // TODO Remove the need for regular polling
     setInterval(AssetsCollection.fetch, 5000);
   };
-   var showVideo = function() {
-     $('#preview').addClass('visible');
-   };
-   var hideVideo = function() {
-     $('#preview').removeClass('visible');
-   };
+  var showVideo = function() {
+    $('#preview').addClass('visible');
+  };
+  var hideVideo = function() {
+    $('#preview').removeClass('visible');
+  };
+  var updateDuration = function(duration) {
+    var mins = parseInt(duration/60);
+    var secs = parseInt(duration%60);
+    $('#duration').text((mins<10?'0'+mins:mins)+':'+(secs<10?'0'+secs:secs));
+  };
   return {
     initialize: initialize,
     play: play,
     pause: pause,
     showVideo: showVideo,
-    hideVideo: hideVideo
+    hideVideo: hideVideo,
+    updateDuration: updateDuration
   };
 });

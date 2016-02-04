@@ -26,7 +26,9 @@ define([
       edl: Preview.updateEDL
     });
     UI.initialize();
-    Preview.initialize();
+    Preview.initialize({
+      duration: UI.updateDuration
+    });
   }
   return {
     initialize: initialize
