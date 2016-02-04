@@ -14,6 +14,10 @@ define([
     instance.addEventListener('pause', pauseHandler);
     instance.addEventListener('ended', endHandler);
   };
+  var updateEDL = function(edl, assetUrl) {
+    var playlist = Utils.edlToPlaylist(edl, assetUrl);
+    instance.playlist = playlist;
+  };
   var updateHTML = function(html, assetUrl) {
     var playlist = Utils.edlToPlaylist(
                      Utils.wordsToEDL(
@@ -84,6 +88,7 @@ define([
   return {
     initialize: initialize,
     updateHTML: updateHTML,
+    updateEDL: updateEDL,
     updateWords: updateWords,
     play: play,
     pause: pause,

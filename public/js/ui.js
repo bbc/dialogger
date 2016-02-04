@@ -2,12 +2,23 @@ define([
   'jquery',
   'semantic',
   'transcript',
+  'preview',
   'collections/assets',
   'collections/edits'
-], function($, Semantic, Transcript, AssetsCollection, EditsCollection)
+], function($, Semantic, Transcript, Preview, AssetsCollection, EditsCollection)
 {
   var playbackEnd = function() {
     $('#playButton i:first').removeClass('pause').addClass('play');
+  };
+  var play = function(rate, onEnd) {
+    if (Transcript.refresh()) {
+      Preview.play(rate, onEnd);
+      $('#playButton i:first').removeClass('play').addClass('pause');
+    }
+  };
+  var pause = function() {
+    Preview.pause();
+    playbackEnd();
   };
   var initialize = function() {
     var leftSidebar = $('.left.sidebar')
@@ -31,16 +42,11 @@ define([
     $('.top.fixed.menu .ui.dropdown').dropdown();
 
     $('#playButton').click(function() {
-      if ($('#playButton i:first').hasClass('play')) {
-        Transcript.play(1, playbackEnd);
-        $('#playButton i:first').removeClass('play').addClass('pause');
-      } else {
-        Transcript.pause();
-        playbackEnd();
-      }
+      if ($('#playButton i:first').hasClass('play')) play(1, playbackEnd);
+      else pause();
     });
     $('#forwardButton').click(function() {
-      Transcript.play(2, playbackEnd);
+      play(2, playbackEnd);
       $('#playButton i:first').removeClass('play').addClass('pause');
     });
     $('#saveButton').click(function() {
@@ -59,6 +65,8 @@ define([
   return {
     initialize: initialize,
     showVideo: showVideo,
-    hideVideo: hideVideo
+    hideVideo: hideVideo,
+    play: play,
+    pause: pause
   };
 });

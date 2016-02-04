@@ -18,7 +18,7 @@ define([
     Upload.initialize();
     Export.initialize();
     Print.initialize();
-    Transcript.initialize();
+    Transcript.initialize(UI.play, UI.pause, Preview.seekOrig, Preview.updateEDL);
     UI.initialize();
     Preview.initialize();
   }

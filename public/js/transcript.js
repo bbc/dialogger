@@ -1,11 +1,8 @@
 define([
   'jquery',
   'ckeditor',
-  'utils',
-  'preview',
-  'collections/assets',
-  'collections/edits'
-], function($, CKEditor, Utils, Preview, AssetsCollection, EditsCollection)
+  'utils'
+], function($, CKEditor, Utils)
 {
   var editor;
   var loadedAsset;
@@ -13,6 +10,10 @@ define([
   var italic = function() { editor.execCommand('italic'); };
   var defaultData = '<p>&nbsp;</p><p align="center" class="black">Please open a media asset or edit to start.</p>';
   var keyWhitelist = /^[a-zA-Z0-9]+$/;
+  var play;
+  var pause;
+  var seek;
+  var updateEDL;
   
   var save = function() {
     if (editor)
@@ -30,6 +31,7 @@ define([
 
   var load = function(transcript, format, assetUrl) {
     if (editor) {
+      pause();
       loadedAsset = assetUrl;
 
       // load new transcript
@@ -42,10 +44,6 @@ define([
       }
       refresh();
       editor.resetUndo();
-
-      // stop playback
-      Preview.pause();
-      Preview.seek(0);
     }
   };
 
@@ -55,7 +53,7 @@ define([
 
   var wordClick = function(e) {
     var start = $(e.data.selection.getStartElement())[0].data('start');
-    Preview.seekOrig(start/1000);
+    seek(start/1000);
   };
 
   var keyHandler = function(e)
@@ -131,12 +129,11 @@ define([
     }
   };
 
-  var change = function() {
-    // if the transcript is editied, update the playlist
-    refresh();
-  };
-
-  var initialize = function() {
+  var initialize = function(cbPlay, cbPause, cbSeek, cbUpdateEDL) {
+    play = cbPlay;
+    pause = cbPause;
+    seek = cbSeek;
+    updateEDL = cbUpdateEDL;
     editor = CKEditor.inline('transcript', {
       removePlugins: 'toolbar,contextmenu,liststyle,tabletools,elementspath,link',
       resize_enabled: false,
@@ -149,7 +146,7 @@ define([
       },
       on: {
         selectionChange: wordClick,
-        change: change,
+        change: pause,
         key: keyHandler
       }
     });
@@ -162,22 +159,12 @@ define([
         $(this).replaceWith($(this).html());
         refresh();
       });
-      Preview.updateHTML(editor.getData(), loadedAsset);
+      updateEDL(Utils.wordsToEDL(Utils.HTMLtoWords(editor.getData())), loadedAsset);
     }
     else {
       return false;
     }
     return true;
-  };
-  var play = function(rate, onEnd) {
-    if (refresh()) Preview.play(rate, onEnd);
-  };
-  var pause = function() {
-    Preview.pause();
-  };
-  var stop = function() {
-    Preview.stop();
-    Preview.updatePosition();
   };
   return {
     initialize: initialize,
@@ -186,9 +173,7 @@ define([
     save: save,
     bold: bold,
     italic: italic,
-    play: play,
-    pause: pause,
-    stop: stop
+    refresh: refresh
   };
 });
 
