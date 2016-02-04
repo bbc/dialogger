@@ -27,6 +27,7 @@ define([
           if (response[0].info.video_tracks) UI.showVideo();
           else UI.hideVideo();
           Transcript.load(response[0], 'json', '/api/assets/preview/'+id);
+          UI.updateName(response[0].name);
           AssetsCollection.deselect();
           EditsCollection.deselect();
           model.set({selected: true});

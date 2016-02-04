@@ -67,12 +67,16 @@ define([
     var secs = parseInt(duration%60);
     $('#duration').text((mins<10?'0'+mins:mins)+':'+(secs<10?'0'+secs:secs));
   };
+  var updateName = function(name) {
+    $('#loadedName').text(name);
+  };
   return {
     initialize: initialize,
     play: play,
     pause: pause,
     showVideo: showVideo,
     hideVideo: hideVideo,
-    updateDuration: updateDuration
+    updateDuration: updateDuration,
+    updateName: updateName
   };
 });

@@ -6,8 +6,9 @@ define([
   'collections/edits',
   'text!templates/editsList.html',
   'transcript',
+  'ui',
   'utils'
-], function($, _, Backbone, AssetsCollection, EditsCollection, EditsListTemplate, Transcript, Utils)
+], function($, _, Backbone, AssetsCollection, EditsCollection, EditsListTemplate, Transcript, UI, Utils)
 {
   var instance;
   var EditsListView = Backbone.View.extend({
@@ -23,6 +24,7 @@ define([
       model.fetch({
         success: function(model, response, options) {
           Transcript.load(response[0].html, 'html', '/api/assets/preview/'+model.get('asset'));
+          UI.updateName(response[0].name);
           AssetsCollection.deselect();
           EditsCollection.deselect();
           model.set({selected: true});
