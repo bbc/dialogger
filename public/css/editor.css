@@ -1,5 +1,6 @@
 #transcript {
   color: blue;
+  padding-bottom: 41px !important;
 }
 .black {
   color: black;
@@ -9,7 +10,7 @@
 }
 #preview {
   position: fixed;
-  bottom: 20px;
+  bottom: 61px;
   right: 20px;
   display: none;
 }
