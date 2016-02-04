@@ -56,16 +56,8 @@ define([
     // TODO Remove the need for regular polling
     setInterval(AssetsCollection.fetch, 5000);
   };
-  var showVideo = function() {
-    $('#preview').addClass('visible');
-  };
-  var hideVideo = function() {
-    $('#preview').removeClass('visible');
-  };
   return {
     initialize: initialize,
-    showVideo: showVideo,
-    hideVideo: hideVideo,
     play: play,
     pause: pause
   };
