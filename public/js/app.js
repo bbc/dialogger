@@ -18,7 +18,13 @@ define([
     Upload.initialize();
     Export.initialize();
     Print.initialize();
-    Transcript.initialize(UI.play, UI.pause, Preview.seekOrig, Preview.updateEDL);
+    Transcript.initialize({
+      id: 'transcript',
+      play: UI.play,
+      pause: UI.pause,
+      seek: Preview.seekOrig,
+      edl: Preview.updateEDL
+    });
     UI.initialize();
     Preview.initialize();
   }

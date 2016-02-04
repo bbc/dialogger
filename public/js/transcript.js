@@ -10,6 +10,7 @@ define([
   var italic = function() { editor.execCommand('italic'); };
   var defaultData = '<p>&nbsp;</p><p align="center" class="black">Please open a media asset or edit to start.</p>';
   var keyWhitelist = /^[a-zA-Z0-9]+$/;
+  var id;
   var play;
   var pause;
   var seek;
@@ -129,12 +130,13 @@ define([
     }
   };
 
-  var initialize = function(cbPlay, cbPause, cbSeek, cbUpdateEDL) {
-    play = cbPlay;
-    pause = cbPause;
-    seek = cbSeek;
-    updateEDL = cbUpdateEDL;
-    editor = CKEditor.inline('transcript', {
+  var initialize = function(options) {
+    id = options.id;
+    play = options.play;
+    pause = options.pause;
+    seek = options.seek;
+    updateEDL = options.edl;
+    editor = CKEditor.inline(id, {
       removePlugins: 'toolbar,contextmenu,liststyle,tabletools,elementspath,link',
       resize_enabled: false,
       allowedContent: 'a p span[*](*); strong',
@@ -155,7 +157,7 @@ define([
     if (loadedAsset)
     {
       // add double-click handler to undo
-      $('#transcript span.hidden').dblclick(function() {
+      $('#'+id+' span.hidden').dblclick(function() {
         $(this).replaceWith($(this).html());
         refresh();
       });
