@@ -10,7 +10,6 @@ module.exports.db = db;
 module.exports.log = log;
 var assetsController = require('./controllers/assets.js');
 var editsController = require('./controllers/edits.js');
-var penController = require('./controllers/pen.js');
 var feedbackController = require('./controllers/feedback.js');
 
 app.get('/', function(req, res) {
@@ -61,7 +60,6 @@ app.get('/api/assets/:id', isLoggedIn, assetsController.asset);
 app.put('/api/assets/:id', isLoggedIn, assetsController.update);
 app.delete('/api/assets/:id', isLoggedIn, assetsController.destroy);
 app.get('/api/assets/preview/:id', isLoggedIn, assetsController.preview);
-app.get('/api/assets/pen/:id', isLoggedIn, penController.send);
 
 // EDITS
 app.post('/api/edits', isLoggedIn, editsController.save);
