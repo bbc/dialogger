@@ -17,6 +17,12 @@ define([
     }
   };
   var pause = function() {
+    $('#transcript p').dblclick(function(e) {
+      if (e.offsetX < -10) {
+        var response = prompt('Please enter speaker name', $(this).data('speaker'));
+        if (response) $(this).attr('data-speaker', response);
+      }
+    });
     Preview.pause();
     playbackEnd();
   };
