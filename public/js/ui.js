@@ -17,6 +17,8 @@ define([
     }
   };
   var pause = function() {
+    // change speaker name handler
+    $('#transcript p').unbind('dblclick');
     $('#transcript p').dblclick(function(e) {
       if (e.offsetX < -10) {
         var response = prompt('Please enter speaker name', $(this).data('speaker'));
