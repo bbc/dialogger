@@ -35,19 +35,25 @@ span.hidden::after {
   content: '...';
   cursor: col-resize;
 }
-span.speaker {
-  font-weight: bold;
-  position: absolute;
+p.speaker {
+  border-left-width: 2px;
+  border-left-style: solid;
+  padding-left: 10px;
+}
+p[data-speaker].speaker:before {
+  content: attr(data-speaker);
+  position: relative;
+  display: inline-block;
+  left: -220px;
   width: 200px;
-  left: -200px;
   text-align: right;
-  padding-right: 0.5em;
+  margin-right: -200px;
 }
 span.speaker.M {
-  color: blue;
+  border-left-color: blue;
 }
 span.speaker.F {
-  color: red;
+  border-left-color: red;
 }
 canvas {
   padding: 0;
