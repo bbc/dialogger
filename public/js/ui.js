@@ -21,8 +21,18 @@ define([
     $('#transcript p').unbind('dblclick');
     $('#transcript p').dblclick(function(e) {
       if (e.offsetX < -10) {
-        var response = prompt('Please enter speaker name', $(this).attr('data-speaker'));
-        if (response) $(this).attr('data-speaker', response);
+        $('#speakerName').val($(this).attr('data-speaker'));
+        if ($(this).hasClass('M')) {
+          $('#speakerM').attr('checked', 'checked');
+          $('#speakerF').removeAttr('checked');
+        } else {
+          $('#speakerF').attr('checked', 'checked');
+          $('#speakerM').removeAttr('checked');
+        }
+        $('#speakerPropogate').removeAttr('checked');
+        $('#speakerModal').modal('show');
+        //var response = prompt('Please enter speaker name', $(this).attr('data-speaker'));
+        //if (response) $(this).attr('data-speaker', response);
       }
     });
     Preview.pause();
