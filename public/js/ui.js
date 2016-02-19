@@ -11,21 +11,23 @@ define([
   {
     // set up speaker modal
     $('#speakerName').val($(element).attr('data-speaker'));
-    console.log($(element).hasClass('M'));
-    console.log($(element).hasClass('F'));
     if ($(element).hasClass('M')) $('#speakerM').checkbox('check');
     else $('#speakerF').checkbox('check');
-    $('#speakerPropogate').removeAttr('checked');
+    $('#speakerPropogate').checkbox('uncheck');
     $('#speakerName')[0].select();
 
     // show speaker modal and handle response
     $('#speakerModal').modal({
       onApprove: function() {
-        $(element).attr('data-speaker', $('#speakerName').val());
+        var target = $(element);
+        if ($('#speakerPropogate').checkbox('is checked'))
+          target = $("p[data-speaker='"+$(element).attr('data-speaker')+"']");
+
+        target.attr('data-speaker', $('#speakerName').val());
         if ($('#speakerM').checkbox('is checked'))
-          $(element).removeClass('F').addClass('M');
+          target.removeClass('F').addClass('M');
         else
-          $(element).removeClass('M').addClass('F');
+          target.removeClass('M').addClass('F');
       }
     }).modal('show');
   };
