@@ -59,6 +59,6 @@ consts.transcoder.audioPreview = {acodec: 'aac', ab: '128k'};
 consts.transcoder.checkInterval = 5;
 
 consts.app = {};
-consts.app.port = 8080;
+consts.app.port = 80;
 
 module.exports = consts;

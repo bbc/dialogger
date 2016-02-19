@@ -51,7 +51,6 @@ module.exports = function(passport, db)
 
   // configure passport strategy
   passport.use( new LocalStrategy( function(username, password, done) {
-    return done(null, username);
     ad.authenticate(consts.auth.domainPrefix+username,
                     password, function(error, valid) {
       if (error) {
