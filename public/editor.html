@@ -226,46 +226,54 @@
 	</div>
 </div>
 
-<div class="ui small basic modal" id="speakerModal">
-	<div class="ui icon header">
-    Speaker name
-	</div>
-  <div class="ui form">
-    <div class="field">
-      <div class="ui labeled input">
-        <label>Name</label>
-        <input type="text" name="speakerName" id="speakerName">
-      </div>
+<div class="ui small modal" id="speakerModal">
+  <div class="content">
+    <div class="ui icon header">
+      Speaker name
     </div>
-    <div class="grouped inline fields">
-      <div class="field">
-        <div class="ui radio checkbox">
-          <input type="radio" name="speakerGender" id="speakerM" />
-          <label>Male</label>
+    <div class="ui form">
+      <div class="inline fields">
+        <div class="field">
+          <label>Name</label>
+          <input type="text" name="speakerName" id="speakerName">
         </div>
       </div>
-      <div class="field">
-        <div class="ui radio checkbox">
-          <input type="radio" name="speakerGender" id="speakerF" />
-          <label>Female</label>
+      <div class="inline fields">
+        <label for="speakerGender">Gender:</label>
+        <div class="field">
+          <div class="ui radio checkbox" id="speakerM">
+            <input type="radio" name="speakerGender" tabindex="0"
+            class="hidden">
+            <label>Male</label>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui radio checkbox" id="speakerF">
+            <input type="radio" name="speakerGender" tabindex="0"
+            class="hidden">
+            <label>Female</label>
+          </div>
+        </div>
+      </div>
+      <div class="ui segment">
+        <div class="field">
+          <div class="ui toggle checkbox">
+            <input type="checkbox" name="speakerPropogate" id="speakerPropogate"
+            tabindex="0" class="hidden">
+            <label>Change all matching speakers</label>
+          </div>
         </div>
       </div>
     </div>
-    <div class="field">
-      <div class="ui toggle checkbox">
-        <input type="checkbox" name="speakerPropogate" id="speakerPropogate">
-        <label>Change all matching speakers</label>
-      </div>
+  </div>
+  <div class="actions">
+    <div class="ui blue cancel button">
+      <i class="remove icon"></i>Cancel
     </div>
-	</div>
-	<div class="actions">
-		<div class="ui blue cancel inverted button">
-			<i class="remove icon"></i>Cancel
-		</div>
-		<div class="ui green ok inverted button">
-			<i class="trash icon"></i>Update
-		</div>
-	</div>
+    <div class="ui green ok button">
+      <i class="trash icon"></i>Update
+    </div>
+  </div>
 </div>
 
 <form action="/api/assets" method="post" class="dropzone" id="uploadForm"

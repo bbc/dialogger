@@ -40,6 +40,12 @@ p.speaker {
   border-left-style: solid;
   padding-left: 10px;
 }
+p.speaker.M {
+  border-left-color: blue;
+}
+p.speaker.F {
+  border-left-color: red;
+}
 p[data-speaker].speaker:before {
   content: attr(data-speaker);
   position: relative;
@@ -49,11 +55,11 @@ p[data-speaker].speaker:before {
   text-align: right;
   margin-right: -200px;
 }
-span.speaker.M {
-  border-left-color: blue;
+p.speaker.M:before {
+  color: blue;
 }
-span.speaker.F {
-  border-left-color: red;
+p.speaker.F:before {
+  color: red;
 }
 canvas {
   padding: 0;

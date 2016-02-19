@@ -7,23 +7,27 @@ define([
   'collections/edits'
 ], function($, Semantic, Transcript, Preview, AssetsCollection, EditsCollection)
 {
-  var speakerPrompt = function(element) {
+  var speakerPrompt = function(element)
+  {
+    // set up speaker modal
     $('#speakerName').val($(element).attr('data-speaker'));
-    if ($(element).hasClass('M')) {
-      $('#speakerM').attr('checked', 'checked');
-      $('#speakerF').removeAttr('checked');
-    } else {
-      $('#speakerF').attr('checked', 'checked');
-      $('#speakerM').removeAttr('checked');
-    }
+    console.log($(element).hasClass('M'));
+    console.log($(element).hasClass('F'));
+    if ($(element).hasClass('M')) $('#speakerM').checkbox('check');
+    else $('#speakerF').checkbox('check');
     $('#speakerPropogate').removeAttr('checked');
-    $('#speakerModal').modal('show', {
+    $('#speakerName')[0].select();
+
+    // show speaker modal and handle response
+    $('#speakerModal').modal({
       onApprove: function() {
-        alert('success');
+        $(element).attr('data-speaker', $('#speakerName').val());
+        if ($('#speakerM').checkbox('is checked'))
+          $(element).removeClass('F').addClass('M');
+        else
+          $(element).removeClass('M').addClass('F');
       }
-    });
-    //var response = prompt('Please enter speaker name', $(this).attr('data-speaker'));
-    //if (response) $(this).attr('data-speaker', response);
+    }).modal('show');
   };
   var playbackEnd = function() {
     $('#playButton i:first').removeClass('pause').addClass('play');
@@ -75,6 +79,8 @@ define([
     $('#saveButton').click(function() {
       EditsCollection.save(Transcript.save());
     });
+
+    $('.ui.checkbox').checkbox();
 
     // TODO Remove the need for regular polling
     setInterval(AssetsCollection.fetch, 5000);
