@@ -15,6 +15,9 @@ define([
     else $('#speakerF').checkbox('check');
     $('#speakerPropogate').checkbox('uncheck');
     $('#speakerName')[0].select();
+    $('#speakerName').keypress(function(e) {
+      if (e.which == 13) $('#speakerModal div.ok.button').click();
+    });
 
     // show speaker modal and handle response
     $('#speakerModal').modal({
