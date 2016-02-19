@@ -7,6 +7,24 @@ define([
   'collections/edits'
 ], function($, Semantic, Transcript, Preview, AssetsCollection, EditsCollection)
 {
+  var speakerPrompt = function(element) {
+    $('#speakerName').val($(element).attr('data-speaker'));
+    if ($(element).hasClass('M')) {
+      $('#speakerM').attr('checked', 'checked');
+      $('#speakerF').removeAttr('checked');
+    } else {
+      $('#speakerF').attr('checked', 'checked');
+      $('#speakerM').removeAttr('checked');
+    }
+    $('#speakerPropogate').removeAttr('checked');
+    $('#speakerModal').modal('show', {
+      onApprove: function() {
+        alert('success');
+      }
+    });
+    //var response = prompt('Please enter speaker name', $(this).attr('data-speaker'));
+    //if (response) $(this).attr('data-speaker', response);
+  };
   var playbackEnd = function() {
     $('#playButton i:first').removeClass('pause').addClass('play');
   };
@@ -20,20 +38,7 @@ define([
     // change speaker name handler
     $('#transcript p').unbind('dblclick');
     $('#transcript p').dblclick(function(e) {
-      if (e.offsetX < -10) {
-        $('#speakerName').val($(this).attr('data-speaker'));
-        if ($(this).hasClass('M')) {
-          $('#speakerM').attr('checked', 'checked');
-          $('#speakerF').removeAttr('checked');
-        } else {
-          $('#speakerF').attr('checked', 'checked');
-          $('#speakerM').removeAttr('checked');
-        }
-        $('#speakerPropogate').removeAttr('checked');
-        $('#speakerModal').modal('show');
-        //var response = prompt('Please enter speaker name', $(this).attr('data-speaker'));
-        //if (response) $(this).attr('data-speaker', response);
-      }
+      if (e.offsetX < -10) speakerPrompt(this);
     });
     Preview.pause();
     playbackEnd();
