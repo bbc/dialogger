@@ -209,6 +209,30 @@
       </div>
     </div>
 </div>
+<div class="ui small modal" id="printModal">
+    <div class="content">
+      <form class="ui form" id="printForm">
+        <p>This is an explanation of what the process is to print the
+        transcript and edit using the digital pen</p>
+        <div class="fields">
+          <div class="field">
+            <div class="ui toggle checkbox">
+              <input type="checkbox" name="delete" tabindex="0" class="hidden">
+              <label>Crossing out a word overrides underline</label>
+            </div>
+          </div>
+        </div>
+        <div class="ui error message"></div>
+        <div class="submit"></div>
+      </form>
+    </div>
+    <div class="actions">
+      <div class="ui deny button">Cancel</div>
+      <div class="ui right labeled icon teal button" id="printSubmit">
+        Send <i class="arrow right icon"></i>
+      </div>
+    </div>
+</div>
 <div class="ui small basic modal" id="deleteModal">
 	<div class="ui icon header">
     <i class="trash outline icon"></i><span id="deleteName"></span>
