@@ -60,9 +60,9 @@ consts.transcoder.checkInterval = 5;
 
 // PEN
 consts.pen = {};
-consts.pen.uploadcommand = 'curl ';
-consts.pen.uploadargs = ' -x http://www-cache:8080 -u chris.baume@bbc.co.uk:wMSjE-cT8YDwcXKG ';
-consts.pen.uploaddest = 'https://dav.box.com/dav/Transcripts/';
+consts.pen.davcommand = 'curl ';
+consts.pen.davargs = ' -x http://www-cache:8080 -u chris.baume@bbc.co.uk:wMSjE-cT8YDwcXKG ';
+consts.pen.davdest = 'https://dav.box.com/dav/Transcripts/';
 
 consts.app = {};
 consts.app.port = 80;

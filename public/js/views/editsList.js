@@ -23,7 +23,13 @@ define([
       var model = this.collection.get(id);
       model.fetch({
         success: function(model, response, options) {
-          Transcript.load(response[0].html, 'html', '/api/assets/preview/'+model.get('asset'));
+          var html;
+          if ('html' in response[0]) {
+            html = response[0].html;
+          } else {
+            html = Utils.transcriptToHTML(response[0]);
+          }
+          Transcript.load(html, 'html', '/api/assets/preview/'+model.get('asset'));
           UI.updateName(response[0].name);
           AssetsCollection.deselect();
           EditsCollection.deselect();

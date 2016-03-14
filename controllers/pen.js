@@ -11,6 +11,23 @@ exports.send = function(req, res)
       function(err, docs) {
     if (err) log.error(err);
     else {
+
+      // create edit
+      db.edits.insert({
+        owner: req.user._id,
+        asset: req.params.id,
+        name: docs[0].name,
+        description: 'Printed '+(new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')),
+        printed: true,
+        segments: docs[0].segments,
+        dateCreated: new Date(),
+        dateModified: new Date()
+      }, function(err, editdoc) {
+        if (err) {
+          log.error(err);
+        } else {
+          log.info({edit: editdoc, username: req.user.username}, 'Created edit');
+
       // make temporary file
       exec('mktemp', function(mktemperr, stdout, stderr) {
         if (mktemperr) return log.error(stderr);
@@ -34,8 +51,8 @@ exports.send = function(req, res)
           if (writeerr) return log.error(writeerr);
 
           // upload file
-          exec(consts.pen.uploadcommand + '-T '+tempfile+
-            consts.pen.uploadargs+'"'+consts.pen.uploaddest+docs[0].name+'.json"',
+          exec(consts.pen.davcommand + '-T '+tempfile+
+            consts.pen.davargs+'"'+consts.pen.davdest+editdoc._id+'.json"',
             function(senderr, sendstdout, sendstderr)
           {
             if (senderr) return log.error(sendstdout+sendstderr);
@@ -43,6 +60,10 @@ exports.send = function(req, res)
             res.json({success: true});
           });
         });
+
+      });
+
+        }
       });
     }
   });

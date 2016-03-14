@@ -1,7 +1,9 @@
+const exec = require('child_process').exec;
 var consts = require('../config/consts');
 var transcoder = require('../helpers/transcoder');
 var db = module.parent.exports.db;
 var log = module.parent.exports.log;
+var fs = require('fs');
 
 exports.download = function(req, res)
 {
@@ -69,6 +71,7 @@ exports.save = function(req, res)
     name: req.body.name,
     description: req.body.description,
     transcript: req.body.transcript,
+    printed: false,
     html: req.body.html,
     edl: req.body.edl,
     dateCreated: new Date(),
@@ -131,7 +134,33 @@ exports.edit = function(req, res)
   // list a certain edit 
   db.edits.find({_id: req.params.id, owner: req.user._id},
       function(err, docs) {
-    if (err) log.error(err);
-    else res.json(docs);
+    if (err) {
+      log.error(err);
+    } else {
+
+      // if not a paper edit, return as normal
+      if (docs[0].printed != true) {
+        res.json(docs);
+      } else {
+        // create temporary file
+        exec('mktemp', function(mktemperr, stdout, stderr) {
+          if (mktemperr) return log.error(stderr);
+          tempfile = stdout.trim();
+
+          // download transcript from Box
+          exec(consts.pen.davcommand + '-o '+tempfile+
+            consts.pen.davargs+'"'+consts.pen.davdest+docs[0]._id+'.json"',
+            function(senderr, sendstdout, sendstderr)
+          {
+            if (senderr) return log.error(sendstdout+sendstderr);
+
+            // extract transcript from download
+            var transcript = JSON.parse(fs.readFileSync(tempfile, 'utf8'));
+            docs[0].transcript = transcript;
+            res.json(docs);
+          });
+        });
+      }
+    }
   });
 };
