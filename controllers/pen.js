@@ -16,8 +16,19 @@ exports.send = function(req, res)
         if (mktemperr) return log.error(stderr);
         tempfile = stdout.trim();
 
+        // configure settings
+        var transcript = docs[0].transcript;
+        transcript.settings = {};
+        transcript.settings.male = '#00f';
+        transcript.settings.female = '#f00';
+        transcript.settings.selection = '#f2f2f2';
+        transcript.settings.shading = '#cccccc';
+        transcript.settings.threshold = parseFloat(req.body.threshold);
+        transcript.settings.notes = parseInt(req.body.notes);
+        transcript.settings.font = req.body.font;
+
         // write transcript to file
-        fs.writeFile(tempfile, JSON.stringify(docs[0].transcript),
+        fs.writeFile(tempfile, JSON.stringify(transcript),
           function(writeerr, message)
         {
           if (writeerr) return log.error(writeerr);

@@ -13,6 +13,7 @@ define([
   var initialize = function()
   {
     $('#printForm .checkbox').checkbox();
+    $('#printForm .ui.dropdown').dropdown();
 
     // send the form when submit is clicked
     $('#printSubmit').click(function() {
@@ -23,13 +24,14 @@ define([
     $('#printForm')
     .form({
       fields: {
-        delete: 'empty'
+        delete: 'empty',
+        threshold: 'number'
       }
     })
     // configure form submission
     .api({
       url: '/api/assets/pen/{id}',
-      method: 'GET',
+      method: 'POST',
       serializeForm: true,
       onSuccess: formSubmitted,
       onFailure: Utils.ajaxError

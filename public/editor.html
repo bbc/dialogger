@@ -214,14 +214,34 @@
       <form class="ui form" id="printForm">
         <p>This is an explanation of what the process is to print the
         transcript and edit using the digital pen</p>
-        <div class="fields">
+          <!--
           <div class="field">
             <div class="ui toggle checkbox">
               <input type="checkbox" name="delete" tabindex="0" class="hidden">
               <label>Crossing out a word overrides underline</label>
             </div>
           </div>
-        </div>
+          -->
+          <div class="inline field">
+            <label>Threshold</label>
+            <input type="number" step="0.01" name="threshold" value="0.75" min="0" max="1">
+          </div>
+          <div class="inline field">
+            <label>Margin</label>
+            <select class="ui dropdown" name="notes">
+              <option value="0" selected>None</option>
+              <option value="40">Small</option>
+              <option value="60">Medium</option>
+              <option value="80">Large</option>
+            </select>
+          </div>
+          <div class="inline field">
+            <label>Font</label>
+            <select class="ui dropdown" name="font">
+              <option value="helvetica" selected>Helvetica</option>
+              <option value="times">Times</option>
+            </select>
+          </div>
         <div class="ui error message"></div>
         <div class="submit"></div>
       </form>

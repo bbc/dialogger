@@ -61,7 +61,7 @@ app.get('/api/assets/:id', isLoggedIn, assetsController.asset);
 app.put('/api/assets/:id', isLoggedIn, assetsController.update);
 app.delete('/api/assets/:id', isLoggedIn, assetsController.destroy);
 app.get('/api/assets/preview/:id', isLoggedIn, assetsController.preview);
-app.get('/api/assets/pen/:id', isLoggedIn, penController.send);
+app.post('/api/assets/pen/:id', isLoggedIn, penController.send);
 
 // EDITS
 app.post('/api/edits', isLoggedIn, editsController.save);
