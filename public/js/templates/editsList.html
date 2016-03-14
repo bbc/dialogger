@@ -16,7 +16,11 @@
           </div>
         </div>
       </div>
+<% if (model.printed) { %>
+      <i class="print icon"></i>
+<% } else { %>
       <i class="edit icon"></i>
+<% } %>
       <div class="content">
         <div class="header"><a href="#"><%= model.name %></a></div>
         <div class="description"><%= model.description %></div>

@@ -24,10 +24,12 @@ define([
       model.fetch({
         success: function(model, response, options) {
           var html;
-          if ('html' in response[0]) {
-            html = response[0].html;
-          } else {
+          if (response[0].printed == true) {
             html = Utils.transcriptToHTML(response[0]);
+            $('#saveButton').addClass('disabled');
+          } else {
+            html = response[0].html;
+            $('#saveButton').removeClass('disabled');
           }
           Transcript.load(html, 'html', '/api/assets/preview/'+model.get('asset'));
           UI.updateName(response[0].name);

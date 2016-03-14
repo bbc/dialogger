@@ -3,12 +3,15 @@ define([
   'serialize',
   'semantic',
   'collections/assets',
+  'collections/edits',
   'utils'
-], function($, Serialize, Semantic, AssetsCollection, Utils)
+], function($, Serialize, Semantic, AssetsCollection, EditsCollection, Utils)
 {
   var formSubmitted = function()
   {
-    alert('Sent to print system');
+    alert('Transcript sent to printer. Please go and collect your printout.');
+    EditsCollection.fetch();
+    $('#printModal').modal('hide');
   };
   var initialize = function()
   {
