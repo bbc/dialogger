@@ -10,6 +10,8 @@ define([
     var segments = model.segments.segments;
     var currentSegment = 0;
     var prevSpeaker;
+    var deletedFlag = false;
+    var selectedFlag = false;
 
     // for each word
     for (var i=0; i<words.length; i++) {
@@ -34,6 +36,34 @@ define([
       if ("punct" in words[i]) word = words[i].punct;
       var startTime = Math.round(words[i].start * 1000);
       var endTime = Math.round(words[i].end * 1000);
+
+      // hide words flagged as deleted
+      if ("delete" in words[i]) {
+        if (words[i].delete == "true" && deletedFlag == false) {
+          html += '<span class="hidden">';
+          deletedFlag = true;
+        } else if (words[i].delete == "false" && deletedFlag == true) {
+          html += '</span>';
+          deletedFlag = false;
+        }
+      } else if (deletedFlag == true) {
+        html += '</span>';
+        deletedFlag = false;
+      }
+
+      // bold words flagged as selected
+      if ("select" in words[i]) {
+        if (words[i].select == "true" && selectedFlag == false) {
+          html += '<strong>';
+          selectedFlag = true;
+        } else if (words[i].select == "false" && selectedFlag == true) {
+          html += '</strong>';
+          selectedFlag = false;
+        }
+      } else if (selectedFlag == true) {
+        html += '</strong>';
+        selectedFlag = false;
+      }
 
       // note start time of next word (for detecting cuts)
       if (i+1 >= words.length)

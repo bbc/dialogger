@@ -4,6 +4,7 @@ var transcoder = require('../helpers/transcoder');
 var db = module.parent.exports.db;
 var log = module.parent.exports.log;
 var fs = require('fs');
+var request = require('request');
 
 exports.download = function(req, res)
 {
@@ -139,26 +140,30 @@ exports.edit = function(req, res)
     } else {
 
       // if not a paper edit, return as normal
-      if (docs[0].printed != true) {
+      if (!('printed' in docs[0])) {
         res.json(docs);
+      } else if (docs[0].printed != true) {
+        res.json(docs);
+
+      // otherwise, get edited transcript from Anoto
       } else {
-        // create temporary file
-        exec('mktemp', function(mktemperr, stdout, stderr) {
-          if (mktemperr) return log.error(stderr);
-          tempfile = stdout.trim();
-
-          // download transcript from Box
-          exec(consts.pen.davcommand + '-o '+tempfile+
-            consts.pen.davargs+'"'+consts.pen.davdest+docs[0]._id+'.json"',
-            function(senderr, sendstdout, sendstderr)
-          {
-            if (senderr) return log.error(sendstdout+sendstderr);
-
-            // extract transcript from download
-            var transcript = JSON.parse(fs.readFileSync(tempfile, 'utf8'));
-            docs[0].transcript = transcript;
+        request({
+          url: 'https://sales.liveforms.anoto.com/BBC-FDF/output/get',
+          proxy: 'http://www-cache:8080',
+          method: 'POST',
+          formData: {file: docs[0]._id+'.json'}
+        }, function(error, response, body){
+          if(error) {
+            log.error(error);
+          } else if (response.statusCode != 200) {
+            res.sendStatus(202);
+          } else {
+            log.info(response.statusCode, body);
+            var transcript = JSON.parse(body);
+            docs[0].transcript = transcript.transcript;
+            docs[0].segments = transcript.segments;
             res.json(docs);
-          });
+          }
         });
       }
     }

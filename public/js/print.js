@@ -9,9 +9,9 @@ define([
 {
   var formSubmitted = function()
   {
+    $('#printModal').modal('hide');
     alert('Transcript sent to printer. Please go and collect your printout.');
     EditsCollection.fetch();
-    $('#printModal').modal('hide');
   };
   var initialize = function()
   {

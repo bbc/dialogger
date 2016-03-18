@@ -19,7 +19,6 @@ exports.send = function(req, res)
         name: docs[0].name,
         description: 'Printed '+(new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')),
         printed: true,
-        segments: docs[0].segments,
         dateCreated: new Date(),
         dateModified: new Date()
       }, function(err, editdoc) {
@@ -34,7 +33,7 @@ exports.send = function(req, res)
         tempfile = stdout.trim();
 
         // configure settings
-        var transcript = docs[0].transcript;
+        var transcript = docs[0];
         transcript.settings = {};
         transcript.settings.male = '#00f';
         transcript.settings.female = '#f00';

@@ -36,6 +36,9 @@ define([
           AssetsCollection.deselect();
           EditsCollection.deselect();
           model.set({selected: true});
+        },
+        error: function() {
+          alert('Not ready yet!');
         }
       });
       this.render();
