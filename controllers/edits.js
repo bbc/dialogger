@@ -169,3 +169,13 @@ exports.edit = function(req, res)
     }
   });
 };
+
+exports.downloadPDF = function(req, res)
+{
+  request({
+    url: 'https://sales.liveforms.anoto.com/BBC-FDF/output/pdf',
+    proxy: 'http://www-cache:8080',
+    method: 'POST',
+    formData: {file: req.params.id+'.json'}
+  }).pipe(res);
+};

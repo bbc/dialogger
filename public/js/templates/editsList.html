@@ -11,6 +11,9 @@
         <div class="ui top right pointing dropdown">
           <i class="dropdown icon"></i>
           <div class="menu">
+<% if (model.printed) { %>
+            <div class="item">Download PDF</div>
+<% } %>
             <div class="item">Edit description</div>
             <div class="item">Delete</div>
           </div>
