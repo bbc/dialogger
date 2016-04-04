@@ -40,14 +40,14 @@ define([
       // hide words flagged as deleted
       if ("delete" in words[i]) {
         if (words[i].delete == "true" && deletedFlag == false) {
-          html += '<span class="hidden">';
+          html += '<s>';
           deletedFlag = true;
         } else if (words[i].delete == "false" && deletedFlag == true) {
-          html += '</span>';
+          html += '</s>';
           deletedFlag = false;
         }
       } else if (deletedFlag == true) {
-        html += '</span>';
+        html += '</s>';
         deletedFlag = false;
       }
 
@@ -88,7 +88,7 @@ define([
   // convert HTML into a transcript object
   var HTMLtoWords = function(html) {
     var words = [];
-    $(html).find('a').not('.hidden a').each(function() {
+    $(html).find('a').not('s a').each(function() {
       var word = $(this).text().trim();
       var start = $(this).data('start')/1000;
       var end = $(this).data('end')/1000;

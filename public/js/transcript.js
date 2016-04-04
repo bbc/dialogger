@@ -78,12 +78,11 @@ define([
     // if text is selected
     if (selection.getSelectedText().length > 0)
     {
-      // if delete or backspace key is pressed, wrap in <span class="hidden">
+      // if delete or backspace key is pressed, wrap in <s>
       if (e.data.keyCode == 46 || e.data.keyCode == 8)
       {
         editor.applyStyle(new CKEditor.style({
-          element: 'span',
-          attributes: {'class': 'hidden'},
+          element: 's',
           parentRule: function(e) { return e.is('p'); },
           childRule: function(e) { return e.is('a'); }
         }));
@@ -139,7 +138,7 @@ define([
     editor = CKEditor.inline(id, {
       removePlugins: 'toolbar,contextmenu,liststyle,tabletools,elementspath,link',
       resize_enabled: false,
-      allowedContent: 'a p span[*](*); strong',
+      allowedContent: 'a p[*](*); strong s',
       title: false,
       coreStyles_bold: {
         element: 'strong',
@@ -156,11 +155,6 @@ define([
   var refresh = function() {
     if (loadedAsset)
     {
-      // add double-click handler to undo
-      $('#'+id+' span.hidden').dblclick(function() {
-        $(this).replaceWith($(this).html());
-        refresh();
-      });
       updateEDL(Utils.wordsToEDL(Utils.HTMLtoWords(editor.getData())), loadedAsset);
     }
     else {
