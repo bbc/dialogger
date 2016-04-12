@@ -25,13 +25,14 @@ define([
         success: function(model, response, options) {
           var html;
           if (response[0].printed == true) {
+            console.log(response[0]);
             html = Utils.transcriptToHTML(response[0]);
             $('#saveButton').addClass('disabled');
           } else {
             html = response[0].html;
             $('#saveButton').removeClass('disabled');
           }
-          Transcript.load(html, 'html', '/api/assets/preview/'+model.get('asset'));
+          Transcript.load(html, 'html', './api/assets/preview/'+model.get('asset'));
           UI.updateName(response[0].name);
           AssetsCollection.deselect();
           EditsCollection.deselect();
@@ -47,7 +48,7 @@ define([
       var id = $(e.currentTarget).closest('.edit').data('id');
       var model = this.collection.get(id);
       if (model.get('jobid') && model.get('ready')) {
-        window.open('/api/edits/export/'+model.get('jobid'), '_blank');
+        window.open('./api/edits/export/'+model.get('jobid'), '_blank');
         model.unset('jobid');
         model.unset('ready');
       } else if (!model.get('jobid')) {
@@ -63,7 +64,7 @@ define([
       var newDesc = prompt('Please enter a description for this edit', desc);
       if (newDesc != null && newDesc != '' && newDesc != desc) {
         $.ajax({
-          url: '/api/edits/'+id,
+          url: './api/edits/'+id,
           method: 'PUT',
           contentType: 'application/json',
           data: JSON.stringify({description: newDesc}),
@@ -73,7 +74,7 @@ define([
       }
     },
     downloadPDF: function(id) {
-      window.open('/api/edits/pdf/'+id, '_blank');
+      window.open('./api/edits/pdf/'+id, '_blank');
     },
     destroy: function(id) {
       var collection = this.collection;
@@ -84,7 +85,7 @@ define([
         closable: false,
         onApprove: function() {
           $.ajax({
-            url: '/api/edits/'+id,
+            url: './api/edits/'+id,
             method: 'DELETE',
             success: function() {
               collection.fetch();

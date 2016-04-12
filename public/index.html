@@ -19,9 +19,9 @@
       style="margin-right: 1em" >
       Discourse
     </div>
-    <a href="/" class="item">Home</a>
-    <a href="/about" class="item">About</a>
-    <a href="/feedback" class="item">Feedback</a>
+    <a href="./" class="item">Home</a>
+    <a href="./about" class="item">About</a>
+    <a href="./feedback" class="item">Feedback</a>
     <div class="right menu">
       <a class="item" id="login">
         <i class="sign in icon"></i>Login
@@ -91,7 +91,7 @@ $(document).ready(function()
 
   // configure API endpoint
   $.fn.api.settings.api = {
-    'login': '/api/login'
+    'login': './api/login'
   };
 
   // configure form validation
@@ -108,7 +108,7 @@ $(document).ready(function()
     method: 'POST',
     serializeForm: true,
     onSuccess: function(response) {
-      window.location.href = '/';
+      window.location.href = './';
     },
     onFailure: function(response) {
       $('.ui.error.message').html('<ul class="list"><li>'+

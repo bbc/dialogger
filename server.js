@@ -29,6 +29,7 @@ app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 // configure passport
 app.use(session({
   secret: consts.auth.secret,
+  cookie: {path:'/',domain:'.bbc.co.uk'},
   resave: false,
   saveUninitialized: false,
   store: store

@@ -86,7 +86,7 @@ define([
     // configure form submission
     .api({
       action: 'export',
-      url: '/api/edits/export/{id}',
+      url: './api/edits/export/{id}',
       method: 'POST',
       serializeForm: true,
       beforeSend: function(settings) {
@@ -116,7 +116,7 @@ define([
     // check regularly for export completion
     var checker = setInterval(function() {
       $.ajax({
-        url: '/api/edits/export/status/'+response.jobid,
+        url: './api/edits/export/status/'+response.jobid,
         statusCode: {
           200: function() {
             clearInterval(checker);

@@ -26,7 +26,7 @@ define([
         success: function(model, response, options) {
           if (response[0].info.video_tracks) UI.showVideo();
           else UI.hideVideo();
-          Transcript.load(response[0], 'json', '/api/assets/preview/'+id);
+          Transcript.load(response[0], 'json', './api/assets/preview/'+id);
           UI.updateName(response[0].name);
           AssetsCollection.deselect();
           EditsCollection.deselect();
@@ -47,7 +47,7 @@ define([
       var newName = prompt('Please enter a name for this file', name);
       if (newName != null && newName != '' && newName != name) {
         $.ajax({
-          url: '/api/assets/'+id,
+          url: './api/assets/'+id,
           method: 'PUT',
           contentType: 'application/json',
           data: JSON.stringify({name: newName}),
@@ -71,7 +71,7 @@ define([
         closable: false,
         onApprove: function() {
           $.ajax({
-            url: '/api/assets/'+id,
+            url: './api/assets/'+id,
             method: 'DELETE',
             success: function() {
               collection.fetch();

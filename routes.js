@@ -28,8 +28,8 @@ app.get('/feedback', feedbackController.form);
 app.post('/feedback', feedbackController.process);
 
 app.post('/api/login', passport.authenticate('local',
-  {successRedirect: '/api/loginSuccess',
-   failureRedirect: '/api/loginFailure',
+  {successRedirect: './loginSuccess',
+   failureRedirect: './loginFailure',
    failureFlash: false }
 ));
 
@@ -77,5 +77,5 @@ app.get('/api/edits/pdf/:id', isLoggedIn, editsController.downloadPDF);
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated())
     return next();
-  res.redirect('/');
+  res.redirect('./');
 }

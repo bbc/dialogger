@@ -2,6 +2,12 @@
   color: blue;
   padding-bottom: 41px !important;
 }
+#transcript s a {
+  color: #cccccc!important;
+}
+#transcript u a {
+  font-weight: bold;
+}
 .black {
   color: black;
 }

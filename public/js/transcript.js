@@ -138,11 +138,11 @@ define([
     editor = CKEditor.inline(id, {
       removePlugins: 'toolbar,contextmenu,liststyle,tabletools,elementspath,link',
       resize_enabled: false,
-      allowedContent: 'a p[*](*); strong s',
+      allowedContent: 'a p[*](*); u s',
       title: false,
       coreStyles_bold: {
-        element: 'strong',
-        overrides: 'b',
+        element: 'u',
+        //overrides: 'b',
         childRule: function(e) { return !e.is('a'); }
       },
       on: {

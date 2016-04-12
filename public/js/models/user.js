@@ -4,7 +4,7 @@ define([
 ], function(_, Backbone)
 {
   var userModel = Backbone.Model.extend({
-    url: '/api/user'
+    url: './api/user'
   });
   return userModel;
 });

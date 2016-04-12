@@ -5,7 +5,7 @@ define([
 ], function(_, Backbone, AssetsModel){
   var instance;
   var AssetsCollection = Backbone.Collection.extend({
-    url: '/api/assets',
+    url: './api/assets',
     model: AssetsModel
   });
   var initialize = function() {

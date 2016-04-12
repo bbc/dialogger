@@ -54,14 +54,14 @@ define([
       // bold words flagged as selected
       if ("select" in words[i]) {
         if (words[i].select == "true" && selectedFlag == false) {
-          html += '<strong>';
+          html += '<u>';
           selectedFlag = true;
         } else if (words[i].select == "false" && selectedFlag == true) {
-          html += '</strong>';
+          html += '</u>';
           selectedFlag = false;
         }
       } else if (selectedFlag == true) {
-        html += '</strong>';
+        html += '</u>';
         selectedFlag = false;
       }
 

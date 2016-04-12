@@ -9,7 +9,7 @@ define([], function()
   };
   var notify = function(message) {
     if (("Notification" in window) && Notification.permission === 'granted') {
-      return new Notification(message, {icon: '/public/assets/discourse-logo-32.png'});
+      return new Notification(message, {icon: './public/assets/discourse-logo-32.png'});
     }
   };
   return {

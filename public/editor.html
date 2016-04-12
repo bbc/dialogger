@@ -24,15 +24,15 @@
       style="margin-right: 1em" >
       Discourse
     </div>
-    <a href="/" class="item">Home</a>
-    <a href="/about" class="item">About</a>
-    <a href="/feedback" class="item">Feedback</a>
+    <a href="./" class="item">Home</a>
+    <a href="./about" class="item">About</a>
+    <a href="./feedback" class="item">Feedback</a>
     <div class="ui right dropdown item">
       <a id="userView">
         <i class="user icon"></i>User
       </a>
       <div class="menu">
-        <a class="item" href="/api/logout">Logout</a>
+        <a class="item" href="./api/logout">Logout</a>
       </div>
     </div>
   </div>
@@ -212,8 +212,8 @@
 <div class="ui small modal" id="printModal">
     <div class="content">
       <form class="ui form" id="printForm">
-        <p>This is an explanation of what the process is to print the
-        transcript and edit using the digital pen</p>
+        <p>This system allows you to print and edit the transcript using a digital pen.
+        If you haven't already got one of these pens, please request one from the system administrator.</p>
           <!--
           <div class="field">
             <div class="ui toggle checkbox">
@@ -222,7 +222,7 @@
             </div>
           </div>
           -->
-          <div class="inline field">
+          <div class="inline field" style="display: none">
             <label>Threshold</label>
             <input type="number" step="0.01" name="threshold" value="0.75" min="0" max="1">
           </div>
@@ -321,7 +321,7 @@
   </div>
 </div>
 
-<form action="/api/assets" method="post" class="dropzone" id="uploadForm"
+<form action="./api/assets" method="post" class="dropzone" id="uploadForm"
   style="display: none"></form>
 
 </body>
