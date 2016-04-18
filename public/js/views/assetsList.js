@@ -94,7 +94,7 @@ define([
     render: function() {
       var view = this;
       this.$el.find('.asset').remove();
-      this.$el.prepend(this.template({collection: this.collection.toJSON()}));
+      this.$el.append(this.template({collection: this.collection.toJSON()}));
       $('#assetsList .ui.dropdown').dropdown({
         action: function(text, value) {
           var id = $(this).closest('.asset').data('id');

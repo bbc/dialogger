@@ -81,11 +81,7 @@ define([
       // if delete or backspace key is pressed, wrap in <s>
       if (e.data.keyCode == 46 || e.data.keyCode == 8)
       {
-        editor.applyStyle(new CKEditor.style({
-          element: 's',
-          parentRule: function(e) { return e.is('p'); },
-          childRule: function(e) { return e.is('a'); }
-        }));
+        editor.execCommand('strike');
         refresh();
         return false;
       }
@@ -136,7 +132,7 @@ define([
     seek = options.seek;
     updateEDL = options.edl;
     editor = CKEditor.inline(id, {
-      removePlugins: 'toolbar,contextmenu,liststyle,tabletools,elementspath,link',
+      removePlugins: 'toolbar,contextmenu,liststyle,tabletools,elementspath,link,dragdrop,basket',
       resize_enabled: false,
       allowedContent: 'a p[*](*); u s',
       title: false,
@@ -145,10 +141,15 @@ define([
         //overrides: 'b',
         childRule: function(e) { return !e.is('a'); }
       },
+      coreStyles_strike: {
+        element: 's',
+        parentRule: function(e) { return !e.is('a'); }
+      },
       on: {
         selectionChange: wordClick,
         change: pause,
-        key: keyHandler
+        key: keyHandler,
+        drop: function() { return false; }
       }
     });
   };
