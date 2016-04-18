@@ -143,7 +143,8 @@ define([
       },
       coreStyles_strike: {
         element: 's',
-        parentRule: function(e) { return !e.is('a'); }
+        parentRule: function(e) { return e.is('p'); },
+        childRule: function(e) { return e.is('a'); }
       },
       on: {
         selectionChange: wordClick,
