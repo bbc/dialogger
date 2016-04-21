@@ -37,9 +37,9 @@ define([
   var playbackEnd = function() {
     $('#playButton i:first').removeClass('pause').addClass('play');
   };
-  var play = function(rate, onEnd) {
+  var play = function(rate) {
     if (Transcript.refresh()) {
-      Preview.play(rate, onEnd);
+      Preview.play(rate, playbackEnd);
       $('#playButton i:first').removeClass('play').addClass('pause');
     }
   };
@@ -74,11 +74,11 @@ define([
     $('.top.fixed.menu .ui.dropdown').dropdown();
 
     $('#playButton').click(function() {
-      if ($('#playButton i:first').hasClass('play')) play(1, playbackEnd);
+      if ($('#playButton i:first').hasClass('play')) play(1);
       else pause();
     });
     $('#forwardButton').click(function() {
-      play(2, playbackEnd);
+      play(2);
       $('#playButton i:first').removeClass('play').addClass('pause');
     });
     $('#saveButton').click(function() {

@@ -53,75 +53,58 @@ define([
   };
 
   var wordClick = function(e) {
-    var start = $(e.data.selection.getStartElement())[0].data('start');
+    // select entire word
+    var selection = editor.getSelection();
+    var range = editor.createRange();
+    range.setStartAt(selection.getRanges()[0].startContainer, CKEditor.POSITION_AFTER_START);
+    range.setEndAt(selection.getRanges()[0].endContainer, CKEditor.POSITION_BEFORE_END);
+    //range.setEnd(range.endContainer, range.endOffset - 1);
+    editor.getSelection().selectRanges([range]);
+  };
+
+  var wordDblClick = function(e) {
+    var start = $(editor.getSelection().getRanges()[0].startContainer.$.parentElement).data('start');
     seek(start/1000);
+    //play(1.0);
   };
 
   var keyHandler = function(e)
   {
+    // if delete or backspace key is pressed, wrap in <s>
+    if (editor.getSelection().getSelectedText().length > 0 && (e.data.keyCode == 46 || e.data.keyCode == 8))
+    {
+      editor.execCommand('strike');
+      pause();
+      refresh();
+      return false;
+    }
+/*
+    if (e.data.keyCode == 13) {
+      var range = editor.createRange();
+      range.setStart(
+      editor.getSelection().getRanges()[0].
+*/
+
+    // find selection details
     var selection = editor.getSelection();
-    var range = selection.getRanges();
-    var nodes = selection.getNative();
+    var range = selection.getRanges()[0];
+    var startElement = $(range.startContainer.$.parentElement);
+    var endElement = $(range.endContainer.$.parentElement);
 
-    // if space key is pressed in an <a>, jump to end instead of splitting
-    if (e.data.keyCode == 32)
-    {
-      var word = selection.getStartElement();
-      if (word.is('a')) {
-        range[0].moveToPosition(word, CKEditor.POSITION_AFTER_END);
-        selection.selectRanges(range);
-        return false;
-      }
+    // if more than one word was selected
+    if (!startElement.is(endElement) && keyWhitelist.test(String.fromCharCode(e.data.keyCode))) {
+
+      // calculate start and end times of selection and replace with one word
+      var start = startElement.data('start');
+      var end = endElement.data('end');
+      var next = endElement.data('next');
+      editor.insertHtml('<a data-start="'+start+
+                        '" data-end="'+end+
+                        '" data-next="'+next+'">'+
+                        '</a>', 'unfiltered_html');
+      startElement.remove();
+      endElement.remove();
       return true;
-    }
-
-    // if text is selected
-    if (selection.getSelectedText().length > 0)
-    {
-      // if delete or backspace key is pressed, wrap in <s>
-      if (e.data.keyCode == 46 || e.data.keyCode == 8)
-      {
-        editor.execCommand('strike');
-        refresh();
-        return false;
-      }
-      else if (keyWhitelist.test(String.fromCharCode(e.data.keyCode)))
-      {
-        // get start and end of selection
-        var startElement = $(nodes.baseNode.parentElement);
-        var endElement = $(nodes.focusNode.parentElement);
-        if (!endElement.is('a')) endElement = $(nodes.extentNode.parentElement);
-
-        // if selection is not <a>, continue as normal
-        if (!startElement.is('a') && !endElement.is('a')) return true;
-
-        // if only one thing selected, continue as normal
-        if (startElement.is(endElement)) {
-          startElement.removeClass('unsure');
-          return true;
-        }
-
-        // if start and end are different types, stop
-        if (startElement.prop('tagName') != endElement.prop('tagName'))
-          return false;
-
-        // otherwise, overwrite multiple words with one, retaining the correct
-        // timestamps
-        var start = startElement.data('start');
-        var end = endElement.data('end');
-        var next = endElement.data('next');
-        editor.insertHtml('<a data-start="'+start+
-                          '" data-end="'+end+
-                          '" data-next="'+next+'">'+
-                          '</a>', 'unfiltered_html');
-        startElement.remove();
-        endElement.replaceWith(' ');
-        return true;
-      }
-    }
-    else
-    {
-      selection.getStartElement().removeClass('unsure');
     }
   };
 
@@ -147,9 +130,11 @@ define([
         childRule: function(e) { return e.is('a'); }
       },
       on: {
-        selectionChange: wordClick,
-        change: pause,
+        //selectionChange: wordClick,
+        doubleclick: wordDblClick,
+        //change: pause,
         key: keyHandler,
+        contentDom: function() { this.document.on('mouseup', wordClick, this); },
         drop: function() { return false; }
       }
     });
