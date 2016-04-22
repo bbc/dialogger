@@ -159,6 +159,7 @@ define([
     edlToPlaylist: edlToPlaylist,
     ajaxError: ajaxError,
     uploadError: uploadError,
-    checkSaved: checkSaved
+    checkSaved: checkSaved,
+    millisecFormat: millisecFormat
   };
 });

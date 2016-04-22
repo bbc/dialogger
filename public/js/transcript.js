@@ -121,9 +121,10 @@ define([
 
     hideTimestamps();
 
-    // if delete or backspace key is pressed, wrap in <s>
+    // if there is a selection
     if (!range.collapsed)
     {
+      // if delete or backspace key is pressed, wrap in <s>
       if (e.data.keyCode == 46 || e.data.keyCode == 8)
       {
         editor.execCommand('strike');
@@ -131,10 +132,21 @@ define([
         refresh();
         return false;
       }
+      // if space is pressed, click the play/pause button
       else if (e.data.keyCode == 32)
       {
         $('#playButton').click();
         return false;
+      }
+      // if return key is pressed, move pointer to beginning of word
+      else if (e.data.keyCode == 13)
+      {
+        var newRange = editor.createRange();
+        var start = range.startContainer;
+        newRange.setStartAt(start, CKEditor.POSITION_AFTER_START);
+        newRange.setEndAt(start, CKEditor.POSITION_AFTER_START);
+        editor.getSelection().selectRanges([newRange]);
+        return;
       }
     }
 
@@ -149,7 +161,8 @@ define([
       var next = endElement.data('next');
       editor.insertHtml('<a data-start="'+start+
                         '" data-end="'+end+
-                        '" data-next="'+next+'">'+
+                        '" data-next="'+next+
+                        '" data-content="'+Utils.millisecFormat(start)+'">'+
                         '</a>', 'unfiltered_html');
       startElement.remove();
       endElement.remove();
