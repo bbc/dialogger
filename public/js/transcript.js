@@ -136,8 +136,10 @@ define([
     }
 
     // if more than one word was selected
-    if (!startElement.is(endElement) && keyWhitelist.test(String.fromCharCode(e.data.keyCode))) {
-
+    if (!startElement.is(endElement) &&
+        keyWhitelist.test(String.fromCharCode(e.data.keyCode)) &&
+        !e.data.domEvent.$.ctrlKey)
+    {
       // calculate start and end times of selection and replace with one word
       var start = startElement.data('start');
       var end = endElement.data('end');
@@ -159,7 +161,8 @@ define([
     seek = options.seek;
     updateEDL = options.edl;
     editor = CKEditor.inline(id, {
-      removePlugins: 'toolbar,contextmenu,liststyle,tabletools,elementspath,link,dragdrop,basket',
+      plugins: 'basicstyles,undo',
+      //removePlugins: 'toolbar,contextmenu,liststyle,tabletools,elementspath,link,dragdrop,basket,clipboard',
       resize_enabled: false,
       allowedContent: 'a p[*](*); u s',
       title: false,
@@ -178,10 +181,10 @@ define([
         //change: pause,
         key: keyHandler,
         contentDom: function() {
-          $('#transcript').mouseup(wordClick);
-          $('#transcript').mousedown(hideTimestamps);
-        },
-        drop: function() { return false; }
+          $('#'+id).mouseup(wordClick);
+          $('#'+id).mousedown(hideTimestamps);
+          $('#'+id).on('cut copy paste drop', function() { return false; });
+        }
       }
     });
   };
