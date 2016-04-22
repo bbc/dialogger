@@ -84,6 +84,9 @@ define([
     $('#saveButton').click(function() {
       EditsCollection.save(Transcript.save());
     });
+    $('#saveAsButton').click(function() {
+      EditsCollection.saveAs(Transcript.save());
+    });
 
     $('.ui.checkbox').checkbox();
 

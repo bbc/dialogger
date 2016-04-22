@@ -28,26 +28,35 @@ define([
   var save = function(edit) {
     var model = instance.findWhere({selected: true});
     if (!model) {
-      // add asset details
-      var asset = AssetsCollection.getSelected();
-      edit.asset = asset.id;
-      edit.name = asset.get('name');
-
-      // ask user for description
-      var description = window.prompt('Please enter a description of your edit','');
-      if (description == null || description === '') return alert('You must enter a description to save.');
-      edit.description = description;
-
-      // create edit
-      model = new EditsModel(edit);
-      instance.add(model);
-      model.save();
+      return saveAs(edit);
     } else {
       model.set('edl', edit.edl);
       model.set('html', edit.html);
       model.set('transcript', edit.transcript);
       model.save();
+      return true;
     }
+  };
+  var saveAs = function(edit) {
+    // add asset details
+    var asset = AssetsCollection.getSelected();
+    edit.asset = asset.id;
+    edit.name = asset.get('name');
+
+    // ask user for description
+    var description = window.prompt('Please enter a description of your edit','');
+    if (description == null || description === '') {
+      alert('You must enter a description to save.');
+      return false;
+    }
+    edit.description = description;
+
+    // create edit
+    model = new EditsModel(edit);
+    instance.add(model);
+    model.save();
+
+    return true;
   };
   return {
     initialize: initialize,
@@ -55,7 +64,8 @@ define([
     set: set,
     unset: unset,
     deselect: deselect,
-    save: save
+    save: save,
+    saveAs: saveAs
   };
 });
 
