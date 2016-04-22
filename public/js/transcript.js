@@ -43,6 +43,7 @@ define([
       } else {
         return -1;
       }
+      $('#transcript a').popup({delay: {show: 1000}});
       refresh();
       editor.resetUndo();
     }

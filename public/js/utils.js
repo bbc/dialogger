@@ -79,6 +79,7 @@ define([
       html += '<a data-start="'+startTime+
                '" data-end="'+endTime+
                '" data-next="'+nextTime+'"'+
+               ' data-content="'+millisecFormat(startTime)+'"'+
                confidence+'>'+word+' </a>';
     }
     html += '</p>';
@@ -137,6 +138,13 @@ define([
   };
   var uploadError = function() {
     alert('Upload failed. Please check your connection and ensure that you only upload valid video or audio files.');
+  };
+  var millisecFormat = function(ms) {
+    ms = ms/1000;
+    var hours = parseInt(ms/60/60);
+    var mins = parseInt(ms/60);
+    var secs = parseInt(ms%60);
+    return ((hours<10?'0'+hours:hours)+':'+(mins<10?'0'+mins:mins)+':'+(secs<10?'0'+secs:secs));
   };
   return {
     transcriptToHTML: transcriptToHTML,
