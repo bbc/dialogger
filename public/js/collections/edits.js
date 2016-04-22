@@ -1,9 +1,10 @@
 define([
   'underscore',
   'backbone',
+  'utils',
   'collections/assets',
   'models/edits'
-], function(_, Backbone, AssetsCollection, EditsModel){
+], function(_, Backbone, Utils, AssetsCollection, EditsModel){
   var instance;
   var EditsCollection = Backbone.Collection.extend({
     url: './api/edits',
@@ -14,7 +15,10 @@ define([
     return instance;
   };
   var fetch = function() {
-    instance.fetch();
+    instance.fetch({
+      success: Utils.ajaxSuccess,
+      error: Utils.ajaxError
+    });
   };
   var set = function(id, field, value) {
     instance.get(id).set(field, value);

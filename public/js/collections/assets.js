@@ -1,8 +1,9 @@
 define([
   'underscore',
   'backbone',
+  'utils',
   'models/assets'
-], function(_, Backbone, AssetsModel){
+], function(_, Backbone, Utils, AssetsModel){
   var instance;
   var AssetsCollection = Backbone.Collection.extend({
     url: './api/assets',
@@ -19,7 +20,10 @@ define([
     return instance.findWhere({selected: true});
   };
   var fetch = function() {
-    instance.fetch();
+    instance.fetch({
+      success: Utils.ajaxSuccess,
+      error: Utils.ajaxError
+    });
   };
   var deselect = function() {
     instance.invoke('set', {'selected': false});

@@ -90,6 +90,15 @@ canvas {
 .ui.inverted.top.menu.fixed {
   z-index: 102;
 }
+.ui.nag {
+  background-color: #fff6f6;
+}
+.ui.nag:hover {
+  background-color: #ffe6e6;
+}
+.ui.nag .title {
+  color: #9f3a38;
+}
 @media print {
   .menu, .sidebar, #preview {
     display: none !important;

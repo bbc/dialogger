@@ -139,8 +139,11 @@ define([
     if (confirm('Your changed have not been saved. Are you sure you want to continue?')) return false;
     return true;
   };
+  var ajaxSuccess = function() {
+    $('.lost-connection.nag').nag('hide');
+  };
   var ajaxError = function() {
-    alert('Could not communicate with server. Please check your connection.');
+    $('.lost-connection.nag').nag('show');
   };
   var uploadError = function() {
     alert('Upload failed. Please check your connection and ensure that you only upload valid video or audio files.');
@@ -157,6 +160,7 @@ define([
     HTMLtoWords: HTMLtoWords,
     wordsToEDL: wordsToEDL,
     edlToPlaylist: edlToPlaylist,
+    ajaxSuccess: ajaxSuccess,
     ajaxError: ajaxError,
     uploadError: uploadError,
     checkSaved: checkSaved,
