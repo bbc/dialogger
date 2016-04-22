@@ -103,6 +103,7 @@ define([
   };
   var updateName = function(name) {
     $('#loadedName').text(name);
+    document.title = 'BBC Discourse - '+name;
   };
   return {
     initialize: initialize,

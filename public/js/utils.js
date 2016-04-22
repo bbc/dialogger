@@ -25,7 +25,8 @@ define([
         if (prevSpeaker != speaker) {
           var gender = segments[currentSegment].speaker.gender;
           if (currentSegment>0) html += '</p>';
-          html += '<p class="speaker '+gender+'" data-speaker="'+speaker+'">';
+          html += '<p class="speaker '+gender+'" data-speaker="'+speaker+
+            '" data-time="'+millisecFormat(words[i].start*1000)+'">';
           prevSpeaker = speaker;
         }
         currentSegment += 1;

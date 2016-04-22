@@ -91,11 +91,24 @@ canvas {
   z-index: 102;
 }
 @media print {
-  .menu, .sidebar {
+  .menu, .sidebar, #preview {
     display: none !important;
   }
   .pusher {
-    margin-top: 0;
+    padding-top: 0;
+  }
+  #transcript p.speaker {
+    border-left-style: none;
+  }
+  #transcript p[data-time].speaker:before {
+    content: attr(data-time);
+    position: relative;
+    display: inline-block;
+    left: 0;
+    width: auto;
+    text-align: left;
+    margin-right: 0.5em;
+    color: black;
   }
 }
 .cke_focus {
