@@ -134,7 +134,7 @@ define([
         doubleclick: wordDblClick,
         //change: pause,
         key: keyHandler,
-        contentDom: function() { this.document.on('mouseup', wordClick, this); },
+        contentDom: function() { $('#transcript').mouseup(wordClick); },
         drop: function() { return false; }
       }
     });
