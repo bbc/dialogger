@@ -64,28 +64,47 @@ define([
     //range.setEnd(range.endContainer, range.endOffset - 1);
     editor.getSelection().selectRanges([range]);
 
-    // display timestamps
-    if ($(start.$.parentElement).is(end.$.parentElement)) {
-      $(selection.getRanges()[0].startContainer.$.parentElement).popup({
+    showTimestamps();
+  };
+
+  var showTimestamps = function() {
+    var selection = editor.getSelection();
+    var range = editor.createRange();
+    var startElement = selection.getRanges()[0].startContainer.$.parentElement;
+    var endElement = selection.getRanges()[0].endContainer.$.parentElement;
+
+    if ($(startElement).is(endElement)) {
+      $(startElement).popup({
         on: 'manual',
         exclusive: true
       }).popup('show');
     } else {
-      $(selection.getRanges()[0].startContainer.$.parentElement).popup({
+      $(startElement).popup({
         on: 'manual',
         exclusive: true,
         position: 'top left'
       }).popup('show');
-      $(selection.getRanges()[0].endContainer.$.parentElement).popup({
+      $(endElement).popup({
         on: 'manual',
         position: 'bottom right'
       }).popup('show');
     }
   };
 
+  var hideTimestamps = function() {
+    var selection = editor.getSelection();
+    var range = editor.createRange();
+    var startElement = selection.getRanges()[0].startContainer.$.parentElement;
+    var endElement = selection.getRanges()[0].endContainer.$.parentElement;
+
+    $(startElement).popup('hide');
+    $(endElement).popup('hide');
+  };
+
   var wordDblClick = function(e) {
     var start = $(editor.getSelection().getRanges()[0].startContainer.$.parentElement).data('start');
     seek(start/1000);
+    hideTimestamps();
     //play(1.0);
   };
 
@@ -97,12 +116,10 @@ define([
     var startElement = $(range.startContainer.$.parentElement);
     var endElement = $(range.endContainer.$.parentElement);
 
-    // get rid of any popups
-    $(startElement).popup('hide');
-    $(endElement).popup('hide');
+    hideTimestamps();
 
     // if delete or backspace key is pressed, wrap in <s>
-    if (editor.getSelection().getSelectedText().length > 0)
+    if (!range.collapsed)
     {
       if (e.data.keyCode == 46 || e.data.keyCode == 8)
       {
@@ -160,7 +177,10 @@ define([
         doubleclick: wordDblClick,
         //change: pause,
         key: keyHandler,
-        contentDom: function() { $('#transcript').mouseup(wordClick); },
+        contentDom: function() {
+          $('#transcript').mouseup(wordClick);
+          $('#transcript').mousedown(hideTimestamps);
+        },
         drop: function() { return false; }
       }
     });
