@@ -134,6 +134,11 @@ define([
     }
     return {tracks: [playlist]};
   };
+  var checkSaved = function(changed) {
+    if (!changed) return false;
+    if (confirm('Your changed have not been saved. Are you sure you want to continue?')) return false;
+    return true;
+  };
   var ajaxError = function() {
     alert('Could not communicate with server. Please check your connection.');
   };
@@ -153,6 +158,7 @@ define([
     wordsToEDL: wordsToEDL,
     edlToPlaylist: edlToPlaylist,
     ajaxError: ajaxError,
-    uploadError: uploadError
+    uploadError: uploadError,
+    checkSaved: checkSaved
   };
 });

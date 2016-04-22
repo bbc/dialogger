@@ -40,8 +40,14 @@ define([
   var saveAs = function(edit) {
     // add asset details
     var asset = AssetsCollection.getSelected();
-    edit.asset = asset.id;
-    edit.name = asset.get('name');
+    if (asset === undefined) {
+      var selectedEdit = instance.findWhere({selected: true});
+      edit.asset = selectedEdit.get('asset');
+      edit.name = selectedEdit.get('name');
+    } else {
+      edit.asset = asset.id;
+      edit.name = asset.get('name');
+    }
 
     // ask user for description
     var description = window.prompt('Please enter a description of your edit','');

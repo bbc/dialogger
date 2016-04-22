@@ -20,6 +20,7 @@ define([
       'click .header a': 'open'
     },
     open: function(e) {
+      if (Utils.checkSaved(Transcript.hasChanged())) return;
       var id = $(e.currentTarget).closest('.asset').data('id');
       var model = this.collection.get(id);
       model.fetch({

@@ -19,6 +19,7 @@ define([
       'click .right button': 'exportEdit'
     },
     open: function(e) {
+      if (Utils.checkSaved(Transcript.hasChanged())) return;
       var id = $(e.currentTarget).closest('.edit').data('id');
       var model = this.collection.get(id);
       model.fetch({
@@ -97,6 +98,8 @@ define([
       }).modal('show');
     },
     newEdit: function(model) {
+      AssetsCollection.deselect();
+      EditsCollection.deselect();
       model.set('selected', true);
     },
     initialize: function() {

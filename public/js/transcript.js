@@ -15,6 +15,7 @@ define([
   var pause;
   var seek;
   var updateEDL;
+  var hasChanged = false;
   
   var save = function() {
     if (editor)
@@ -26,6 +27,7 @@ define([
         html: editor.getData(),
         edl: Utils.wordsToEDL(words)
       };
+      hasChanged = false;
       return edit;
     }
   };
@@ -45,6 +47,7 @@ define([
       }
       refresh();
       editor.resetUndo();
+      hasChanged = false;
     }
   };
 
@@ -178,7 +181,7 @@ define([
       on: {
         //selectionChange: wordClick,
         doubleclick: wordDblClick,
-        //change: pause,
+        change: function() { hasChanged = true; },
         key: keyHandler,
         contentDom: function() {
           $('#'+id).mouseup(wordClick);
@@ -205,7 +208,8 @@ define([
     save: save,
     bold: bold,
     italic: italic,
-    refresh: refresh
+    refresh: refresh,
+    hasChanged: function() { return hasChanged; }
   };
 });
 
