@@ -13,7 +13,6 @@ define([
 {
   var initialize = function(){
     AssetsListView.initialize();
-    EditsListView.initialize();
     UserView.initialize();
     Upload.initialize();
     Export.initialize();

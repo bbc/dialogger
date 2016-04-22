@@ -4,13 +4,14 @@ define([
   'backbone',
   'collections/assets',
   'collections/edits',
+  'views/editsList',
   'text!templates/assetsList.html',
   'transcript',
   'notification',
   'ui',
   'utils'
-], function($, _, Backbone, AssetsCollection, EditsCollection, assetsListTemplate, Transcript,
-  Notification, UI, Utils)
+], function($, _, Backbone, AssetsCollection, EditsCollection, EditsListView,
+  assetsListTemplate, Transcript, Notification, UI, Utils)
 {
   var instance;
   var AssetsListView = Backbone.View.extend({
@@ -89,6 +90,7 @@ define([
       this.listenTo(this.collection, 'sync change', this.render);
       this.listenTo(this.collection, 'change:ready', this.assetReady);
       this.listenTo(this.collection, 'change:error', this.assetError);
+      this.listenToOnce(this.collection, 'sync', EditsListView.initialize);
       this.collection.fetch();
       this.render();
     },
