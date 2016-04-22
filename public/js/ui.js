@@ -84,6 +84,12 @@ define([
     $('#saveButton').click(function() {
       EditsCollection.save(Transcript.save());
     });
+    $(document).keypress(function(e) {
+      if (e.which == 32 && !$('#transcript').is(':focus')) {
+        e.preventDefault();
+        $('#playButton').click();
+      }
+    });
 
     $('.ui.checkbox').checkbox();
 

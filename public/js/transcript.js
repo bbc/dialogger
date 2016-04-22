@@ -43,7 +43,6 @@ define([
       } else {
         return -1;
       }
-      $('#transcript a').popup({delay: {show: 1000}});
       refresh();
       editor.resetUndo();
     }
@@ -53,14 +52,35 @@ define([
     load(defaultData, 'html', null);
   };
 
-  var wordClick = function(e) {
+  var wordClick = function(e)
+  {
     // select entire word
     var selection = editor.getSelection();
     var range = editor.createRange();
-    range.setStartAt(selection.getRanges()[0].startContainer, CKEditor.POSITION_AFTER_START);
-    range.setEndAt(selection.getRanges()[0].endContainer, CKEditor.POSITION_BEFORE_END);
+    var start = selection.getRanges()[0].startContainer;
+    var end = selection.getRanges()[0].endContainer;
+    range.setStartAt(start, CKEditor.POSITION_AFTER_START);
+    range.setEndAt(end, CKEditor.POSITION_BEFORE_END);
     //range.setEnd(range.endContainer, range.endOffset - 1);
     editor.getSelection().selectRanges([range]);
+
+    // display timestamps
+    if ($(start.$.parentElement).is(end.$.parentElement)) {
+      $(selection.getRanges()[0].startContainer.$.parentElement).popup({
+        on: 'manual',
+        exclusive: true
+      }).popup('show');
+    } else {
+      $(selection.getRanges()[0].startContainer.$.parentElement).popup({
+        on: 'manual',
+        exclusive: true,
+        position: 'top left'
+      }).popup('show');
+      $(selection.getRanges()[0].endContainer.$.parentElement).popup({
+        on: 'manual',
+        position: 'bottom right'
+      }).popup('show');
+    }
   };
 
   var wordDblClick = function(e) {
@@ -71,26 +91,32 @@ define([
 
   var keyHandler = function(e)
   {
-    // if delete or backspace key is pressed, wrap in <s>
-    if (editor.getSelection().getSelectedText().length > 0 && (e.data.keyCode == 46 || e.data.keyCode == 8))
-    {
-      editor.execCommand('strike');
-      pause();
-      refresh();
-      return false;
-    }
-/*
-    if (e.data.keyCode == 13) {
-      var range = editor.createRange();
-      range.setStart(
-      editor.getSelection().getRanges()[0].
-*/
-
     // find selection details
     var selection = editor.getSelection();
     var range = selection.getRanges()[0];
     var startElement = $(range.startContainer.$.parentElement);
     var endElement = $(range.endContainer.$.parentElement);
+
+    // get rid of any popups
+    $(startElement).popup('hide');
+    $(endElement).popup('hide');
+
+    // if delete or backspace key is pressed, wrap in <s>
+    if (editor.getSelection().getSelectedText().length > 0)
+    {
+      if (e.data.keyCode == 46 || e.data.keyCode == 8)
+      {
+        editor.execCommand('strike');
+        pause();
+        refresh();
+        return false;
+      }
+      else if (e.data.keyCode == 32)
+      {
+        $('#playButton').click();
+        return false;
+      }
+    }
 
     // if more than one word was selected
     if (!startElement.is(endElement) && keyWhitelist.test(String.fromCharCode(e.data.keyCode))) {
