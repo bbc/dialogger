@@ -15,10 +15,7 @@ define([
     return instance;
   };
   var fetch = function() {
-    instance.fetch({
-      success: Utils.ajaxSuccess,
-      error: Utils.ajaxError
-    });
+    instance.fetch({ error: Utils.ajaxError });
   };
   var set = function(id, field, value) {
     instance.get(id).set(field, value);

@@ -100,6 +100,9 @@ canvas {
 .ui.nag .title {
   color: #9f3a38;
 }
+.ui.nag > .close.icon {
+  color: black;
+}
 @media print {
   .menu, .sidebar, #preview {
     display: none !important;

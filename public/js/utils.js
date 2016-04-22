@@ -139,9 +139,6 @@ define([
     if (confirm('Your changed have not been saved. Are you sure you want to continue?')) return false;
     return true;
   };
-  var ajaxSuccess = function() {
-    $('.lost-connection.nag').nag('hide');
-  };
   var ajaxError = function() {
     $('.lost-connection.nag').nag('show');
   };
@@ -160,7 +157,6 @@ define([
     HTMLtoWords: HTMLtoWords,
     wordsToEDL: wordsToEDL,
     edlToPlaylist: edlToPlaylist,
-    ajaxSuccess: ajaxSuccess,
     ajaxError: ajaxError,
     uploadError: uploadError,
     checkSaved: checkSaved,

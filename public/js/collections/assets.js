@@ -20,10 +20,7 @@ define([
     return instance.findWhere({selected: true});
   };
   var fetch = function() {
-    instance.fetch({
-      success: Utils.ajaxSuccess,
-      error: Utils.ajaxError
-    });
+    instance.fetch({ error: Utils.ajaxError });
   };
   var deselect = function() {
     instance.invoke('set', {'selected': false});
