@@ -88,6 +88,10 @@ define([
       EditsCollection.saveAs(Transcript.save());
     });
 
+    $(window).on('beforeunload', function() {
+      if (Transcript.hasChanged()) return 'Your changes have not been saved!';
+    });
+
     $('.ui.checkbox').checkbox();
 
     // TODO Remove the need for regular polling
