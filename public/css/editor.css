@@ -91,6 +91,7 @@ canvas {
   z-index: 102;
 }
 .ui.nag {
+  margin-top: 92px;
   background-color: #fff6f6;
 }
 .ui.nag:hover {
