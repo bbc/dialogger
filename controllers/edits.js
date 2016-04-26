@@ -159,7 +159,6 @@ exports.edit = function(req, res)
           } else {
             log.info(response.statusCode, body);
             var transcript = JSON.parse(body);
-            options.edl = options.edl;
             docs[0].transcript = transcript.transcript;
             docs[0].segments = transcript.segments;
             res.json(docs);
