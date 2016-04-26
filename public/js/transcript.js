@@ -97,8 +97,10 @@ define([
   var hideTimestamps = function() {
     var selection = editor.getSelection();
     var range = editor.createRange();
-    var startElement = selection.getRanges()[0].startContainer.$.parentElement;
-    var endElement = selection.getRanges()[0].endContainer.$.parentElement;
+    if (selection.getRanges().length > 0) {
+      var startElement = selection.getRanges()[0].startContainer.$.parentElement;
+      var endElement = selection.getRanges()[0].endContainer.$.parentElement;
+    }
 
     $(startElement).popup('hide');
     $(endElement).popup('hide');
