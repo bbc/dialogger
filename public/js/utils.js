@@ -12,48 +12,24 @@ define([
     var prevSpeaker;
     var deletedFlag = false;
     var selectedFlag = false;
-    var newPara = false;
-    var paraStar = false;
 
     // for each word
     for (var i=0; i<words.length; i++) {
 
       // if there is a change in speaker
       if (currentSegment < segments.length &&
-          words[i].start > segments[currentSegment].start)
-      {
-        // update speaker/gender info and create new paragraph
+          words[i].start > segments[currentSegment].start) {
+
+        // start a new paragraph
         var speaker = segments[currentSegment].speaker['@id'];
         if (prevSpeaker != speaker) {
           var gender = segments[currentSegment].speaker.gender;
+          if (currentSegment>0) html += '</p>';
+          html += '<p class="speaker '+gender+'" data-speaker="'+speaker+
+            '" data-time="'+millisecFormat(words[i].start*1000)+'">';
           prevSpeaker = speaker;
-          newPara = true;
-          selectedFlag = false;
         }
         currentSegment += 1;
-      }
-
-      // if word has been selected, create new starred paragraph
-      if ("select" in words[i] && words[i].select == "true" && selectedFlag == false)
-      {
-        newPara = true;
-        paraStar = true;
-        selectedFlag = true;
-      }
-      // if end of selection has been reached, create new paragraph
-      else if (selectedFlag == true && (!("select" in words[i]) || words[i].select == "false"))
-      {
-        newPara = true;
-        selectedFlag = false;
-      }
-
-      // draw new paragraph
-      if (newPara) {
-        if (currentSegment>1) html += '</p>';
-        html += '<p class="speaker '+gender+(paraStar?' starred':'')+
-          '" data-speaker="'+speaker+'" data-time="'+millisecFormat(words[i].start*1000)+'">';
-        newPara = false;
-        paraStar = false;
       }
 
       // note word and its start and end times (in millisecs)
@@ -74,6 +50,20 @@ define([
       } else if (deletedFlag == true) {
         html += '</s>';
         deletedFlag = false;
+      }
+
+      // bold words flagged as selected
+      if ("select" in words[i]) {
+        if (words[i].select == "true" && selectedFlag == false) {
+          html += '<u>';
+          selectedFlag = true;
+        } else if (words[i].select == "false" && selectedFlag == true) {
+          html += '</u>';
+          selectedFlag = false;
+        }
+      } else if (selectedFlag == true) {
+        html += '</u>';
+        selectedFlag = false;
       }
 
       // note start time of next word (for detecting cuts)
@@ -98,9 +88,15 @@ define([
   };
 
   // convert HTML into a transcript object
-  var HTMLtoWords = function(html) {
+  var HTMLtoWords = function(html, underlinedOnly) {
     var words = [];
-    $(html).find('a').not('s a').each(function() {
+    var range;
+    if (underlinedOnly) {
+      range = $(html).find('u a');
+    } else {
+      range = $(html).find('a').not('s a');
+    }
+    range.each(function() {
       var word = $(this).text().trim();
       var start = $(this).data('start')/1000;
       var end = $(this).data('end')/1000;

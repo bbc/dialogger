@@ -17,11 +17,11 @@ define([
   var updateEDL;
   var hasChanged = false;
   
-  var save = function() {
+  var save = function(underlinedOnly) {
     if (editor)
     {
       // process transcript
-      var words = Utils.HTMLtoWords(editor.getData());
+      var words = Utils.HTMLtoWords(editor.getData(), underlinedOnly);
       var edit = {
         transcript: {words: words},
         html: editor.getData(),

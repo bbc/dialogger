@@ -38,7 +38,6 @@ exports.transcode = function(req, res)
         } else {
           var options = req.body;
           options.path = assets[0].path;
-          options.edl = docs[0].edl;
 
           // extra metadata for EDL
           if (assets[0].info.audio_tracks.length) {
@@ -160,6 +159,7 @@ exports.edit = function(req, res)
           } else {
             log.info(response.statusCode, body);
             var transcript = JSON.parse(body);
+            options.edl = options.edl;
             docs[0].transcript = transcript.transcript;
             docs[0].segments = transcript.segments;
             res.json(docs);

@@ -3,8 +3,9 @@ define([
   'serialize',
   'semantic',
   'collections/edits',
+  'transcript',
   'utils'
-], function($, Serialize, Semantic, EditsCollection, Utils)
+], function($, Serialize, Semantic, EditsCollection, Transcript, Utils)
 {
   // map field values to file extension
   var extMap = {
@@ -90,6 +91,9 @@ define([
       method: 'POST',
       serializeForm: true,
       beforeSend: function(settings) {
+        // get EDL
+        settings.data.edl = Transcript.save($('#exportUnderlined').checkbox('is checked')).edl;
+
         // add 'k' to bitrate submission
         if (settings.data.video.vb) settings.data.video.vb += 'k';
         if (settings.data.video.ab) settings.data.video.ab += 'k';

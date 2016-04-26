@@ -106,12 +106,12 @@
         <div class="field">
           <label>Output</label>
           <select class="ui dropdown" name="format" id="exportFormat">
+            <option value="edl">EDL</option>
             <option value="video">Video file</option>
             <option value="audio">Audio file</option>
-            <option value="edl">EDL</option>
           </select>
         </div>
-        <div class="ui basic segment" id="exportVideo">
+        <div class="ui basic segment" id="exportVideo" style="display: none;">
           <div class="fields">
             <div class="six wide field">
               <label>Video format</label>
@@ -181,7 +181,7 @@
             <div class="six wide field"></div>
           </div>
         </div>
-        <div class="ui basic segment" id="exportEDL" style="display: none;">
+        <div class="ui basic segment" id="exportEDL">
           <div class="fields">
             <div class="field">
               <label>EDL format</label>
@@ -205,6 +205,13 @@
           <div class="ui right labeled input">
             <input type="text" name="name" id="exportName">
             <div class="ui basic label" id="exportExt">.wav</div>
+          </div>
+        </div>
+        <div class="field">
+          <div class="ui toggle checkbox" id="exportUnderlined">
+            <input type="checkbox" name="exportUnderlined"
+            tabindex="0" class="hidden">
+            <label>Only export underlined content</label>
           </div>
         </div>
         <div class="ui error message"></div>
