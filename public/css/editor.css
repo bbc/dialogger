@@ -61,6 +61,9 @@ span.hidden::after {
   text-align: right;
   margin-right: -200px;
 }
+#transcript p[data-speaker].speaker.starred:before {
+  content: attr(data-speaker) ' \2605';
+}
 #transcript p.speaker.M:before {
   color: blue;
 }
