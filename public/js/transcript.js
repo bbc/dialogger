@@ -123,6 +123,8 @@ define([
 
     hideTimestamps();
 
+    if (e.data.domEvent.$.ctrlKey || e.data.domEvent.$.metaKey) return true;
+
     // if there is a selection
     if (!range.collapsed)
     {
@@ -154,8 +156,7 @@ define([
 
     // if more than one word was selected
     if (!startElement.is(endElement) &&
-        keyWhitelist.test(String.fromCharCode(e.data.keyCode)) &&
-        !e.data.domEvent.$.ctrlKey)
+        keyWhitelist.test(String.fromCharCode(e.data.keyCode)))
     {
       // calculate start and end times of selection and replace with one word
       var start = startElement.data('start');
@@ -180,14 +181,12 @@ define([
     updateEDL = options.edl;
     editor = CKEditor.inline(id, {
       plugins: 'basicstyles,undo',
-      //removePlugins: 'toolbar,contextmenu,liststyle,tabletools,elementspath,link,dragdrop,basket,clipboard',
       resize_enabled: false,
       allowedContent: 'a p[*](*); u s',
       title: false,
       coreStyles_bold: {
         element: 'u',
-        //overrides: 'b',
-        childRule: function(e) { return !e.is('a'); }
+        childRule: function(e) { return (e.is('a') && !e.is('p')); }
       },
       coreStyles_strike: {
         element: 's',
