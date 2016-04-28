@@ -34,6 +34,15 @@ define([
       }
     }).modal('show');
   };
+  var updateSpeakers = function() {
+    $('#transcript p').unbind('dblclick');
+    $('#transcript p').dblclick(function(e) {
+      if (e.offsetX < -10) speakerPrompt(this);
+    });
+    $('#transcript p').each(function() {
+      $(this).data('time', $(this).find('a:first').data('content'));
+    });
+  };
   var playbackEnd = function() {
     $('#playButton i:first').removeClass('pause').addClass('play');
   };
@@ -44,11 +53,6 @@ define([
     }
   };
   var pause = function() {
-    // change speaker name handler
-    $('#transcript p').unbind('dblclick');
-    $('#transcript p').dblclick(function(e) {
-      if (e.offsetX < -10) speakerPrompt(this);
-    });
     Preview.pause();
     playbackEnd();
   };
@@ -119,6 +123,7 @@ define([
     showVideo: showVideo,
     hideVideo: hideVideo,
     updateDuration: updateDuration,
-    updateName: updateName
+    updateName: updateName,
+    updateSpeakers: updateSpeakers
   };
 });

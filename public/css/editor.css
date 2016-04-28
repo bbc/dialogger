@@ -113,15 +113,20 @@ canvas {
   #transcript p.speaker {
     border-left-style: none;
   }
-  #transcript p[data-time].speaker:before {
-    content: attr(data-time);
+  #transcript p[data-time][data-speaker].speaker:before {
+    content: attr(data-time) ' [' attr(data-speaker) ']';
     position: relative;
     display: inline-block;
     left: 0;
     width: auto;
     text-align: left;
     margin-right: 0.5em;
-    color: black;
+  }
+  #transcript p.speaker.M:before {
+    color: blue;
+  }
+  #transcript p.speaker.F:before {
+    color: red;
   }
 }
 .cke_focus {

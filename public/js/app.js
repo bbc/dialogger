@@ -21,7 +21,8 @@ define([
       play: UI.play,
       pause: UI.pause,
       seek: Preview.seekOrig,
-      edl: Preview.updateEDL
+      edl: Preview.updateEDL,
+      speakers: UI.updateSpeakers
     });
     UI.initialize();
     Print.initialize();

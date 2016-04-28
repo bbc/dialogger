@@ -15,6 +15,7 @@ define([
   var pause;
   var seek;
   var updateEDL;
+  var updateSpeakers;
   var hasChanged = false;
   
   var save = function(underlinedOnly) {
@@ -46,6 +47,7 @@ define([
         return -1;
       }
       refresh();
+      updateSpeakers();
       editor.resetUndo();
       hasChanged = false;
     }
@@ -135,14 +137,15 @@ define([
         return false;
       }
       // if return key is pressed, move pointer to beginning of word
-      else if (e.data.keyCode == 13)
+      else if (e.data.keyCode == 13 || e.data.keyCode == CKEditor.SHIFT + 13)
       {
         var newRange = editor.createRange();
         var start = range.startContainer;
         newRange.setStartAt(start, CKEditor.POSITION_AFTER_START);
         newRange.setEndAt(start, CKEditor.POSITION_AFTER_START);
         editor.getSelection().selectRanges([newRange]);
-        return;
+        setTimeout(function() { updateSpeakers(); }, 500);
+        return true;
       }
     }
 
@@ -171,8 +174,9 @@ define([
     pause = options.pause;
     seek = options.seek;
     updateEDL = options.edl;
+    updateSpeakers = options.speakers;
     editor = CKEditor.inline(id, {
-      plugins: 'basicstyles,undo',
+      plugins: 'basicstyles,undo,enterkey',
       resize_enabled: false,
       allowedContent: 'a p[*](*); u s',
       title: false,
@@ -184,6 +188,8 @@ define([
         element: 's',
         childRule: function(e) { return (e.is('a') && !e.is('p')); }
       },
+      enterMode: CKEditor.ENTER_P,
+      shiftEnterMode: CKEditor.ENTER_P,
       on: {
         //selectionChange: wordClick,
         blur: hideTimestamps,
