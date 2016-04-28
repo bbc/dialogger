@@ -40,7 +40,7 @@ define([
       if (e.offsetX < -10) speakerPrompt(this);
     });
     $('#transcript p').each(function() {
-      $(this).data('time', $(this).find('a:first').data('content'));
+      $(this).attr('data-time', $(this).find('a:first').data('content'));
     });
   };
   var playbackEnd = function() {
