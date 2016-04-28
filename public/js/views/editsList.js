@@ -54,6 +54,7 @@ define([
         model.unset('ready');
       } else if (!model.get('jobid')) {
         if (Transcript.hasChanged()) return alert('Please save your changes before exporting.');
+        instance.open(e);
         var description = this.collection.get(id).get('description');
         $('#exportForm').data('id', id);
         $('#exportName').val(description);
