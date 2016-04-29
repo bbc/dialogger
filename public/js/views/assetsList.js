@@ -14,6 +14,16 @@ define([
   assetsListTemplate, Transcript, Notification, UI, Utils)
 {
   var instance;
+  var updateDropdown = function(id, view) {
+    $('#'+id+' .ui.dropdown').dropdown({
+      action: function(text, value) {
+        if (text==='Rename') view.rename(id);
+        else if (text==='Delete') view.destroy(id);
+        else if (text==='Edit with digital pen') view.print(id);
+        $(this).dropdown('hide');
+      }
+    });
+  };
   var AssetsListView = Backbone.View.extend({
     el: '#assetsList',
     template: _.template(assetsListTemplate),
@@ -35,7 +45,6 @@ define([
           model.set({selected: true});
         }
       });
-      this.render();
     },
     assetReady: function(model) {
       if (model.attributes.ready) Notification.notify(model.attributes.name+' is ready');
@@ -87,26 +96,25 @@ define([
     },
     initialize: function() {
       this.collection = AssetsCollection.initialize();
-      this.listenTo(this.collection, 'sync change', this.render);
+      this.listenTo(this.collection, 'add', this.add);
+      this.listenTo(this.collection, 'remove', this.remove);
+      this.listenTo(this.collection, 'change', this.change);
       this.listenTo(this.collection, 'change:ready', this.assetReady);
       this.listenTo(this.collection, 'change:error', this.assetError);
       this.listenToOnce(this.collection, 'sync', EditsListView.initialize);
       this.collection.fetch();
       this.render();
     },
-    render: function() {
-      var view = this;
-      this.$el.find('.asset').remove();
-      this.$el.append(this.template({collection: this.collection.toJSON()}));
-      $('#assetsList .ui.dropdown').dropdown({
-        action: function(text, value) {
-          var id = $(this).closest('.asset').data('id');
-          if (text==='Rename') view.rename(id);
-          else if (text==='Delete') view.destroy(id);
-          else if (text==='Edit with digital pen') view.print(id);
-          $(this).dropdown('hide');
-        }
-      });
+    add: function(model) {
+      this.$el.prepend(this.template({model: model.toJSON()}));
+      updateDropdown(model.id, this);
+    },
+    remove: function(model) {
+      $('#'+model.id).remove();
+    },
+    change: function(model) {
+      $('#'+model.id).replaceWith(this.template({model: model.toJSON()}));
+      updateDropdown(model.id, this);
     }
   });
  

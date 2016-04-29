@@ -1,5 +1,4 @@
-<% _.each(collection.reverse(), function(model) { %>
-    <div class="item asset <%= model.selected ? 'selected' : '' %>" data-id="<%= model._id %>">
+    <div class="item asset <%= model.selected ? 'selected' : '' %>" id="<%= model._id %>" data-id="<%= model._id %>">
 <% if (model.ready || model.error) { %>
       <div class="right floated content">
         <div class="ui top right pointing dropdown">
@@ -34,4 +33,3 @@
 <% } %>
       </div>
     </div>
-<% }); %>
