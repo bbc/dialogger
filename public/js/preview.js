@@ -50,12 +50,7 @@ define([
     return playing;
   };
   var seek = function(time) {
-    if (time > -1) {
-      var resume = playing;
-      instance.pause();
-      instance.currentTime = time;
-      if (resume) instance.play();
-    }
+    if (time > -1) instance.currentTime = time;
   };
   var seekOrig = function(origTime) {
     seek(getPlaylistTime(origTime));
