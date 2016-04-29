@@ -199,7 +199,7 @@ define([
         contentDom: function() {
           $('#'+id).mouseup(wordClick);
           $('#'+id).mousedown(hideTimestamps);
-          $('#'+id).on('cut copy paste drop', function() { return false; });
+          $('#'+id).on('cut paste drop', function() { return false; });
         }
       }
     });
