@@ -92,7 +92,7 @@ define([
     var words = [];
     var range;
     if (underlinedOnly) {
-      range = $(html).find('u a');
+      range = $(html).find('u a').not('s u a').not('u s a');
     } else {
       range = $(html).find('a').not('s a');
     }
