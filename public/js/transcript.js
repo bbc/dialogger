@@ -6,8 +6,8 @@ define([
 {
   var editor;
   var loadedAsset;
-  var bold = function() { editor.execCommand('bold'); };
-  var italic = function() { editor.execCommand('italic'); };
+  var underline = function() { editor.execCommand('underline'); };
+  var strike = function() { editor.execCommand('strike'); };
   var defaultData = '<p>&nbsp;</p><p align="center" class="black">Please open a media asset or edit to start.</p>';
   var keyWhitelist = /^[a-zA-Z0-9]+$/;
   var id;
@@ -219,8 +219,8 @@ define([
     load: load,
     unload: unload,
     save: save,
-    bold: bold,
-    italic: italic,
+    underline: underline,
+    strike: strike,
     refresh: refresh,
     hasChanged: function() { return hasChanged; }
   };

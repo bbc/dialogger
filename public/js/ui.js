@@ -13,7 +13,7 @@ define([
     $('#speakerName').val($(element).attr('data-speaker'));
     if ($(element).hasClass('M')) $('#speakerM').checkbox('check');
     else $('#speakerF').checkbox('check');
-    $('#speakerPropogate').checkbox('uncheck');
+    $('#speakerPropogate').checkbox('check');
     $('#speakerName')[0].select();
     $('#speakerName').keypress(function(e) {
       if (e.which == 13) $('#speakerModal div.ok.button').click();
@@ -90,6 +90,12 @@ define([
     });
     $('#saveAsButton').click(function() {
       EditsCollection.saveAs(Transcript.save());
+    });
+    $('#underlineButton').click(function() {
+      Transcript.underline();
+    });
+    $('#strikeButton').click(function() {
+      Transcript.strike();
     });
 
     $(window).on('beforeunload', function() {
