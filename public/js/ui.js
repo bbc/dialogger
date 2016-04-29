@@ -85,6 +85,9 @@ define([
       play(2);
       $('#playButton i:first').removeClass('play').addClass('pause');
     });
+    $('#printButton').click(function() {
+      window.print();
+    });
     $('#saveButton').click(function() {
       EditsCollection.save(Transcript.save());
     });
