@@ -47,7 +47,7 @@ define([
     $('#playButton i:first').removeClass('pause').addClass('play');
   };
   var play = function(rate) {
-    if (Transcript.refresh()) {
+    if (Transcript.refresh(false)) {
       Preview.play(rate, playbackEnd);
       $('#playButton i:first').removeClass('play').addClass('pause');
     }

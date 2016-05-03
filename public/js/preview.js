@@ -16,15 +16,19 @@ define([
     instance.addEventListener('pause', pauseHandler);
     instance.addEventListener('ended', endHandler);
   };
-  var updateEDL = function(edl, assetUrl) {
+  var updateEDL = function(edl, assetUrl, seekToZero) {
     var playlist = Utils.edlToPlaylist(edl, assetUrl);
     instance.playlist = playlist;
     updateDuration(VideoCompositor.calculatePlaylistDuration(playlist));
+    if (seekToZero) {
+      instance.currentTime = 0;
+      updatePosition();
+    }
   };
   var updateHTML = function(html, assetUrl) {
     var playlist = Utils.edlToPlaylist(
                      Utils.wordsToEDL(
-                       Utils.HTMLtoWords(html)), assetUrl);
+                       Utils.HTMLtoWords(html, false)), assetUrl);
     instance.playlist = playlist;
   };
   var updateWords = function(words, assetUrl) {

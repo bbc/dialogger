@@ -46,7 +46,7 @@ define([
       } else {
         return -1;
       }
-      refresh();
+      refresh(true);
       updateSpeakers();
       editor.resetUndo();
       hasChanged = false;
@@ -197,7 +197,7 @@ define([
         afterCommandExec: function (e) {
           if (e.data.name == 'strike') {
             pause();
-            refresh();
+            refresh(false);
           }
         },
         contentDom: function() {
@@ -208,15 +208,12 @@ define([
       }
     });
   };
-  var refresh = function() {
-    if (loadedAsset)
-    {
-      updateEDL(Utils.wordsToEDL(Utils.HTMLtoWords(editor.getData())), loadedAsset);
+  var refresh = function(seekToZero) {
+    if (loadedAsset) {
+      updateEDL(Utils.wordsToEDL(Utils.HTMLtoWords($('#'+id).html(), false)), loadedAsset, seekToZero);
+      return true;
     }
-    else {
-      return false;
-    }
-    return true;
+    return false;
   };
   return {
     initialize: initialize,
