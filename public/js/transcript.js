@@ -126,8 +126,6 @@ define([
       if (e.data.keyCode == 46 || e.data.keyCode == 8)
       {
         editor.execCommand('strike');
-        pause();
-        refresh();
         return false;
       }
       // if space is pressed, click the play/pause button
@@ -196,6 +194,12 @@ define([
         doubleclick: wordDblClick,
         change: function() { hasChanged = true; },
         key: keyHandler,
+        afterCommandExec: function (e) {
+          if (e.data.name == 'strike') {
+            pause();
+            refresh();
+          }
+        },
         contentDom: function() {
           $('#'+id).mouseup(wordClick);
           $('#'+id).mousedown(hideTimestamps);
