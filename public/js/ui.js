@@ -105,7 +105,7 @@ define([
       if (Transcript.hasChanged()) return 'Your changes have not been saved!';
     });
 
-    $('.ui.checkbox').checkbox();
+    $('#transcript .ui.checkbox').checkbox();
 
     // TODO Remove the need for regular polling
     setInterval(AssetsCollection.fetch, 5000);

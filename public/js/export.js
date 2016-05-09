@@ -30,7 +30,7 @@ define([
     // EDL extensions (+included media)
     } else {
       var include='';
-      if ($("input[name='edlconfig[include]']").is(':checked')) include='incl';
+      if ($('#exportMedia').checkbox('is checked')) include='incl';
       ext=extMap[$("select[name='edlconfig[format]']").val()+include];
     }
     $('#exportExt').html('.'+ext);
@@ -53,18 +53,15 @@ define([
 
     // update filename extension on each change
     $('#exportVideo,#exportAudio,#exportEDL .dropdown').dropdown({
-      onChange: function() {
-        updateExtension();
-      }
+      onChange: updateExtension
     });
-    $('#exportEDL .checkbox').checkbox({
-      onChange: function() {
-        updateExtension();
-      }
+    $('#exportMedia').checkbox({
+      onChange: updateExtension
     });
     $('#exportModal').modal({
       onShow: updateExtension
     });
+    $('#exportUnderlined').checkbox();
 
     // send the form when submit is clicked
     $('#exportSubmit').click(function() {
