@@ -69,6 +69,9 @@ define([
     //range.setEnd(range.endContainer, range.endOffset - 1);
     editor.getSelection().selectRanges([range]);
 
+    var time = $(start.$.parentElement).data('start');
+    if ($('#playButton i').hasClass('play')) seek(time/1000);
+
     showTimestamps();
   };
 
