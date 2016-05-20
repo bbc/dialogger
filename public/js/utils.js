@@ -53,8 +53,8 @@ define([
       }
 
       // bold words flagged as selected
-      if ("select" in words[i]) {
-        if (words[i].select == "true" && selectedFlag == false) {
+      if ("select" in words[i] || "lineSelect" in words[i]) {
+        if ((words[i].select == "true" || words[i].lineSelect == "true") && selectedFlag == false) {
           html += '<u>';
           selectedFlag = true;
         } else if (words[i].select == "false" && selectedFlag == true) {

@@ -147,7 +147,7 @@ exports.edit = function(req, res)
       // otherwise, get edited transcript from Anoto
       } else {
         request({
-          url: 'https://sales.liveforms.anoto.com/BBC-FDF/output/get',
+          url: 'https://shared.liveforms.anoto.com/BBC-FDF/output/get',
           proxy: 'http://www-cache:8080',
           method: 'POST',
           formData: {file: docs[0]._id+'.json'}
@@ -172,7 +172,7 @@ exports.edit = function(req, res)
 exports.downloadPDF = function(req, res)
 {
   request({
-    url: 'https://sales.liveforms.anoto.com/BBC-FDF/output/pdf',
+    url: 'https://shared.liveforms.anoto.com/BBC-FDF/output/pdf',
     proxy: 'http://www-cache:8080',
     method: 'POST',
     formData: {file: req.params.id+'.json'}
