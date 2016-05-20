@@ -1,6 +1,9 @@
 #transcript {
   padding-bottom: 41px !important;
 }
+#transcript.hidestrike s a {
+  display: none;
+}
 #transcript s a {
   color: #cccccc;
 }

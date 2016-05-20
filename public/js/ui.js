@@ -100,6 +100,15 @@ define([
     $('#strikeButton').click(function() {
       Transcript.strike();
     });
+    $('#hideButton').click(function() {
+      if ($('#hideButton i:first').hasClass('hide')) {
+        $('#hideButton i:first').removeClass('hide').addClass('unhide');
+        $('#transcript').addClass('hidestrike');
+      } else {
+        $('#hideButton i:first').removeClass('unhide').addClass('hide');
+        $('#transcript').removeClass('hidestrike');
+      }
+    });
 
     $(window).on('beforeunload', function() {
       if (Transcript.hasChanged()) return 'Your changes have not been saved!';
