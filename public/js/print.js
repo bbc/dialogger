@@ -33,7 +33,7 @@ define([
     })
     // configure form submission
     .api({
-      url: '/api/assets/pen/{id}',
+      url: './api/assets/pen/{id}',
       method: 'POST',
       serializeForm: true,
       onSuccess: formSubmitted,
