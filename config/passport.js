@@ -27,8 +27,22 @@ module.exports = function(passport, db)
             log.error(err);
             done(err);
           } else {
-            log.info({user: user}, 'Created user');
-            done(null, user._id);
+            db.assets.findById('56b1d6b6aba63c1836383817', function(err, asset) {
+              if (err) {
+                log.error(err);
+              } else {
+                asset.owner = user._id;
+                delete asset._id;
+                db.assets.insert(asset, function(err, asset) {
+                  if (err) {
+                    log.error(err);
+                  } else {
+                    log.info({user: user}, 'Created user');
+                    done(null, user._id);
+                  }
+                });
+              }
+            });
           }
         });
       } else {

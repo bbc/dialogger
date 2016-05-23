@@ -26,7 +26,7 @@
   display: block;
 }
 .selected {
-  background-color: #f5f5f5;
+  background-color: #f3f781;
 }
 #transcript a.played {
   background-color: #cccccc;
