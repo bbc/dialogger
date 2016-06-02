@@ -89,6 +89,10 @@ canvas {
   margin-top: 92px !important;
   padding-bottom: 92px !important;
 }
+.sidebar .header {
+  word-wrap: break-word;
+  word-break: break-all;
+}
 .ui.inverted.top.menu.fixed {
   z-index: 102;
 }
