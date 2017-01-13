@@ -13,7 +13,7 @@ var editsController = require('./controllers/edits.js');
 var penController = require('./controllers/pen.js');
 var feedbackController = require('./controllers/feedback.js');
 
-app.get('/', function(req, res) {
+app.get('/', nocache, function(req, res) {
   if (req.isAuthenticated()) {
     res.sendFile(__dirname+'/public/editor.html');
   } else {
@@ -78,4 +78,11 @@ function isLoggedIn(req, res, next) {
   if (req.isAuthenticated())
     return next();
   res.redirect('./');
+}
+
+function nocache(req, res, next) {
+  res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+  res.header('Expires', '-1');
+  res.header('Pragma', 'no-cache');
+  next();
 }
