@@ -53,8 +53,8 @@ define([
       }
 
       // bold words flagged as selected
-      if ("select" in words[i] || "lineSelect" in words[i]) {
-        if ((words[i].select == "true" || words[i].lineSelect == "true") && selectedFlag == false) {
+      if ("select" in words[i] || "lineselect" in words[i]) {
+        if ((words[i].select == "true" || words[i].lineselect == "true") && selectedFlag == false) {
           html += '<u>';
           selectedFlag = true;
         } else if (words[i].select == "false" && selectedFlag == true) {
@@ -153,8 +153,8 @@ define([
   };
   var millisecFormat = function(ms) {
     ms = ms/1000;
-    var hours = parseInt(ms/60/60);
-    var mins = parseInt(ms/60);
+    var hours = parseInt(ms/60/60)%24;
+    var mins = parseInt(ms/60)%60;
     var secs = parseInt(ms%60);
     return ((hours<10?'0'+hours:hours)+':'+(mins<10?'0'+mins:mins)+':'+(secs<10?'0'+secs:secs));
   };

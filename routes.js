@@ -34,7 +34,7 @@ app.post('/api/login', passport.authenticate('local',
 ));
 
 app.get('/api/logout', function(req, res) {
-  req.logout();
+  req.session.destroy();
   res.redirect('/');
 });
 
