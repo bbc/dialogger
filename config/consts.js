@@ -1,15 +1,15 @@
 var consts = {};
 
-consts.name = 'discourse';
+consts.name = 'dialogger';
 
 // DATABASE
 consts.db = {};
-consts.db.url = 'mongodb://localhost:27017/discourse';
+consts.db.url = 'mongodb://localhost:27017/dialogger';
 consts.db.sessionCollection = 'sessions';
 
 // LOGGING
 consts.log = {};
-consts.log.systemEmail = 'discourse-logger@rd.bbc.co.uk';
+consts.log.systemEmail = 'dialogger-logger@rd.bbc.co.uk';
 consts.log.adminEmail = 'chris.baume@bbc.co.uk';
 consts.log.smtpServer = 'smtp.rd.bbc.co.uk';
 
@@ -24,7 +24,7 @@ consts.auth.secret = 'bbcresearchanddevelopment';
 
 // FILE STRUCTURE
 consts.files = {};
-consts.files.root = '/data/discourse/';
+consts.files.root = '/data/dialogger/';
 consts.files.assets = consts.files.root+'assets/';
 consts.files.temp = consts.files.root+'temp/';
 

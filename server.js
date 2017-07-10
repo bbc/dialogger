@@ -29,7 +29,7 @@ app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 // configure passport
 app.use(session({
   secret: consts.auth.secret,
-  name: 'discourse',
+  name: 'dialogger',
   cookie: {path:'/',domain:'bbc.co.uk'},
   resave: false,
   saveUninitialized: false,

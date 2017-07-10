@@ -1,5 +1,5 @@
 {
-  "name": "bbc-discourse",
+  "name": "dialogger",
   "version": "0.1.0",
   "description": "",
   "main": "server.js",
@@ -8,7 +8,7 @@
     "start": "node server.js"
   },
   "author": "Chris Baume <chris.baume@bbc.co.uk>",
-  "license": "ISC",
+  "license": "Apache-2.0",
   "dependencies": {
     "activedirectory": "^0.7.0",
     "body-parser": "^1.14.1",

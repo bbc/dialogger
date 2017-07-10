@@ -1,10 +1,10 @@
 {
-  "name": "bbc-discourse",
+  "name": "dialogger",
   "version": "0.1.0",
   "authors": [
     "Chris Baume <chris.baume@bbc.co.uk>"
   ],
-  "license": "MIT",
+  "license": "Apache-2.0",
   "ignore": [
     "**/.*",
     "node_modules",
