@@ -7,12 +7,6 @@ consts.db = {};
 consts.db.url = 'mongodb://localhost:27017/dialogger';
 consts.db.sessionCollection = 'sessions';
 
-// LOGGING
-consts.log = {};
-consts.log.systemEmail = 'dialogger-logger@rd.bbc.co.uk';
-consts.log.adminEmail = 'chris.baume@bbc.co.uk';
-consts.log.smtpServer = 'smtp.rd.bbc.co.uk';
-
 // AUTHENTICATION
 consts.auth = {};
 consts.auth.url = 'ldap://national.core.bbc.co.uk';

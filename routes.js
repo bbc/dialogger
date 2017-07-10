@@ -10,7 +10,6 @@ module.exports.db = db;
 module.exports.log = log;
 var assetsController = require('./controllers/assets.js');
 var editsController = require('./controllers/edits.js');
-var feedbackController = require('./controllers/feedback.js');
 
 app.get('/', nocache, function(req, res) {
   if (req.isAuthenticated()) {
@@ -23,8 +22,6 @@ app.get('/', nocache, function(req, res) {
 app.get('/about', function(req, res) {
   res.sendFile(__dirname+'/public/about.html');
 });
-app.get('/feedback', feedbackController.form);
-app.post('/feedback', feedbackController.process);
 
 app.post('/api/login', passport.authenticate('local',
   {successRedirect: './loginSuccess',
