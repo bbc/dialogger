@@ -5,11 +5,10 @@ define([
   'ui',
   'transcript',
   'preview',
-  'print',
   'views/assetsList',
   'views/editsList',
   'views/user'
-], function($, Upload, Export, UI, Transcript, Preview, Print, AssetsListView, EditsListView, UserView)
+], function($, Upload, Export, UI, Transcript, Preview, AssetsListView, EditsListView, UserView)
 {
   var initialize = function(){
     AssetsListView.initialize();
@@ -25,7 +24,6 @@ define([
       speakers: UI.updateSpeakers
     });
     UI.initialize();
-    Print.initialize();
     Preview.initialize({
       duration: UI.updateDuration
     });

@@ -19,7 +19,6 @@ define([
       action: function(text, value) {
         if (text==='Rename') view.rename(id);
         else if (text==='Delete') view.destroy(id);
-        else if (text==='Edit with digital pen') view.print(id);
         $(this).dropdown('hide');
       }
     });
@@ -69,10 +68,6 @@ define([
           error: Utils.ajaxError
         });
       }
-    },
-    print: function(id) {
-      $('#printForm').data('id', id);
-      $('#printModal').modal('show');
     },
     destroy: function(id) {
       var collection = this.collection;

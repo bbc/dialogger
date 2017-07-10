@@ -25,22 +25,13 @@ define([
       model.fetch({
         success: function(model, response, options) {
           var html;
-          if (response[0].printed == true) {
-            console.log(response[0]);
-            html = Utils.transcriptToHTML(response[0]);
-            $('#saveButton').addClass('disabled');
-          } else {
-            html = response[0].html;
-            $('#saveButton').removeClass('disabled');
-          }
+          html = response[0].html;
+          $('#saveButton').removeClass('disabled');
           Transcript.load(html, 'html', './api/assets/preview/'+model.get('asset'));
           UI.updateName(response[0].name);
           AssetsCollection.deselect();
           EditsCollection.deselect();
           model.set({selected: true});
-        },
-        error: function() {
-          alert('Not ready yet!');
         }
       });
       this.render();
@@ -75,9 +66,6 @@ define([
           error: Utils.ajaxError
         });
       }
-    },
-    downloadPDF: function(id) {
-      window.open('./api/edits/pdf/'+id, '_blank');
     },
     destroy: function(id) {
       var collection = this.collection;
@@ -123,7 +111,6 @@ define([
           var id = $(this).closest('.edit').data('id');
           if (text==='Edit description') view.editDescription(id);
           else if (text==='Delete') view.destroy(id);
-          else if (text==='Download PDF') view.downloadPDF(id);
           $(this).dropdown('hide');
         }
       });

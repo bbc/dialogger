@@ -1,10 +1,7 @@
-const exec = require('child_process').exec;
 var consts = require('../config/consts');
 var transcoder = require('../helpers/transcoder');
 var db = module.parent.exports.db;
 var log = module.parent.exports.log;
-var fs = require('fs');
-var request = require('request');
 
 exports.download = function(req, res)
 {
@@ -71,7 +68,6 @@ exports.save = function(req, res)
     name: req.body.name,
     description: req.body.description,
     transcript: req.body.transcript,
-    printed: false,
     html: req.body.html,
     edl: req.body.edl,
     dateCreated: new Date(),
@@ -137,44 +133,7 @@ exports.edit = function(req, res)
     if (err) {
       log.error(err);
     } else {
-
-      // if not a paper edit, return as normal
-      if (!('printed' in docs[0])) {
-        res.json(docs);
-      } else if (docs[0].printed != true) {
-        res.json(docs);
-
-      // otherwise, get edited transcript from Anoto
-      } else {
-        request({
-          url: 'https://shared.liveforms.anoto.com/BBC-FDF/output/get',
-          proxy: 'http://www-cache:8080',
-          method: 'POST',
-          formData: {file: docs[0]._id+'.json'}
-        }, function(error, response, body){
-          if(error) {
-            log.error(error);
-          } else if (response.statusCode != 200) {
-            res.sendStatus(202);
-          } else {
-            log.info(response.statusCode, body);
-            var transcript = JSON.parse(body);
-            docs[0].transcript = transcript.transcript;
-            docs[0].segments = transcript.segments;
-            res.json(docs);
-          }
-        });
-      }
+      res.json(docs);
     }
   });
-};
-
-exports.downloadPDF = function(req, res)
-{
-  request({
-    url: 'https://shared.liveforms.anoto.com/BBC-FDF/output/pdf',
-    proxy: 'http://www-cache:8080',
-    method: 'POST',
-    formData: {file: req.params.id+'.json'}
-  }).pipe(res);
 };

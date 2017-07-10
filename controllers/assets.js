@@ -246,8 +246,7 @@ exports.preview = function(req, res)
       var stat = fs.statSync(path);
       var total = stat.size;
 
-      if (req.headers.range) {   // meaning client (browser) has moved the forward/back slider
-                                 // which has sent this request back to this server logic ... cool
+      if (req.headers.range) {
         var range = req.headers.range;
         var parts = range.replace(/bytes=/, "").split("-");
         var partialstart = parts[0];
@@ -256,7 +255,6 @@ exports.preview = function(req, res)
         var start = parseInt(partialstart, 10);
         var end = partialend ? parseInt(partialend, 10) : total-1;
         var chunksize = (end-start)+1;
-        console.log('RANGE: ' + start + ' - ' + end + ' = ' + chunksize);
 
         var file = fs.createReadStream(path, {start: start, end: end});
         res.writeHead(206, {
