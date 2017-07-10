@@ -30,7 +30,10 @@ app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 app.use(session({
   secret: consts.auth.secret,
   name: 'dialogger',
-  cookie: {path:'/',domain:'bbc.co.uk'},
+  cookie: {
+    path: consts.server.path,
+    domain: consts.server.domain
+  },
   resave: false,
   saveUninitialized: false,
   store: store

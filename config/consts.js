@@ -7,6 +7,11 @@ consts.db = {};
 consts.db.url = 'mongodb://localhost:27017/dialogger';
 consts.db.sessionCollection = 'sessions';
 
+// SERVER
+consts.server = {};
+consts.server.path = '/';
+consts.server.domain = 'bbc.co.uk';
+
 // AUTHENTICATION
 consts.auth = {};
 consts.auth.url = 'ldap://national.core.bbc.co.uk';
