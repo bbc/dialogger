@@ -33,17 +33,23 @@ exports.transcode = function(req, res)
         } else if (!assets.length) {
           res.sendStatus(500);
         } else {
-          var options = req.body;
-          options.path = assets[0].path;
 
-          // extra metadata for EDL
+          var options = {};
+          options.edl = req.body.edl;
+          delete req.body.edl;
+          options.form = req.body;
+          options.asset = {};
+          options.asset.path = assets[0].path;
+          options.asset.description = docs[0].description;
+          options.asset.filename = docs[0].name;
+
+          // extra audio metadata
           if (assets[0].info.audio_tracks.length) {
             var audioTrack = assets[0].info.audio_tracks[0];
-            options.edlconfig.sampleRate = audioTrack.sample_rate;
-            options.edlconfig.channels = audioTrack.ch;
+            options.asset.audio = {};
+            options.asset.audio.sampleRate = audioTrack.sample_rate;
+            options.asset.audio.channels = audioTrack.ch;
           }
-          options.edlconfig.description = docs[0].description;
-          options.edlconfig.filename = docs[0].name;
 
           transcoder.transcode(options, false, function(err, jobid) {
             if (err) {
