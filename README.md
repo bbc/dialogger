@@ -112,7 +112,7 @@ To configure file export, you will need to add some code to `helpers/fileexport.
       ab: "",
       acodec: "pcm_s16le"
     },
-    edlformat: "dira”,
+    edlformat: "dira",
     exportUnderlined:"true",
     format: "audio",
     id: "",
