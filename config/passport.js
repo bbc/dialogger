@@ -1,16 +1,9 @@
 var LocalStrategy = require('passport-local').Strategy;
-var ActiveDirectory = require('activedirectory');
 var consts = require('./consts');
 var log = module.parent.exports.log;
 
 module.exports = function(passport, db)
 {
-  // set up active directory module
-  var ad = new ActiveDirectory({
-      url: consts.auth.url,
-      baseDN: consts.auth.baseDn
-  });
-
   // get user's database id
   passport.serializeUser(function(username, done)
   {
@@ -51,22 +44,18 @@ module.exports = function(passport, db)
 
   // configure passport strategy
   passport.use( new LocalStrategy( function(username, password, done) {
-    ad.authenticate(consts.auth.domainPrefix+username,
-                    password, function(error, valid) {
-      if (error) {
-        if (error.name === 'InvalidCredentialsError') {
-          return done(null, false, { message: consts.auth.msgFail });
-        } else {
-          log.error(error);
-          return done(consts.auth.msgError);
-        }
+    db.users.findOne({username: username}, function(err, user) {
+      if (err) {
+        log.error(err);
+        return done(err);
       }
-      if (valid) {
-        return done(null, username);
-      } else {
+      if (!user) {
         return done(null, false, { message: consts.auth.msgFail });
       }
+      if (!user.verifyPassword(password)) {
+        return done(null, false, { message: consts.auth.msgFail });
+      }
+      return done(null, username);
     });
-  }
-  ));
+  }));
 };

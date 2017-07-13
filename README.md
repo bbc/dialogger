@@ -11,10 +11,14 @@ A transcript-based media editor.
 
 During installation, set the Semantic UI path to `public/semantic/`.
 
+## Usage
+
+Login in with username of 'user' and password 'password'.
+
 ## System description
 
 Users can upload media 'assets' and create multiple different 'edits' of their assets.
 
-The front-end is written in HTML/CSS/JS. It uses CKEditor for text editing, Semantic UI as the UI framework, Backbone
-as the MVC framework and Dropzone for file uploads.  The back-end is written using Node.js and Express. It uses MongoDB
-and Monk for data storage/access, Passport.js for authentication
+The front-end is written in HTML/CSS/JS. It uses CKEditor for text editing, HTML5 Video Compositor for audio replay,
+Semantic UI as the UI framework, Backbone as the MVC framework and Dropzone for file uploads.  The back-end is written
+using Node.js and Express. It uses MongoDB and Monk for data storage/access, Passport.js for authentication
