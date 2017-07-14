@@ -26,6 +26,7 @@ consts.files.root = '/data/dialogger/';
 consts.files.assets = consts.files.root+'assets/';
 
 // PREVIEW FILE 
+consts.preview = {};
 consts.preview.video = {vcodec: 'libx264',
                         vb: '500k',
                         width: 300,

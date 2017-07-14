@@ -93,7 +93,7 @@ exports.save = function(req, res)
           var options = {
             asset: doc._id,
             inputPath: doc.path,
-            outputPath: consts.files.assets+req.user.username+'/previews/'+doc._id;
+            outputPath: consts.files.assets+req.user.username+'/previews/'+doc._id
           };
           if (doc.info.video_tracks) {
             options.format = 'video';

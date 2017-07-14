@@ -52,7 +52,7 @@ module.exports = function(passport, db)
       if (!user) {
         return done(null, false, { message: consts.msg.authFail });
       }
-      if (!user.verifyPassword(password)) {
+      if (user.password != password) {
         return done(null, false, { message: consts.msg.authFail });
       }
       return done(null, username);
