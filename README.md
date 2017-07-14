@@ -53,8 +53,9 @@ There are four stages to installing and configuring Dialogger.
 The following commands will install Dialogger and install its dependencies on Ubuntu/Debian:
 
     git clone --recursive https://github.com/bbc/dialogger.git && cd dialogger
-    sudo apt-get install -y nodejs nodejs-legacy npm mediainfo mongodb
-    sudo npm install -g gulp bower
+    curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
+    sudo -E apt-get install -y nodejs mediainfo mongodb
+    sudo -E npm install -g gulp bower
     npm install
 
 During installation, set the Semantic UI path to `public/semantic/`.
