@@ -19,10 +19,6 @@ app.get('/', nocache, function(req, res) {
   }
 });
 
-app.get('/about', function(req, res) {
-  res.sendFile(__dirname+'/public/about.html');
-});
-
 app.post('/api/login', passport.authenticate('local',
   {successRedirect: './loginSuccess',
    failureRedirect: './loginFailure',
