@@ -50,10 +50,10 @@ module.exports = function(passport, db)
         return done(err);
       }
       if (!user) {
-        return done(null, false, { message: consts.auth.msgFail });
+        return done(null, false, { message: consts.msg.authFail });
       }
       if (!user.verifyPassword(password)) {
-        return done(null, false, { message: consts.auth.msgFail });
+        return done(null, false, { message: consts.msg.authFail });
       }
       return done(null, username);
     });

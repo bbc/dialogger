@@ -42,7 +42,7 @@ app.get('/api/loginSuccess', function(req, res) {
 app.get('/api/loginFailure', function(req, res) {
   res.json({
     success: false,
-    message: consts.auth.msgFail});
+    message: consts.msg.authFail});
 });
 
 app.get('/api/user', isLoggedIn, function(req, res) {

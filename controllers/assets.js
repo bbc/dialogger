@@ -13,7 +13,7 @@ function transcodeResponse(err, options)
     log.error(err);
     db.assets.updateById(options.asset, {
       $set: {
-        errorMessage: consts.preview.errStatus,
+        errorMessage: consts.msg.previewErr,
         error: true
       }
     }, function(err, result) {
@@ -41,7 +41,7 @@ function transcribe(doc)
       log.error(err);
       db.assets.updateById(doc._id, {
         $set: {
-          errorMessage: consts.stt.errStatus,
+          errorMessage: consts.msg.sttErr,
           error: true
         }
       }, function(err, result) {

@@ -1,4 +1,3 @@
-var consts = require('../config/consts');
 var fileexport = require('../helpers/fileexport');
 var db = module.parent.exports.db;
 var log = module.parent.exports.log;

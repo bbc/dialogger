@@ -28,11 +28,11 @@ app.use(bodyParser.urlencoded({ limit: '5mb', extended: true }));
 
 // configure passport
 app.use(session({
-  secret: consts.auth.secret,
+  secret: consts.cookie.secret,
   name: 'dialogger',
   cookie: {
-    path: consts.server.path,
-    domain: consts.server.domain
+    path: consts.cookie.serverPath,
+    domain: consts.cookie.serverDomain
   },
   resave: false,
   saveUninitialized: false,
@@ -50,5 +50,5 @@ module.exports.db = db;
 require('./routes');
 
 // start service
-app.listen(consts.app.port);
-log.info('Listening on port %d', consts.app.port);
+app.listen(consts.port);
+log.info('Listening on port %d', consts.port);
