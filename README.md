@@ -2,8 +2,10 @@
 
 Dialogger is an audio/video editor that allows you to navigate and edit recordings using a text-based interface.
 
-![Flow diagram](./flow-diagram.png)  
-<p align="center">*Conceptual flow diagram (excluded features shown in red)*</p>
+<p align="center">
+  <img src="flow-diagram.png"><br />
+  <i>Conceptual flow diagram (excluded features shown in red)</i>
+</p>
 
 ### What's included
 * Playback and navigation using transcript
