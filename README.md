@@ -13,7 +13,7 @@ A transcript-based media editor.
 The following features must be added manually for Dialogger to operate fully. Instructions and examples are provided.
 
 * Speech-to-text
-* Preview file generation
+* Preview file generator
 * File export
 
 ## Installation
@@ -30,7 +30,9 @@ During installation, set the Semantic UI path to `public/semantic/`.
 
 ## Speech-to-text setup
 
-Dialogger does not come with a speech-to-text system, so you will need to add some code to `helpers/stt.js` that accepts a path to an audio/video file and returns Javascript objects with the transcript and segmentation data. Examples of the data formats are shown below, and a full example can be found in `helpers/stt-example.js`.
+Dialogger does not come with a speech-to-text system, so you will need to add some code to `helpers/stt.js` that
+accepts a path to an audio/video file and returns Javascript objects with the transcript and segmentation data.
+Examples of the data formats are shown below, and a full example can be found in `helpers/stt-example.js`.
 
 ### Transcript
 
@@ -80,9 +82,28 @@ Dialogger does not come with a speech-to-text system, so you will need to add so
 }
 ```
 
-## File export setup
+## Preview file generator setup
+Preview files are low-bitrate versions of media files which are used for playback in the browser interface. To
+configure preview file generation, you will need to add some code to `helpers/previewfile.js`. The function should
+receive options in the following format, create a preview file and run the callback function. 
 
-To configure file export, you will need to add some code to `helpers/fileexport.js`. The function should receive options in the following format and return the path of the edited file. In essence, what you want to do is to take the file path (*asset.path*) and the list of edits (*edl*), produce an edited version of the file, then return the path.
+```javascript
+{
+  inputPath: "/path/to/input/file",
+  outputPath: "/path/to/preview/version",
+  format: "audio",  // can be audio or video
+  audio: {
+    acodec: "aac",
+    ab: "128k"
+  }    
+}
+```
+
+## File export setup
+File export allows users to download an edited version of their media. To configure file export, you will need to add
+some code to `helpers/fileexport.js`. The function should receive options in the following format and return the path
+of the edited file. In essence, what you want to do is to take the file path (*asset.path*) and the list of edits
+(*edl*), produce an edited version of the file, then return the path.
 
 ### Export options
 

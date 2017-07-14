@@ -27,23 +27,18 @@ consts.files.root = '/data/dialogger/';
 consts.files.assets = consts.files.root+'assets/';
 consts.files.temp = consts.files.root+'temp/';
 
-// TRANSCODER
-consts.transcoder = {};
-consts.transcoder.root = 'http://stt.rd.bbc.co.uk/api/v0.1/edit';
-consts.transcoder.upload = consts.transcoder.root;
-consts.transcoder.status = consts.transcoder.root+'/status/';
-consts.transcoder.output = '/data/stt/output/';
-consts.transcoder.videoPreview = {vcodec: 'libx264',
-                                  vb: '500k',
-                                  width: 300,
-                                  height: 168,
-                                  rescale: 'bicubic',
-                                  tune: 'fastdecode',
-                                  strict: 'experimental',
-                                  acodec: 'aac',
-                                  ab: '128k'};
-consts.transcoder.audioPreview = {acodec: 'aac', ab: '128k'};
-consts.transcoder.checkInterval = 5;
+// PREVIEW FILE 
+consts.preview.video = {vcodec: 'libx264',
+                        vb: '500k',
+                        width: 300,
+                        height: 168,
+                        rescale: 'bicubic',
+                        tune: 'fastdecode',
+                        strict: 'experimental',
+                        acodec: 'aac',
+                        ab: '128k'};
+consts.preview.audio = {acodec: 'aac', ab: '128k'};
+consts.preview.errStatus = 'Preview file generation failed';
 
 consts.app = {};
 consts.app.port = 80;

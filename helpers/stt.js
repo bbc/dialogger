@@ -1,4 +1,4 @@
-exports.transcribe = function(audioFile, cb)
+exports.transcribe = function(path, cb)
 {
   //TODO Insert transcription process here
   //

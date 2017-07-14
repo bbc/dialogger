@@ -3,65 +3,27 @@ var mimovie = require('mimovie');
 var mkdirp = require('mkdirp');
 var fs = require('fs');
 var stt = require('../helpers/stt');
-var transcoder = require('../helpers/transcoder');
+var previewFile = require('../helpers/previewfile');
 var db = module.parent.exports.db;
 var log = module.parent.exports.log;
 
-// Generate preview version
-function transcode(doc, destFolder, cb)
-{
-  // Configure transcoding settings
-  var options = {
-    name: 'preview.mp4',
-    path: doc.path
-  };
-  if (doc.info.video_tracks) {
-    options.format = 'video';
-    options.video = consts.transcoder.videoPreview;
-  } else {
-    options.format = 'audio';
-    options.audio = consts.transcoder.audioPreview;
-  }
-  log.info(options);
-
-  // Start transcoding job
-  transcoder.transcode(options, true, function(err, jobid) {
-    if (err) cb(err, doc, undefined);
-    else {
-
-      // Make sure preview folder exists
-      mkdirp(destFolder, function(err) {
-        if (err) cb(err, doc, undefined);
-        else
-
-          // Move preview file
-          fs.rename(consts.transcoder.output+jobid,
-                    destFolder+'/'+doc._id, function(err) {
-            if (err) cb(err, doc, undefined);
-            else cb(null, doc, destFolder+'/'+doc._id);
-          });
-      });
-    }
-  });
-};
-
-function transcodeResponse(err, doc, path)
+function transcodeResponse(err, options) 
 {
   if (err) {
     log.error(err);
-    db.assets.updateById(doc._id, {
+    db.assets.updateById(options.asset, {
       $set: {
-        errorMessage: consts.transcoder.errStatus,
+        errorMessage: consts.preview.errStatus,
         error: true
       }
     }, function(err, result) {
       if (err) log.error(err);
     });
   } else {
-    log.info({asset: doc}, 'Preview file generated');
-    db.assets.updateById(doc._id, {
+    log.info({asset: options.asset}, 'Preview file generated');
+    db.assets.updateById(options.asset, {
       $set: {
-        previewPath: path,
+        previewPath: options.outputPath,
         transcoded: true
       }
     }, function(err, result) {
@@ -128,10 +90,20 @@ exports.save = function(req, res)
         } else {
 
           // Process asset
-          var previewPath = consts.files.assets+req.user.username+
-                            '/previews';
+          var options = {
+            asset: doc._id,
+            inputPath: doc.path,
+            outputPath: consts.files.assets+req.user.username+'/previews/'+doc._id;
+          };
+          if (doc.info.video_tracks) {
+            options.format = 'video';
+            options.video = consts.preview.video;
+          } else {
+            options.format = 'audio';
+            options.audio = consts.preview.audio;
+          }
           transcribe(doc);
-          transcode(doc, previewPath, transcodeResponse);
+          previewFile.generate(options, transcodeResponse);
           log.info({asset: doc, username: req.user.username}, 'Asset uploaded');
           res.json(doc);
         }
