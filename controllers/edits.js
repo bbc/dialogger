@@ -40,7 +40,7 @@ exports.transcode = function(req, res)
           var options = {};
           options.edl = req.body.edl;
           delete req.body.edl;
-          options.form = req.body;
+          options.settings = req.body;
           options.asset = {};
           options.asset.path = assets[0].path;
           options.asset.description = docs[0].description;
@@ -60,7 +60,7 @@ exports.transcode = function(req, res)
             success: true,
             owner: req.user._id,
             asset: docs[0].asset,
-            name: options.form.name,
+            name: options.settings.name,
             edl: options.edl,
             dateStarted: new Date()
           }, function(err, doc) {

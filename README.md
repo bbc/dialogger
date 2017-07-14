@@ -30,9 +30,9 @@ During installation, set the Semantic UI path to `public/semantic/`.
 
 ## Speech-to-text setup
 
-Dialogger does not come with a speech-to-text system, so you will need to add some code to `helpers/stt.js` that accepts a path to an audio/video file and runs Javascript objects with the transcript and segmentation data. Examples of the data formats are shown below, and a full example can be found in `helpers/stt-example.js`.
+Dialogger does not come with a speech-to-text system, so you will need to add some code to `helpers/stt.js` that accepts a path to an audio/video file and returns Javascript objects with the transcript and segmentation data. Examples of the data formats are shown below, and a full example can be found in `helpers/stt-example.js`.
 
-###Transcript
+### Transcript
 
 ```javascript
 {
@@ -107,7 +107,7 @@ To configure file export, you will need to add some code to `helpers/fileexport.
   
   // User-provided options from the exportForm
   //   in public/js/editor.html
-  form: {
+  settings: {
     audio: {
       ab: "",
       acodec: "pcm_s16le"
