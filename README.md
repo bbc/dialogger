@@ -1,13 +1,16 @@
 # Dialogger 
 
-A transcript-based media editor.
+Dialogger is an audio/video editor that allows you to navigate and edit recordings using a text-based interface.
+
+<center>![Flow diagram](flow-diagram.png)  
+*Conceptual flow diagram (excluded features shown in red)*</center>
 
 ### What's included
-* User accounts
-* Asset management
 * Playback and navigation using transcript
 * Transcript editing
 * Export of edit decision list (EDL)
+* User accounts
+* Asset management
 
 ### What's *not* included
 The following features must be added manually for Dialogger to operate fully. Instructions and examples are provided.
@@ -16,7 +19,7 @@ The following features must be added manually for Dialogger to operate fully. In
 * Preview file generator
 * File export
 
-### Technology stack
+## Technology stack
 
 #### Front-end
 
@@ -45,12 +48,11 @@ There are four stages to installing and configuring Dialogger.
 
 ### 1. Install dependencies
 
-The following script will install Dialogger and install its dependencies on Ubuntu/Debian:
+The following commands will install Dialogger and install its dependencies on Ubuntu/Debian:
 
-    git clone --recursive https://github.com/bbc/dialogger.git
-    sudo apt-get install -y nodejs npm mediainfo mongodb
+    git clone --recursive https://github.com/bbc/dialogger.git && cd dialogger
+    sudo apt-get install -y nodejs nodejs-legacy npm mediainfo mongodb
     sudo npm install -g gulp bower
-    cd dialogger
     npm install
 
 During installation, set the Semantic UI path to `public/semantic/`.
