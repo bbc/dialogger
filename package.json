@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
+    "start": "node server.js | bunyan",
     "postinstall": "mongoimport --db dialogger --collection users --file userdata.json && bower install && (cd public/js/html5-video-compositor && npm install && npm run build) && (cd public/semantic && gulp build)"
   },
   "author": "Chris Baume <chris.baume@bbc.co.uk>",
@@ -19,13 +19,13 @@
     "express-session": "^1.11.3",
     "mimovie": "^1.0.0",
     "mkdirp": "^0.5.1",
-    "mongodb": "~1.4.x",
-    "monk": "^1.0.1",
+    "mongodb": "^2.0",
+    "monk": "^6.0",
     "multer": "^1.0.5",
     "node-schedule": "^0.2.9",
     "passport": "^0.3.0",
     "passport-local": "^1.0.0",
     "request": "^2.64.0",
-    "semantic-ui": "^2.1.4"
+    "semantic-ui": "^2.2.11"
   }
 }

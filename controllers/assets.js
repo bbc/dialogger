@@ -11,7 +11,7 @@ function transcodeResponse(err, options)
 {
   if (err) {
     log.error(err);
-    db.assets.updateById(options.asset, {
+    db.assets.update({_id: options.asset}, {
       $set: {
         errorMessage: consts.msg.previewErr,
         error: true
@@ -21,7 +21,7 @@ function transcodeResponse(err, options)
     });
   } else {
     log.info({asset: options.asset}, 'Preview file generated');
-    db.assets.updateById(options.asset, {
+    db.assets.update({_id: options.asset}, {
       $set: {
         previewPath: options.outputPath,
         transcoded: true
@@ -39,7 +39,7 @@ function transcribe(doc)
       function(err, transcript, segments) {
     if (err) {
       log.error(err);
-      db.assets.updateById(doc._id, {
+      db.assets.update({_id: doc._id}, {
         $set: {
           errorMessage: consts.msg.sttErr,
           error: true
@@ -49,7 +49,7 @@ function transcribe(doc)
       });
     } else {
       log.info({asset: doc}, 'Transcription generated');
-      db.assets.updateById(doc._id, {
+      db.assets.update({_id: doc._id}, {
         $set: {
           ready: true,
           transcript: transcript,
@@ -147,7 +147,7 @@ exports.update = function(req, res)
 
     // save update
     } else {
-      db.assets.updateById(req.params.id, {$set: fields}, function(err, result) {
+      db.assets.update({_id: req.params.id}, {$set: fields}, function(err, result) {
         if (err) {
           log.error(err);
           res.sendStatus(500);

@@ -6,7 +6,7 @@ exports.generate = function(options, cb)
   // cb(null, options);
   //
   // otherwise, run
-  // cb('Preview file generation failed', undefined);
+  // cb('Preview file generation failed', options);
   
-  cb('Preview file generator process missing. Please see README for setup instructions.', undefined);
+  cb('Preview file generator process missing. Please see README for setup instructions.', options);
 };

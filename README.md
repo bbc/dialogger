@@ -55,7 +55,7 @@ The following commands will install Dialogger and install its dependencies on Ub
     git clone --recursive https://github.com/bbc/dialogger.git && cd dialogger
     curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
     sudo -E apt-get install -y nodejs mediainfo mongodb
-    sudo -E npm install -g gulp bower
+    sudo -E npm install -g gulp bower bunyan
     npm install
 
 During installation, set the Semantic UI path to `public/semantic/`.

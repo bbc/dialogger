@@ -32,7 +32,7 @@ module.exports = function(passport, db)
 
   // retrieve user details from database
   passport.deserializeUser(function(id, done) {
-    db.users.findById(id, function(err, user) {
+    db.users.findOne({_id: id}, function(err, user) {
       if (err) {
         log.error(err);
         done(err);
