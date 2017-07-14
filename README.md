@@ -16,6 +16,25 @@ The following features must be added manually for Dialogger to operate fully. In
 * Preview file generator
 * File export
 
+### Technology stack
+
+#### Front-end
+
+* HTML/CSS/JS
+* Text editing: [CKEditor](http://ckeditor.com/) (LGPL)
+* Media playback: [HTML5 Video Compositor](https://github.com/bbc/html5-video-compositor) (Apache-2.0)
+* UI framework: [Semantic UI](https://semantic-ui.com/) (MIT)
+* MVC framework: [Backbone](http://backbonejs.org/) (MIT)
+* File upload: [Dropzone](http://www.dropzonejs.com/) (MIT)
+
+#### Back-end
+
+* Node.js / Express
+* Database: [MongoDB](https://www.mongodb.com/) (Apache-2.0)
+* Authentication: [Passport.js](http://passportjs.org/) (MIT)
+* Media info: [Mimovie](https://github.com/rodrigopolo/mimovie) (MIT)
+* Logging: [Bunyan](https://github.com/trentm/node-bunyan) (MIT)
+
 ## Installation
 There are four stages to installing and configuring Dialogger.
 
@@ -24,7 +43,7 @@ There are four stages to installing and configuring Dialogger.
 1. Configure preview file generator
 1. Configure file export
 
-### Install dependencies
+### 1. Install dependencies
 
 The following script will install Dialogger and install its dependencies on Ubuntu/Debian:
 
@@ -36,13 +55,20 @@ The following script will install Dialogger and install its dependencies on Ubun
 
 During installation, set the Semantic UI path to `public/semantic/`.
 
-### Configure speech-to-text 
+In `config/consts.js`, set the following parameters:
+
+* `consts.port`
+* `consts.cookie.serverDomain`
+* `consts.cookie.serverPath`
+* `consts.files.root` (ensure write permissions are set)
+
+### 2. Configure speech-to-text 
 
 Dialogger does not come with a speech-to-text system, so you will need to add some code to `helpers/stt.js` that
-accepts a path to an audio/video file and returns Javascript objects with the transcript and segmentation data.
-Examples of the data formats are shown below, and a full example can be found in `helpers/stt-example.js`.
+accepts a path to an audio/video file and returns the transcript and segmentation data.
+Examples of the data formats are shown below, and an example can be found in `helpers/stt-example.js`.
 
-#### Transcript
+#### Transcript format
 
 ```javascript
 {
@@ -65,7 +91,7 @@ Examples of the data formats are shown below, and a full example can be found in
 }
 ```
 
-#### Segments
+#### Segments format
 
 ```javascript
 {
@@ -90,12 +116,12 @@ Examples of the data formats are shown below, and a full example can be found in
 }
 ```
 
-### Configure preview file generator
+### 3. Configure preview file generator
 Preview files are low-bitrate versions of media files which are used for playback in the browser interface. To
 configure preview file generation, you will need to add some code to `helpers/previewfile.js`. The function should
 receive options in the following format, create a preview file and run the callback function. 
 
-#### Preview file options
+#### Options format
 
 ```javascript
 {
@@ -109,13 +135,13 @@ receive options in the following format, create a preview file and run the callb
 }
 ```
 
-### Configure file export
+### 4. Configure file export
 File export allows users to download an edited version of their media. To configure file export, you will need to add
 some code to `helpers/fileexport.js`. The function should receive options in the following format and return the path
 of the edited file. In essence, what you want to do is to take the file path (*asset.path*) and the list of edits
 (*edl*), produce an edited version of the file, then return the path.
 
-#### Export options
+#### Options format
 
 ```javascript
 {
@@ -162,16 +188,15 @@ of the edited file. In essence, what you want to do is to take the file path (*a
 }
 ```
 
-
-
 ## Usage
 
-Login in with username of 'user' and password 'password'.
+Run Dialogger using `npm start`, then log in with username 'user' and password 'password'.
 
-## System description
+## Issues/development
 
-Users can upload media 'assets' and create multiple different 'edits' of their assets.
+Please report any problems or make feature requests by **[raising an issue](./issues/new)**.
+Pull requests are also welcome.
 
-The front-end is written in HTML/CSS/JS. It uses CKEditor for text editing, HTML5 Video Compositor for audio replay,
-Semantic UI as the UI framework, Backbone as the MVC framework and Dropzone for file uploads.  The back-end is written
-using Node.js and Express. It uses MongoDB and Monk for data storage/access, Passport.js for authentication
+## Authors
+
+* Chris Baume, BBC Research and Development
