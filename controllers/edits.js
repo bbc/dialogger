@@ -1,21 +1,23 @@
 var consts = require('../config/consts');
-var transcoder = require('../helpers/transcoder');
+var fileexport = require('../helpers/fileexport');
 var db = module.parent.exports.db;
 var log = module.parent.exports.log;
 
 exports.download = function(req, res)
 {
-  transcoder.download(req.params.jobid, function(err, ready, result) {
-    var returnStatus = req.path.indexOf('status') > -1 ? true : false;
+  var returnStatus = req.path.indexOf('status') > -1 ? true : false;
+  db.exports.find({_id: req.params.jobid}, function (err, doc) {
     if (err) {
       log.error(err);
       res.status(500).send(err);
-    } else if (!ready) {
+    } else if (!doc.success) {
+      res.status(500);
+    } else if (!doc.ready) {
       res.status(202).json({ready: false});
     } else if (returnStatus) {
       res.json({ready: true});
     } else {
-      res.download(consts.transcoder.output+req.params.jobid, result);
+      res.download(doc.path, doc.name);
     }
   });
 };
@@ -34,6 +36,7 @@ exports.transcode = function(req, res)
           res.sendStatus(500);
         } else {
 
+          // prepare options
           var options = {};
           options.edl = req.body.edl;
           delete req.body.edl;
@@ -51,13 +54,31 @@ exports.transcode = function(req, res)
             options.asset.audio.channels = audioTrack.ch;
           }
 
-          transcoder.transcode(options, false, function(err, jobid) {
+          // add export job to database
+          db.exports.insert({
+            ready: false,
+            success: true,
+            owner: req.user._id,
+            asset: docs[0].asset,
+            name: options.form.name,
+            edl: options.edl,
+            dateStarted: new Date()
+          }, function(err, doc) {
             if (err) {
               log.error(err);
               res.sendStatus(500);
             } else {
+              fileexport.fileexport(options, doc._id, function(err, id, path) {
+                if (err) {
+                  log.error(err);
+                  db.export.update({_id: id}, {ready: true, success: false});
+                } else {
+                  log.info({id: id}, 'Export successful');
+                  db.export.update({_id: id}, {path: path, ready: true}); 
+                }
+              });
               log.info({options: options, username: req.user.username}, 'Transcoding started');
-              res.json({success: true, jobid: jobid});
+              res.json({success: true, jobid: doc._id});
             }
           });
         }
