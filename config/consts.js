@@ -5,7 +5,7 @@ consts.port = 8080;
 
 // DATABASE
 consts.db = {};
-consts.db.url = 'mongodb://localhost:27017/dialogger';
+consts.db.url = 'mongodb://mongo:27017/dialogger';
 consts.db.sessionCollection = 'sessions';
 
 // COOKIES 

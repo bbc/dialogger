@@ -57,12 +57,14 @@ The following commands will install Dialogger and install its dependencies on Ub
     sudo -E apt-get install -y nodejs mediainfo mongodb
     sudo -E npm install -g gulp bower bunyan
     npm install
+    npm run build
 
 During installation, set the Semantic UI path to `public/semantic/`.
 
 In `config/consts.js`, set the following parameters:
 
 * `consts.port`
+* `consts.db.url`
 * `consts.cookie.serverDomain`
 * `consts.cookie.serverPath`
 * `consts.files.root` (ensure write permissions are set)
