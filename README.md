@@ -207,8 +207,8 @@ of the edited file. In essence, what you want to do is to take the file path (*a
 
 ## Issues/development
 
-Please report any problems or make feature requests by **[raising an issue](./issues/new)**.
-Pull requests are also welcome.
+Please report any problems or make feature requests by **[raising an
+issue](https://github.com/bbc/dialogger/issues/new)**.  Pull requests are also welcome.
 
 ## Authors
 
