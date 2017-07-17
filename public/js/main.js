@@ -8,7 +8,7 @@ require.config({
     ckeditor: '../bower_components/ckeditor/ckeditor',
     semantic: '../semantic/dist/semantic',
     text: '../bower_components/text/text',
-    videocompositor: 'html5-video-compositor/dist/videocompositor'
+    videocompositor: '../bower_components/html5-video-compositor/dist/videocompositor'
   },
   shim: {
     'semantic': {

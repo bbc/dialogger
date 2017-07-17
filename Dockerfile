@@ -10,9 +10,7 @@ RUN npm install -g gulp bower bunyan
 COPY package.json semantic.json /usr/src/dialogger/
 RUN npm install
 
-COPY bower.json /usr/src/dialogger/
-RUN mkdir -p /usr/src/dialogger/public/js/html5-video-compositor
-COPY public/js/html5-video-compositor/. /usr/src/dialogger/public/js/html5-video-compositor/
+COPY bower.json .bowerrc /usr/src/dialogger/
 RUN npm run build
 
 COPY . /usr/src/dialogger

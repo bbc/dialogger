@@ -44,7 +44,7 @@ The following features must be added manually for Dialogger to operate fully. In
 
 ### Using Docker (recommended)
 
-    git clone --recursive https://github.com/bbc/dialogger.git && cd dialogger
+    git clone https://github.com/bbc/dialogger.git && cd dialogger
     docker-compose build
     docker-compose up
 
@@ -52,7 +52,7 @@ Navigate to `http://localhost:8080` and log in with username `user` and password
 
 ### Ubuntu/Debain
 
-    git clone --recursive https://github.com/bbc/dialogger.git && cd dialogger
+    git clone https://github.com/bbc/dialogger.git && cd dialogger
     curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
     sudo -E apt-get install -y nodejs mediainfo mongodb
     sudo -E npm install -g gulp bower bunyan

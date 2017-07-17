@@ -19,6 +19,7 @@
     "ckeditor": "~4.5.3",
     "requirejs": "~2.1.20",
     "text": "requirejs-text#~2.0.14",
-    "jquery-serialize-object": "~2.5.0"
+    "jquery-serialize-object": "~2.5.0",
+    "html5-video-compositor": "https://github.com/bbc/html5-video-compositor.git#824346bfb042aa3f0a82c257cb25a1f5e238a7a4"
   }
 }

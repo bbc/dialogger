@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js | bunyan",
-    "build": "bower install --allow-root && (cd public/js/html5-video-compositor && npm install && npm run build) && (cd public/semantic && gulp build)",
+    "build": "bower install --allow-root && (cd public/bower_components/html5-video-compositor/ && npm install && npm run build) && (cd public/semantic && gulp build)",
     "postinstall": ""
   },
   "author": "Chris Baume <chris.baume@bbc.co.uk>",
