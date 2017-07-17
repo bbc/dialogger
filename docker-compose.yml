@@ -1,13 +1,17 @@
 version: "3"
 
 services:
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
   dialogger:
     build: .
     ports:
       - "8080:8080"
     links:
       - mongo
-  mongo:
+  data-import:
     build: ./data
-    ports:
-      - "27017:27017"
+    links:
+      - mongo

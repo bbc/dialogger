@@ -11,7 +11,7 @@ consts.db.sessionCollection = 'sessions';
 // COOKIES 
 consts.cookie = {};
 consts.cookie.serverPath = '/';
-consts.cookie.serverDomain = 'localhost';
+consts.cookie.serverDomain = null;
 consts.cookie.secret = 'dialoggersecret';
 
 // MESSAGES

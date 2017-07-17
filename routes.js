@@ -31,7 +31,6 @@ app.get('/api/logout', function(req, res) {
 });
 
 app.get('/api/loginSuccess', function(req, res) {
-  log.info({user: req.user}, 'User logged in');
   res.json({success: true});
 });
 
@@ -67,7 +66,7 @@ app.get('/api/edits/export/status/:jobid', isLoggedIn, editsController.download)
 function isLoggedIn(req, res, next) {
   if (req.isAuthenticated())
     return next();
-  res.redirect('./');
+  res.redirect('/');
 }
 
 function nocache(req, res, next) {

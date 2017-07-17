@@ -1,5 +1,1 @@
-{
-"_id": "560e48c81ab596a83f7546cb",
-"username":"user",
-"password":"password"
-}
+{ "_id" : { "$oid" : "560e48c81ab596a83f7546cb" }, "username" : "user" , "password" : "password" }
