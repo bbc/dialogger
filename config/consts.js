@@ -22,7 +22,7 @@ consts.msg.sttErr = 'Transcription failed.';
 
 // FILE STRUCTURE
 consts.files = {};
-consts.files.root = '/data/dialogger/';
+consts.files.root = '/usr/src/dialogger/data/';
 consts.files.assets = consts.files.root+'assets/';
 
 // PREVIEW FILE 

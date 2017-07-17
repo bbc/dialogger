@@ -1,0 +1,37 @@
+{
+"_id": "57432915c755ecb50e4692fa",
+"dateCreated": "2016-05-23T16:00:21.948Z",
+"dateModified": "2016-05-23T16:00:21.948Z",
+"error": false,
+"info": {
+  "video_tracks": null,
+  "audio_tracks": [
+    {
+      "ch": 1,
+      "ch_pos": "",
+      "sample_rate": "44100",
+      "codec": "PCM",
+      "bitrate": 705600,
+      "bitrate_mode": "CBR",
+      "lang": false
+    }
+  ],
+  "subtitles": null,
+  "bitrate": 705628,
+  "path": "/usr/src/dialogger/data/assets/user/previews/example.mp4”,
+  "size": 1601158,
+  "duration": 18153,
+  "encoded": "",
+  "tagged": "",
+  "created": "",
+  "modified": "2016-05-23T16:00:20Z",
+  "menu": false
+},
+"name": "orig.wav",
+"owner": "560e48c81ab596a83f7546cb",
+"path": "/usr/src/dialogger/data/assets/user/example.wav”,
+"previewPath": "/usr/src/dialogger/data/assets/user/previews/example.mp4”,
+"ready": true,
+"size": 1601158,
+"transcoded": true
+}

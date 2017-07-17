@@ -8,6 +8,6 @@ services:
     links:
       - mongo
   mongo:
-    image: mongo
+    build: ./data
     ports:
       - "27017:27017"
