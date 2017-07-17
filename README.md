@@ -50,7 +50,7 @@ The following features must be added manually for Dialogger to operate fully. In
 
 Navigate to `http://localhost:8080` and log in with username `user` and password `password`.
 
-### Ubuntu/Debain
+### Ubuntu/Debian
 
     git clone https://github.com/bbc/dialogger.git && cd dialogger
     curl -sL https://deb.nodesource.com/setup_6.x | sudo -E bash -
