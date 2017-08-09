@@ -18,7 +18,7 @@ define([
 
       // if there is a change in speaker
       if (currentSegment < segments.length &&
-          words[i].start > segments[currentSegment].start) {
+          words[i].start >= segments[currentSegment].start) {
 
         // start a new paragraph
         var speaker = segments[currentSegment].speaker['@id'];
